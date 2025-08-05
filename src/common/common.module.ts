@@ -20,6 +20,7 @@ import { PrismaService } from './services/prisma.service';
     MailService,
     RedisService,
     CacheUtilsService,
+    PrismaService,
   ],
 })
 export class CommonModule {}

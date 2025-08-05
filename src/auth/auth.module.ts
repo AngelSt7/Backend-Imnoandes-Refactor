@@ -1,18 +1,15 @@
-import { ConfigService } from '@nestjs/config/dist/config.service';
-import { PassportModule } from '@nestjs/passport';
-import { Module } from '@nestjs/common';
-import { JwtModule } from '@nestjs/jwt';
-import { ConfigModule } from '@nestjs/config';
-import { AuthService } from './auth.service';
-import { AuthController } from './auth.controller';
-import { BcryptService } from './services/bcrypt.service';
-import { CommonModule } from 'src/common/common.module';
-import { TokenService } from './services/token.service';
-import { Token, TokenSchema } from './entities/token.entity';
-import { JwtStrategy } from './strategies/jwt.strategy';
-import { JwtService } from './services/jwt.service';
-import { CookieService } from './services/cookie.service';
-import { GoogleStrategy } from './strategies/google.strategy';
+import { AuthController, AuthService } from ".";
+import { BcryptService, TokenService, CookieService, JwtService } from "./services";
+import { CommonModule } from "src/common/common.module";
+import { ConfigModule, ConfigService } from "@nestjs/config";
+import { JwtModule } from "@nestjs/jwt";
+import { JwtStrategy, GoogleStrategy } from "./strategies";
+import { Module } from "@nestjs/common";
+import { PassportModule } from "@nestjs/passport";
+import { UserRepository, TokenRepository } from "./repository";
+import { DateService } from './services/date.service';
+import { UserService } from './services/user.service';
+
 
 @Module({
   imports: [
@@ -29,7 +26,7 @@ import { GoogleStrategy } from './strategies/google.strategy';
   ],
   controllers: [AuthController],
   providers: [JwtStrategy, AuthService, BcryptService, TokenService, JwtService, CookieService, 
-    GoogleStrategy],
+    GoogleStrategy, UserRepository, DateService, TokenRepository, UserService],
   exports: [JwtStrategy, PassportModule, JwtModule, AuthService]
 })
 export class AuthModule {}

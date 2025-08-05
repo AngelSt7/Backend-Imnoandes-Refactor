@@ -4,6 +4,7 @@ import { ParseTokenPipe } from 'src/common/pipes/parse-token.pipe';
 import { Response } from 'express';
 import { AuthGuard } from '@nestjs/passport';
 import { CreateUserDto, LoginUserDto, ForgotPasswordDto, RecoverPasswordDto, RequestTokenDto } from './dto';
+import { Token } from 'generated/prisma';
 
 @Controller('auth')
 export class AuthController {
@@ -11,11 +12,11 @@ export class AuthController {
   constructor(private readonly authService: AuthService) { }
 
   @Post('register')
-  register(@Body() createAuthDto: CreateUserDto) {
+  create(@Body() createAuthDto: CreateUserDto) {
     return this.authService.create(createAuthDto);
   }
 
-
+  
 
   @UseGuards(AuthGuard('google'))
   @Get('google')
@@ -42,7 +43,7 @@ export class AuthController {
   }
 
   @Post('confirm-account/:token')
-  confirmAccount(@Param('token', ParseTokenPipe) token: string) {
+  confirmAccount(@Param('token', ParseTokenPipe) token: Token['token']) {
     return this.authService.confirmAccount(token);
   }
 
@@ -61,7 +62,7 @@ export class AuthController {
     @Param('token', ParseTokenPipe) token: string,
     @Body() recoverPasswordDto: RecoverPasswordDto
   ) {
-    return this.authService.recoverPassword(recoverPasswordDto, token);
+    // return this.authService.recoverPassword(recoverPasswordDto, token);
   }
 
 }

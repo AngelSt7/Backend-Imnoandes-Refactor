@@ -15,24 +15,24 @@ enum AUTH_PROVIDERS {
 }
 
 model User {
-  id           String        @id @default(uuid())
+  id           String         @id @default(uuid())
   name         String
   lastname     String
-  email        String     @unique
-  authProvider AUTH_PROVIDERS     @default(LOCAL)
-  confirmed    Boolean    @default(false)
+  email        String         @unique
+  authProvider AUTH_PROVIDERS @default(LOCAL)
+  confirmed    Boolean        @default(false)
   birthDate    DateTime?
   password     String?
-  phone        String?       @unique
-  createdAt    DateTime   @default(now())
-  updatedAt    DateTime   @updatedAt
-  token        Token[]
+  phone        String?        @unique
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+  token        Token?
 }
 
 model Token {
-  id        String      @id @default(uuid())
-  userId    String
-  token     Int
+  id        String   @id @default(uuid())
+  userId    String   @unique
+  token     Int      @unique
   expiresAt DateTime
   user      User     @relation(fields: [userId], references: [id])
 }

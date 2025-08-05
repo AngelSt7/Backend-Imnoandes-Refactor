@@ -9,6 +9,6 @@ export class ParseTokenPipe implements PipeTransform {
       throw new BadRequestException('Invalid token');
     }
 
-    return value;
+    return Number(value);
   }
 }

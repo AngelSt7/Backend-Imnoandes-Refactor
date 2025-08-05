@@ -1,5 +1,6 @@
+import { User } from "generated/prisma";
 import { Types } from "mongoose";
 
 export interface JwtPayloadInterface {
-    _id: Types.ObjectId;
+    id: User['id']
 }

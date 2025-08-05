@@ -1,44 +1,38 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
-import { Model, Types } from 'mongoose';
-import { Token } from '../entities/token.entity';
+import { Token, User } from 'generated/prisma';
+import { TokenRepository } from '../repository';
+import { DateService } from '.';
 
 @Injectable()
 export class TokenService {
     constructor(
-        // @InjectModel(Token.name)
-        // private readonly tokenModel: Model<Token>,
+        private readonly tokenRepository: TokenRepository,
+        private readonly dateService: DateService
     ) { }
 
-
-    public async upsertToken(userId: Types.ObjectId): Promise<string> {
-        // const token = this.generateToken();
-
-        // const existing = await this.tokenModel.findOne({ userId });
-
-        // if (existing) {
-        //     await this.tokenModel.updateOne(
-        //         { userId },
-        //         { token, createdAt: new Date() }
-        //     );
-        // } else {
-        //     await this.tokenModel.create({ userId, token });
-        // }
-
-        return "a";
+    public async valid(token: Token['token']) {
+        const tokenDB = await this.tokenRepository.findOne(token)
+        if (!tokenDB) throw new NotFoundException('Token not found, request a new one')
+        if(tokenDB.expiresAt < new Date()) {
+            await this.delete(tokenDB.userId)
+            throw new NotFoundException('Token expired, request a new one')
+        }
+        return tokenDB.userId
     }
 
-    public async validToken(token: Token['token']) {
-        // const tokenDB = await this.tokenModel.findOne({ token: token })
-        // if (!tokenDB) throw new NotFoundException('Token not found, request a new one')
-        // return tokenDB.userId
-    }
-
-    public generateToken() {
+    public generate() {
         return Math.floor(100000 + Math.random() * 900000).toString()
     }
 
-    public async deleteToken(token: Token['token']) {
-        // return await this.tokenModel.deleteOne({ token: token })
+    public async upsert(id: User['id']) {
+        await this.delete(id)
+        const token = this.generate()
+        const expires = this.dateService.expiresAt()
+        await this.tokenRepository.create(Number(token), expires, id)
+        return token
+    }
+
+    public async delete(id: User['id']) {
+        return await this.tokenRepository.delete(id)
     }
 }

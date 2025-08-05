@@ -22,14 +22,14 @@ export class MailService implements OnModuleInit {
 
   async sendAccountConfirmationEmail(to: string, token: string, name: string) {
     await this.transporter.sendMail({
-      from: `"Nest App" <${this.configService.get('SMTP_USER')}>`,
+      from: `"ImnoAndes" <${this.configService.get('SMTP_USER')}>`,
       to,
-      subject: "Nest App - Confirma tu cuenta",
+      subject: "ImnoAndes - Confirma tu cuenta",
       html: ` <div style="font-family: Arial, sans-serif; color: #333; background-color: #f4f4f4; padding: 20px; border-radius: 8px;">
                 <div style="max-width: 600px; margin: 0 auto; background-color: white; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
-                    <h2 style="color: #444; text-align: center;">¡Bienvenido a Nest App, ${name}!</h2>
+                    <h2 style="color: #444; text-align: center;">¡Bienvenido a ImnoAndes, ${name}!</h2>
                     <p style="font-size: 16px; line-height: 1.5; color: #555;">
-                        Has creado tu cuenta en <strong>Nest App</strong>, ¡ya casi está todo listo! Solo debes confirmar tu cuenta para poder comenzar a usarla.
+                        Has creado tu cuenta en <strong>ImnoAndes</strong>, ¡ya casi está todo listo! Solo debes confirmar tu cuenta para poder comenzar a usarla.
                     </p>
                     <p style="font-size: 16px; line-height: 1.5; color: #555;">
                         Para confirmar tu cuenta, visita el siguiente enlace:
@@ -58,14 +58,14 @@ export class MailService implements OnModuleInit {
 
   async sendPasswordResetEmail(to: string, token: string, name: string) {
     await this.transporter.sendMail({
-      from: `"Nest App" <${this.configService.get('SMTP_USER')}>`,
+      from: `"ImnoAndes" <${this.configService.get('SMTP_USER')}>`,
       to,
-      subject: "Nest App - Recupera tu acceso",
+      subject: "ImnoAndes - Recupera tu acceso",
       html: ` <div style="font-family: Arial, sans-serif; color: #333; background-color: #f4f4f4; padding: 20px; border-radius: 8px;">
               <div style="max-width: 600px; margin: 0 auto; background-color: white; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
                 <h2 style="color: #444; text-align: center;">Hola, ${name}</h2>
                 <p style="font-size: 16px; line-height: 1.5; color: #555;">
-                  Hemos recibido una solicitud para restablecer tu contraseña en <strong>Nest App</strong>.
+                  Hemos recibido una solicitud para restablecer tu contraseña en <strong>ImnoAndes</strong>.
                 </p>
                 <p style="font-size: 16px; line-height: 1.5; color: #555;">
                   Si fuiste tú quien hizo esta solicitud, puedes continuar el proceso haciendo clic en el siguiente botón:
