@@ -2,37 +2,36 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
 import { Token } from '../entities/token.entity';
-import { User } from '../entities/user.entity';
 
 @Injectable()
 export class TokenService {
     constructor(
-        @InjectModel(Token.name)
-        private readonly tokenModel: Model<Token>,
+        // @InjectModel(Token.name)
+        // private readonly tokenModel: Model<Token>,
     ) { }
 
 
     public async upsertToken(userId: Types.ObjectId): Promise<string> {
-        const token = this.generateToken();
+        // const token = this.generateToken();
 
-        const existing = await this.tokenModel.findOne({ userId });
+        // const existing = await this.tokenModel.findOne({ userId });
 
-        if (existing) {
-            await this.tokenModel.updateOne(
-                { userId },
-                { token, createdAt: new Date() }
-            );
-        } else {
-            await this.tokenModel.create({ userId, token });
-        }
+        // if (existing) {
+        //     await this.tokenModel.updateOne(
+        //         { userId },
+        //         { token, createdAt: new Date() }
+        //     );
+        // } else {
+        //     await this.tokenModel.create({ userId, token });
+        // }
 
-        return token;
+        return "a";
     }
 
     public async validToken(token: Token['token']) {
-        const tokenDB = await this.tokenModel.findOne({ token: token })
-        if (!tokenDB) throw new NotFoundException('Token not found, request a new one')
-        return tokenDB.userId
+        // const tokenDB = await this.tokenModel.findOne({ token: token })
+        // if (!tokenDB) throw new NotFoundException('Token not found, request a new one')
+        // return tokenDB.userId
     }
 
     public generateToken() {
@@ -40,6 +39,6 @@ export class TokenService {
     }
 
     public async deleteToken(token: Token['token']) {
-        return await this.tokenModel.deleteOne({ token: token })
+        // return await this.tokenModel.deleteOne({ token: token })
     }
 }

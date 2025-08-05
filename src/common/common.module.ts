@@ -4,6 +4,7 @@ import { HandleErrorsService } from './services/handle-errors.service';
 import { MailService } from './services/mail.service';
 import { CacheUtilsService } from './services/cache-utils.service';
 import { RedisService } from './services/redis.service';
+import { PrismaService } from './services/prisma.service';
 
 @Module({
   imports: [ConfigModule],
@@ -12,6 +13,7 @@ import { RedisService } from './services/redis.service';
     MailService,
     RedisService,
     CacheUtilsService,
+    PrismaService,
   ],
   exports: [
     HandleErrorsService,

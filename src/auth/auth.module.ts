@@ -1,12 +1,10 @@
 import { ConfigService } from '@nestjs/config/dist/config.service';
 import { PassportModule } from '@nestjs/passport';
-import { MongooseModule } from '@nestjs/mongoose';
 import { Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule } from '@nestjs/config';
 import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
-import { User, UserSchema } from './entities/user.entity';
 import { BcryptService } from './services/bcrypt.service';
 import { CommonModule } from 'src/common/common.module';
 import { TokenService } from './services/token.service';
@@ -18,10 +16,6 @@ import { GoogleStrategy } from './strategies/google.strategy';
 
 @Module({
   imports: [
-    MongooseModule.forFeature([
-      { name: User.name, schema: UserSchema },
-      { name: Token.name, schema: TokenSchema }
-    ]),
     CommonModule,
     PassportModule.register({ defaultStrategy: 'jwt' }),
     JwtModule.registerAsync({
@@ -36,6 +30,6 @@ import { GoogleStrategy } from './strategies/google.strategy';
   controllers: [AuthController],
   providers: [JwtStrategy, AuthService, BcryptService, TokenService, JwtService, CookieService, 
     GoogleStrategy],
-  exports: [JwtStrategy, PassportModule, MongooseModule, JwtModule, AuthService]
+  exports: [JwtStrategy, PassportModule, JwtModule, AuthService]
 })
 export class AuthModule {}

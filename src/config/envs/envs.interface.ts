@@ -9,10 +9,7 @@ export interface EnvVars {
     GOOGLE_CALLBACK_URL: string
     JWT_SECRET: string
     JWT_SOURCE: 'BEARER' | 'COOKIE'
-    MONGO_DB: string
-    MONGO_PASSWORD: string
-    MONGO_URL: string
-    MONGO_USER: string
+    DATABASE_URL: string
     NODE_ENV: 'DEVELOPMENT' | 'PRODUCTION' | 'TESTING';
     PORT: number;
     REDIS_PORT: number

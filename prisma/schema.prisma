@@ -1,0 +1,38 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum AUTH_PROVIDERS {
+  LOCAL
+  GOOGLE
+  FACEBOOK
+}
+
+model User {
+  id           String        @id @default(uuid())
+  name         String
+  lastname     String
+  email        String     @unique
+  authProvider AUTH_PROVIDERS     @default(LOCAL)
+  confirmed    Boolean    @default(false)
+  birthDate    DateTime?
+  password     String?
+  phone        String?       @unique
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+  token        Token[]
+}
+
+model Token {
+  id        String      @id @default(uuid())
+  userId    String
+  token     Int
+  expiresAt DateTime
+  user      User     @relation(fields: [userId], references: [id])
+}

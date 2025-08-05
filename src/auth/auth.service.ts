@@ -1,10 +1,9 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { User } from './entities/user.entity';
 import { Model } from 'mongoose';
 import { BcryptService } from './services/bcrypt.service';
 import { HandleErrorsService } from 'src/common/services/handle-errors.service';
-import { CreateUserDto, LoginUserDto, RequestTokenDto, ForgotPasswordDto, RecoverPasswordDto } from './dto/requests';
+import { CreateUserDto, LoginUserDto, RequestTokenDto, ForgotPasswordDto, RecoverPasswordDto } from './dto';
 import { MailService } from 'src/common/services/mail.service';
 import { TokenService } from './services/token.service';
 import { JwtService } from './services/jwt.service';
@@ -19,8 +18,6 @@ export class AuthService {
   private readonly context = 'auth'
 
   constructor(
-    @InjectModel(User.name)
-    private readonly authModel: Model<User>,
     private readonly bcryptService: BcryptService,
     private readonly handleErrorsService: HandleErrorsService,
     private readonly mailService: MailService,
@@ -35,75 +32,68 @@ export class AuthService {
 
   async create(createAuthDto: CreateUserDto) {
     try {
-      const passwordHash = await this.bcryptService.hash(createAuthDto.password);
-      const user = await this.authModel.create({ ...createAuthDto, password: passwordHash });
-      const token = await this.tokenService.upsertToken(user._id);
-      await this.mailService.sendAccountConfirmationEmail(createAuthDto.email, token, user.name);
-      return {
-        message: 'User created, check your email to confirm your account',
-        data: user
-      }
+        return createAuthDto
     } catch (error) {
       this.handleErrorsService.handleError(error, this.context);
     }
   }
 
   async confirmAccount(token: string) {
-    const userId = await this.tokenService.validToken(token);
-    await this.authModel.updateOne({ _id: userId }, { isActive: true });
-    await this.tokenService.deleteToken(token);
-    return {
-      message: 'Account confirmed'
-    }
+    // const userId = await this.tokenService.validToken(token);
+    // await this.authModel.updateOne({ _id: userId }, { isActive: true });
+    // await this.tokenService.deleteToken(token);
+    // return {
+    //   message: 'Account confirmed'
+    // }
   }
 
   async requestToken(requestTokenDto: RequestTokenDto) {
-    const user = await this.authModel.findOne({ email: requestTokenDto.email });
-    if (!user) throw new NotFoundException('User not found');
-    const token = await this.tokenService.upsertToken(user._id);
-    await this.mailService.sendAccountConfirmationEmail(requestTokenDto.email, token, user.name);
-    return {
-      message: 'Token sent to your email'
-    }
+    // const user = await this.authModel.findOne({ email: requestTokenDto.email });
+    // if (!user) throw new NotFoundException('User not found');
+    // const token = await this.tokenService.upsertToken(user._id);
+    // await this.mailService.sendAccountConfirmationEmail(requestTokenDto.email, token, user.name);
+    // return {
+    //   message: 'Token sent to your email'
+    // }
   }
 
   async forgotPassword(forgotPasswordDto: ForgotPasswordDto) {
-    const user = await this.authModel.findOne({ email: forgotPasswordDto.email });
-    if (!user) throw new NotFoundException('User not found');
-    const token = await this.tokenService.upsertToken(user._id);
-    await this.mailService.sendPasswordResetEmail(forgotPasswordDto.email, token, user.name);
-    return {
-      message: 'The token to reset your account was sent to your email'
-    }
+    // const user = await this.authModel.findOne({ email: forgotPasswordDto.email });
+    // if (!user) throw new NotFoundException('User not found');
+    // const token = await this.tokenService.upsertToken(user._id);
+    // await this.mailService.sendPasswordResetEmail(forgotPasswordDto.email, token, user.name);
+    // return {
+    //   message: 'The token to reset your account was sent to your email'
+    // }
   }
 
   async recoverPassword(recoverPasswordDto: RecoverPasswordDto, token: Token['token']) {
-    await this.tokenService.validToken(token);
-    const user = await this.authModel.findOne({ email: recoverPasswordDto.email });
-    if (!user) throw new NotFoundException('User not found');
-    const passwordHash = await this.bcryptService.hash(recoverPasswordDto.password);
-    await this.authModel.updateOne({ _id: user._id }, { password: passwordHash });
-    await this.tokenService.deleteToken(token);
-    return {
-      message: 'Password changed successfully'
-    }
+    // await this.tokenService.validToken(token);
+    // const user = await this.authModel.findOne({ email: recoverPasswordDto.email });
+    // if (!user) throw new NotFoundException('User not found');
+    // const passwordHash = await this.bcryptService.hash(recoverPasswordDto.password);
+    // await this.authModel.updateOne({ _id: user._id }, { password: passwordHash });
+    // await this.tokenService.deleteToken(token);
+    // return {
+    //   message: 'Password changed successfully'
+    // }
   }
 
   async login(loginUserDto: LoginUserDto, response: Response) {
-    const user = await this.authModel.findOne({ email: loginUserDto.email })
-    if (!user) throw new NotFoundException('User not found');
-    const validPassword = await this.bcryptService.compare(loginUserDto.password, user.password)
-    if (!validPassword) throw new BadRequestException('Password incorrect');
-    if (!user.isActive) throw new BadRequestException('User not active, request a new token');
+  //   const user = await this.authModel.findOne({ email: loginUserDto.email })
+  //   if (!user) throw new NotFoundException('User not found');
+  //   const validPassword = await this.bcryptService.compare(loginUserDto.password, user.password)
+  //   if (!validPassword) throw new BadRequestException('Password incorrect');
+  //   if (!user.isActive) throw new BadRequestException('User not active, request a new token');
 
-    const JWT = this.jwtService.getJwt({ _id: user._id });
-    const message = `Login successful, welcome ${user.name}`
+  //   const JWT = this.jwtService.getJwt({ _id: user._id });
+  //   const message = `Login successful, welcome ${user.name}`
 
-    if (envs.jwtSource === 'COOKIE') {
-      this.cookieService.setAuthCookie(JWT, response);
-      return { message };
-    }
+  //   if (envs.jwtSource === 'COOKIE') {
+  //     this.cookieService.setAuthCookie(JWT, response);
+  //     return { message };
+  //   }
 
-    return { message, token: JWT }
-  }
-}
+  //   return { message, token: JWT }
+  // }
+}}

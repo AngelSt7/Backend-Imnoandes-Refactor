@@ -19,14 +19,14 @@ export class HandleErrorsService {
 
         let field: string | null = null;
 
-        if (code === 11000) {
+        if (code === 23505) {
             field = Object.keys(error.keyPattern)[0];
         }
 
         const fieldMessage = this.ErrorsMapping[context]?.[field];
 
         switch (code) {
-            case 11000:
+            case 23505:
                 throw new BadRequestException({
                     message: fieldMessage ?? 'Duplicate key error',
                     statusCode: 400,
