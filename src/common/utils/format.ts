@@ -1,0 +1,1 @@
+export const format = (str: string) => str.trim().toLowerCase().replaceAll(' ', '-')

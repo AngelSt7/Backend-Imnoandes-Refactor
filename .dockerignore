@@ -1,0 +1,13 @@
+
+
+dist/
+
+.env
+
+node_modules/
+
+.vscode/
+
+mongo/
+
+redis/
