@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { Token, User } from 'generated/prisma';
-import { TokenRepository } from '../repository';
-import { DateService } from '.';
+import { TokenRepository } from '../../repository';
+import { DateService } from '../utils';
 
 @Injectable()
 export class TokenService {

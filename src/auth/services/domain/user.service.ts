@@ -1,10 +1,10 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
-import { UserRepository } from '../repository/user.respository';
-import { CreateUserDto } from '../dto';
-import { DateService } from './date.service';
-import { BcryptService } from './bcrypt.service';
+import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
+import { UserRepository } from '../../repository/user.respository';
+import { CreateUserDto } from '../../dto';
+import { DateService } from '../utils/date.service';
+import { BcryptService } from '../crypto/bcrypt.service';
 import { HandleErrorsService } from 'src/common/services/handle-errors.service';
-import { User } from 'generated/prisma';
+import { AUTH_PROVIDERS, User } from 'generated/prisma';
 
 @Injectable()
 export class UserService {
@@ -44,5 +44,6 @@ export class UserService {
         const user = await this.userRepository.recover(id, passwordHash);
         return user;
     }
+
 
 }

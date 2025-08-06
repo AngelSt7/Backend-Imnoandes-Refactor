@@ -1,5 +1,4 @@
 import { AuthController, AuthService } from ".";
-import { BcryptService, TokenService, CookieService, JwtService } from "./services";
 import { CommonModule } from "src/common/common.module";
 import { ConfigModule, ConfigService } from "@nestjs/config";
 import { JwtModule } from "@nestjs/jwt";
@@ -7,8 +6,7 @@ import { JwtStrategy, GoogleStrategy } from "./strategies";
 import { Module } from "@nestjs/common";
 import { PassportModule } from "@nestjs/passport";
 import { UserRepository, TokenRepository } from "./repository";
-import { DateService } from './services/date.service';
-import { UserService } from './services/user.service';
+import { BcryptService, oAuthService,TokenService, JwtService, CookieService, DateService, UserService } from "./services";
 
 
 @Module({
@@ -26,7 +24,7 @@ import { UserService } from './services/user.service';
   ],
   controllers: [AuthController],
   providers: [JwtStrategy, AuthService, BcryptService, TokenService, JwtService, CookieService, 
-    GoogleStrategy, UserRepository, DateService, TokenRepository, UserService],
+    GoogleStrategy, UserRepository, DateService, TokenRepository, UserService, oAuthService],
   exports: [JwtStrategy, PassportModule, JwtModule, AuthService]
 })
 export class AuthModule {}

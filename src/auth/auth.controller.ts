@@ -4,7 +4,10 @@ import { ParseTokenPipe } from 'src/common/pipes/parse-token.pipe';
 import { Response } from 'express';
 import { AuthGuard } from '@nestjs/passport';
 import { CreateUserDto, LoginUserDto, ForgotPasswordDto, RecoverPasswordDto, RequestTokenDto } from './dto';
-import { Token } from 'generated/prisma';
+import { AUTH_PROVIDERS, Token, User } from 'generated/prisma';
+import { Auth, GetUser } from './decorators';
+import { Provider } from './decorators/provider.decorator';
+import { VALID_PROVIDERS } from './interfaces';
 
 @Controller('auth')
 export class AuthController {
@@ -16,23 +19,15 @@ export class AuthController {
     return this.authService.create(createAuthDto);
   }
 
-  
-
-  @UseGuards(AuthGuard('google'))
+  @Provider(VALID_PROVIDERS.google)
   @Get('google')
-  async googleAuth() {
-  }
+  async googleAuth() {}
 
   @UseGuards(AuthGuard('google'))
   @Get('/google/callback')
-  async googleAuthRedirect(@Req() req, @Res({ passthrough: true }) res: Response) {
-    return this.authService.handleGoogleLogin(req.user, res);
+  async loginGoogle(@Req() req, @Res({ passthrough: true }) res: Response) {
+    return this.authService.loginGoogle(req.user, res);
   }
-
-
-
-
-
 
   @Post('login')
   login(
@@ -59,10 +54,18 @@ export class AuthController {
 
   @Post('recover-password/:token')
   recoverPassword(
-    @Param('token', ParseTokenPipe) token: string,
+    @Param('token', ParseTokenPipe) token: Token['token'],
     @Body() recoverPasswordDto: RecoverPasswordDto
   ) {
-    // return this.authService.recoverPassword(recoverPasswordDto, token);
+    return this.authService.recoverPassword(recoverPasswordDto, token);
+  }
+
+  @Get()
+  @Auth(AUTH_PROVIDERS.LOCAL)
+  validate(
+    @GetUser() user: User
+  ) {
+    return user
   }
 
 }

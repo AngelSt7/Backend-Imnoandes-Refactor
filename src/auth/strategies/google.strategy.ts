@@ -1,12 +1,18 @@
 
 import { PassportStrategy } from '@nestjs/passport';
-import { Injectable } from '@nestjs/common';
+import { ForbiddenException, Injectable } from '@nestjs/common';
 import { Strategy, Profile } from 'passport-google-oauth20';
 import { envs } from 'src/config';
+import { AUTH_PROVIDERS } from 'generated/prisma';
+import { UserService, oAuthService } from '../services';
+import { UserRepository } from '../repository';
 
 @Injectable()
 export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
-  constructor() {
+  constructor(
+    private readonly userRepository: UserRepository,
+    private readonly oAuthService: oAuthService
+  ) {
     super({
       clientID: envs.googleClientId,
       clientSecret: envs.googleClientSecret,
@@ -20,14 +26,21 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
     refreshToken: string,
     profile: Profile,
   ) {
-    // Aquí puedes buscar o crear el usuario en tu base de datos
-    // Devuelve lo que quieras que se almacene en `req.user`
-    return {
-      provider: 'google',
-      googleId: profile.id,
-      email: profile.emails?.[0].value,
-      name: profile.displayName,
-      avatar: profile.photos?.[0].value,
-    };
+
+    const { name, emails } = profile
+    const user = await this.oAuthService.findToGoogle(emails?.[0].value.toString()!)
+
+    if (!user) {
+      const newUser = await this.oAuthService.createToGoogle({
+        name: name?.givenName || '',
+        lastname: name?.familyName || '',
+        email: emails?.[0].value.toString()!,
+        authProvider: AUTH_PROVIDERS.GOOGLE,
+        confirmed: true
+      })
+      return newUser
+    }
+
+    return user
   }
 }

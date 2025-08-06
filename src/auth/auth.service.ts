@@ -1,35 +1,32 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
-import { BcryptService } from './services/bcrypt.service';
-import { HandleErrorsService } from 'src/common/services/handle-errors.service';
+import { BadRequestException, Injectable, Logger } from '@nestjs/common';
 import { CreateUserDto, LoginUserDto, RequestTokenDto, ForgotPasswordDto, RecoverPasswordDto } from './dto';
 import { MailService } from 'src/common/services/mail.service';
-import { TokenService } from './services/token.service';
-import { JwtService } from './services/jwt.service';
-import { CookieService } from './services/cookie.service';
 import { Response } from 'express';
-import { DateService } from './services/date.service';
-import { Token } from 'generated/prisma';
-import { UserService } from './services';
+import { Token, User } from 'generated/prisma';
+import { BcryptService, CookieService, JwtService, TokenService, UserService } from './services';
 
 @Injectable()
 export class AuthService {
+  private readonly logger = new Logger(AuthService.name)
 
   constructor(
     private readonly userService: UserService,
-    private readonly dateService: DateService,
     private readonly bcryptService: BcryptService,
-    private readonly handleErrorsService: HandleErrorsService,
     private readonly jwtService: JwtService,
     private readonly mailService: MailService,
     private readonly tokenService: TokenService,
     private readonly cookieService: CookieService
   ) { }
 
-  handleGoogleLogin(user: any, res: Response) {
-    return res.redirect('http://localhost:4000/login')
+  loginGoogle(user: User, response: Response) {
+    const JWT = this.jwtService.getJwt({ id: user.id });
+    this.cookieService.setAuthCookie(JWT, response);
+    if(!user.birthDate || !user.phone) {
+      response.redirect('http://localhost:4000/auth/complete-profile');
+    }
+    return response.redirect('http://localhost:4000/welcome')
   }
 
-  // AuthService
   async create(createAuthDto: CreateUserDto) {
     const user = await this.userService.create(createAuthDto);
     const token = await this.tokenService.upsert(user.id);
@@ -38,7 +35,6 @@ export class AuthService {
       message: 'User created successfully, check your email to confirm your account',
     };
   }
-
 
   async confirmAccount(token: Token['token']) {
     const userId = await this.tokenService.valid(token);

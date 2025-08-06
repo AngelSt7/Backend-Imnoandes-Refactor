@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/common/services/prisma.service';
-import { CreateUserDto } from '../dto';
+import { CreateUserDto, oAuthGoogleDto } from '../dto';
 import { User } from 'generated/prisma';
 import { isEmail, IsEmail } from 'class-validator';
 
@@ -12,6 +12,10 @@ export class UserRepository {
     ) { }
 
     create(user: CreateUserDto){
+        return this.prisma.user.create({ data: user });
+    }
+
+    createToGoogle(user: oAuthGoogleDto){
         return this.prisma.user.create({ data: user });
     }
 

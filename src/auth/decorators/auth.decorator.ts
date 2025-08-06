@@ -1,9 +1,13 @@
 
+import { AuthProvider } from '@decorators/role-protected.decorator';
 import { applyDecorators, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
+import { AUTH_PROVIDERS } from 'generated/prisma';
+import { AuthProviderGuard } from 'src/common/guards/auth-provider.guard';
 
-export function Auth() {
+export function Auth(...args: AUTH_PROVIDERS[]) {
   return applyDecorators(
-    UseGuards(AuthGuard())
+    AuthProvider(...args),
+    UseGuards(AuthGuard(), AuthProviderGuard)
   );
 }

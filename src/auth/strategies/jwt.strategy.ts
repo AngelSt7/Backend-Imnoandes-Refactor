@@ -1,17 +1,15 @@
 import { PassportStrategy } from '@nestjs/passport';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
 import { ExtractJwt, Strategy } from 'passport-jwt';
-import { JwtPayloadInterface } from '../interfaces/jwt-payload.interfaces';
-// import { User } from '../entities/user.entity';
-import { Model } from 'mongoose';
 import { envs } from 'src/config';
+import { JwtPayloadInterface } from '../interfaces';
+import { User } from 'generated/prisma';
+import { UserService } from '../services';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor(
-    // @InjectModel(User.name)
-    // private readonly userModel: Model<User>,
+    private readonly userService: UserService
   ) {
     super({
       secretOrKey: envs.jwtSecret,
@@ -24,13 +22,11 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     });
   }
 
-  async validate(payload: any): Promise<any> {
-    // const user = await this.userModel
-    //   .findOne({ _id: payload._id })
-    //   .select('-password -createdAt -updatedAt -__v');
-    // if (!user) throw new UnauthorizedException('user not found');
-    return {
-      ok: true,
-    };
+  async validate(payload: JwtPayloadInterface): Promise<Partial<User>> {
+    console.log("desde el strategy");
+    const user = await this.userService.find(payload.id)
+    if(!user) throw new UnauthorizedException('user not found');
+    const { password : __, ...result } = user
+    return result
   }
 }
