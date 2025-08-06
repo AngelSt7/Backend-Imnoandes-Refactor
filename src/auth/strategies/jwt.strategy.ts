@@ -16,14 +16,16 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
       jwtFromRequest:
         envs.jwtSource === 'COOKIE'
           ? ExtractJwt.fromExtractors([
-              (req) => req?.cookies?.token || null,
+              (req) => {
+                if(!req || !req.cookies) return null;
+                return req.cookies.token || req.cookies.temp
+              },
             ])
           : ExtractJwt.fromAuthHeaderAsBearerToken(),
     });
   }
 
   async validate(payload: JwtPayloadInterface): Promise<Partial<User>> {
-    console.log("desde el strategy");
     const user = await this.userService.find(payload.id)
     if(!user) throw new UnauthorizedException('user not found');
     const { password : __, ...result } = user

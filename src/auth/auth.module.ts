@@ -7,6 +7,8 @@ import { Module } from "@nestjs/common";
 import { PassportModule } from "@nestjs/passport";
 import { UserRepository, TokenRepository } from "./repository";
 import { BcryptService, oAuthService,TokenService, JwtService, CookieService, DateService, UserService } from "./services";
+import { RedirectService } from './services/redirect/redirect.service';
+import { MessageService } from './services/utils/message.service';
 
 
 @Module({
@@ -24,7 +26,7 @@ import { BcryptService, oAuthService,TokenService, JwtService, CookieService, Da
   ],
   controllers: [AuthController],
   providers: [JwtStrategy, AuthService, BcryptService, TokenService, JwtService, CookieService, 
-    GoogleStrategy, UserRepository, DateService, TokenRepository, UserService, oAuthService],
+    GoogleStrategy, UserRepository, DateService, TokenRepository, UserService, oAuthService, RedirectService, MessageService],
   exports: [JwtStrategy, PassportModule, JwtModule, AuthService]
 })
 export class AuthModule {}

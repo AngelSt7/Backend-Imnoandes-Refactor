@@ -1,4 +1,5 @@
-import { IsEmail, IsOptional, IsString, Length, Matches, MinLength, IsDateString, IsInt, Min, Max } from 'class-validator';
+import { Type } from 'class-transformer';
+import { IsEmail, IsOptional, IsString, Length, Matches, MinLength, IsDateString, IsInt, Min, Max, IsDate } from 'class-validator';
 
 export class CreateUserDto {
     @IsString()
@@ -22,10 +23,9 @@ export class CreateUserDto {
     password: string;
 
     @IsOptional()
-    @Matches(/^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/, {
-        message: 'birthDate debe tener el formato YYYY-MM-DD (ej. 2025-08-12)',
-    })
-    birthDate?: string;
+    @Type(() => Date)
+    @IsDate({ message: 'birthDate debe ser una fecha válida (ej. 1995-08-12)' })
+    birthDate?: Date;
 
     @IsOptional()
     @IsString()

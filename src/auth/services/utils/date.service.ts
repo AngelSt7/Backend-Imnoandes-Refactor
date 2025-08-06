@@ -1,17 +1,18 @@
 import { Injectable } from '@nestjs/common';
+import { addMinutes } from 'date-fns';
 
 @Injectable()
 export class DateService {
 
-    convert(dateString: string | undefined): string | undefined {
-        if (dateString === undefined) return undefined
-        const isoDate = new Date(dateString).toISOString();
+    convert(date: Date | undefined) : Date | undefined {
+        if (date === undefined) return undefined
+        const isoDate = new Date(date)
         return isoDate;
     }
 
     expiresAt(): Date {
         const now = new Date();
-        const expires = new Date(now.getTime() + 10 * 60000);
+        const expires = addMinutes(now, 10);
         return expires;
     }
 

@@ -45,5 +45,8 @@ export class UserService {
         return user;
     }
 
+    async exist(email: User['email']) {
+        return await this.userRepository.find(email);
+    }
 
 }
