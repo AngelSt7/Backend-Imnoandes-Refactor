@@ -10,10 +10,10 @@ import { ParseTokenPipe } from 'src/common/pipes/parse-token.pipe';
 
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(private readonly authService: AuthService) { }
 
   // 1. REGISTRO Y CREACIÓN DE CUENTA
-  @Post('register')
+  @Post('create-account')
   create(@Body() createAuthDto: CreateUserDto) {
     return this.authService.create(createAuthDto);
   }
@@ -53,7 +53,7 @@ export class AuthController {
   // 3. AUTENTICACIÓN CON GOOGLE
   @Provider(VALID_PROVIDERS.google)
   @Get('google')
-  async googleAuth() {}
+  async googleAuth() { }
 
   @Provider(VALID_PROVIDERS.google)
   @Get('google/callback')

@@ -14,6 +14,15 @@ export class CookieService {
             maxAge: this.getMaxAge(mode)
         });
     }
+
+    setErrorCookie(response: Response) {
+        response.cookie(MODE.ERROR, 'Account not matched with provider', {
+            httpOnly: false,
+            secure: envs.nodeEnv === 'PRODUCTION',
+            sameSite: 'lax',
+            maxAge: 1000 * 60
+        });
+    }
     
     clearAuthCookie(mode: MODE, res: Response) {
         res.clearCookie(mode);
@@ -21,6 +30,7 @@ export class CookieService {
     
     getMaxAge(mode: MODE)  {
         if(mode === MODE.SESSION) return 1000 * 60 * 60 * 24 * 7;
-        if(mode === MODE.TEMP) return 1000 * 60 * 5
+        if(mode === MODE.TEMP) return 1000 * 60 * 5;
+        if(mode === MODE.ERROR) return 1000 * 60
     }
 }

@@ -13,7 +13,7 @@ export class oAuthService {
     async findToGoogle(email: User['email']) {
         const user = await this.userRepository.find(email);
         if (user && user.authProvider !== AUTH_PROVIDERS.GOOGLE) {
-            throw new ForbiddenException('Invalid provider for this user');
+            return { error: 'provider_mismatch', email };
         }
         return user
     }

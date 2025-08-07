@@ -9,9 +9,16 @@ export class RedirectService {
         return (!user.birthDate || !user.phone) ? MODE.TEMP : MODE.SESSION
     }
 
-    url(mode: MODE, jwt: string){
-        return mode === MODE.TEMP
-            ? `http://localhost:4000/auth/complete-profile?token=${jwt}`
-            : 'http://localhost:4000/welcome'
+    url(mode: MODE, jwt?: string){
+        switch (mode) {
+            case MODE.TEMP:
+                return `http://localhost:3000/auth/complete-profile?token=${jwt}`
+            case MODE.SESSION:
+                return 'http://localhost:3000/success'
+            case MODE.ERROR:
+                return 'http://localhost:3000/auth/login'
+        }
     }
+
+
 }

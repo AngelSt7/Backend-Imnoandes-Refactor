@@ -25,7 +25,7 @@ export class AuthService {
   async create(createAuthDto: CreateUserDto) {
     const user = await this.userService.create(createAuthDto);
     const token = await this.tokenService.upsert(user.id);
-    await this.mailService.sendAccountConfirmationEmail(user.email, token, user.name);
+    this.mailService.sendAccountConfirmationEmail(user.email, token, user.name);
     return {
       message: this.messageService.created()
     };
@@ -45,7 +45,7 @@ export class AuthService {
   async requestToken(requestTokenDto: RequestTokenDto) {
     const user = await this.userService.find(requestTokenDto.email);
     const token = await this.tokenService.upsert(user.id);
-    await this.mailService.sendAccountConfirmationEmail(requestTokenDto.email, token, user.name);
+    this.mailService.sendAccountConfirmationEmail(requestTokenDto.email, token, user.name);
     return {
       message: this.messageService.request()
     };
@@ -59,12 +59,14 @@ export class AuthService {
     
     if (user && user.authProvider === AUTH_PROVIDERS.GOOGLE) {
       const token = await this.tokenService.upsert(user.id);
-      await this.mailService.sendAccessConfirmationEmail(user.email, token, user.name);
+      this.mailService.sendAccessConfirmationEmail(user.email, token, user.name);
     }
     
     return { 
-      ok: true,
       provider: user.authProvider,
+      requiredPassword: user.authProvider === AUTH_PROVIDERS.LOCAL ? true : false,
+      requiredOtp: user.authProvider === AUTH_PROVIDERS.LOCAL ? false : true,
+      message: this.messageService.checkEmail(user.authProvider)
     };
   }
 
@@ -88,12 +90,20 @@ export class AuthService {
     const JWT = this.jwtService.getJwt({ id: user.id });
     const mode = this.redirectService.mode(user);
     this.cookieService.setAuthCookie(mode, JWT, response);
-    const redirectUrl = this.redirectService.url(mode, JWT);
-    return redirectUrl;
+    this.tokenService.delete(userId);
+    const redirect = this.redirectService.url(mode, JWT);
+    return {
+      redirect,
+      message: this.messageService.welcome(user.name)
+    };
   }
 
   // 3. AUTENTICACIÓN CON GOOGLE
   loginGoogle(user: User, response: Response) {
+    if('error' in user) {
+      this.cookieService.setErrorCookie(response);
+      return response.redirect(this.redirectService.url(MODE.ERROR));
+    }
     const JWT = this.jwtService.getJwt({ id: user.id });
     const mode = this.redirectService.mode(user);
     this.cookieService.setAuthCookie(MODE.TEMP, JWT, response);
@@ -104,8 +114,10 @@ export class AuthService {
   // 4. RECUPERACIÓN DE CONTRASEÑA
   async forgotPassword(forgotPasswordDto: ForgotPasswordDto) {
     const user = await this.userService.find(forgotPasswordDto.email);
+    if(user.authProvider !== AUTH_PROVIDERS.LOCAL) throw new BadRequestException('You must use a local account to recover your password');
+    if(!user.confirmed) throw new BadRequestException('User not confirmed, confirm your account');
     const token = await this.tokenService.upsert(user.id);
-    await this.mailService.sendPasswordResetEmail(forgotPasswordDto.email, token, user.name);
+    this.mailService.sendPasswordResetEmail(forgotPasswordDto.email, token, user.name);
     return {
       message: this.messageService.forgot()
     };

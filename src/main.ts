@@ -1,6 +1,6 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { ValidationPipe } from '@nestjs/common';
+import { Logger, ValidationPipe } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { CorsOptions } from './config/cors/cors';
 import { ParseTrimStringPipe } from './common/pipes/parse-trim-string.pipe';
@@ -9,6 +9,7 @@ import { envs } from './config';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  const logger = new Logger('Main');
 
   app.enableCors(CorsOptions);
   app.use(cookieParser());
@@ -41,6 +42,8 @@ async function bootstrap() {
   const documentFactory = () => SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, documentFactory);
 
-  await app.listen(envs.port ?? 5000);
+  await app.listen(envs.port ?? 4000);
+
+  logger.log(`Application is running on: ${envs.port}`);
 }
 bootstrap();

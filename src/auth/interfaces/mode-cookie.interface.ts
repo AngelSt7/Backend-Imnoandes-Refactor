@@ -1,4 +1,5 @@
 export enum MODE {
     SESSION = "SESSION",
-    TEMP = "TEMP"
+    TEMP = "TEMP",
+    ERROR= "ERROR"
 }

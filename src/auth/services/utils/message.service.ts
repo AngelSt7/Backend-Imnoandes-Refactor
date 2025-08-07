@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { User } from 'generated/prisma';
+import { AUTH_PROVIDERS, User } from 'generated/prisma';
 
 @Injectable()
 export class MessageService {
@@ -11,11 +11,13 @@ export class MessageService {
         accountConfirmed: 'Account confirmed successfully, you can now login',
         request: 'The token to confirm your account was sent to your email',
         forgot: 'The token to reset your account was sent to your email',
-        recover: 'Password changed successfully'
+        recover: 'Password changed successfully',
+        check: 'A token has been sent to your email to confirm your access.',
+        success: 'Please enter your password to confirm your access.'
     }
     
     welcome(name: User['name']){
-        return `${this.messages.login}' '${name}`
+        return `${this.messages.login} ${name}`
     }
 
     created(){
@@ -37,4 +39,13 @@ export class MessageService {
     recover(){
         return this.messages.recover
     }
+
+    success(){
+        return this.messages.success
+    }
+
+    checkEmail(provider: User['authProvider']){
+        return provider === AUTH_PROVIDERS.GOOGLE ? this.messages.check : this.messages.success
+    }
 }
+
