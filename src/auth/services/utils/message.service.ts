@@ -13,7 +13,9 @@ export class MessageService {
         forgot: 'The token to reset your account was sent to your email',
         recover: 'Password changed successfully',
         check: 'A token has been sent to your email to confirm your access.',
-        success: 'Please enter your password to confirm your access.'
+        success: 'Please enter your password to confirm your access.',
+        tokenValidated: 'Token validated successfully, contineue to change your password.',
+        accountCompleted: 'Account completed successfully, welcome'
     }
     
     welcome(name: User['name']){
@@ -42,6 +44,14 @@ export class MessageService {
 
     success(){
         return this.messages.success
+    }
+
+    tokenValidated(){
+        return this.messages.tokenValidated
+    }
+
+    accountCompleted(){
+        return this.messages.accountCompleted
     }
 
     checkEmail(provider: User['authProvider']){

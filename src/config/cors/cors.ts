@@ -7,15 +7,27 @@ const allowedOrigins = (process.env.CORS || '')
 const isDev = envs.nodeEnv === 'DEVELOPMENT';
 
 console.log(allowedOrigins);
+console.log(isDev ? "Dev" : "Prod");
 export const CorsOptions = {
   
   origin: (origin: string | undefined, callback: Function) => {
-    if ((isDev && !origin) || allowedOrigins.includes(origin!)) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
+  const isDev = envs.nodeEnv === 'DEVELOPMENT';
+  if(!origin){
+
+    return callback(null, true);
+  }
+
+  if (isDev) {
+    return callback(null, true);
+  }
+
+  if (origin && allowedOrigins.includes(origin)) {
+    return callback(null, true);
+  }
+
+  return callback(new Error('Not allowed by CORS'));
+},
+
   methods: 'GET,POST,PUT,DELETE,PATCH',
   credentials: true,
 };

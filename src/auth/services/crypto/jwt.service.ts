@@ -16,4 +16,8 @@ export class JwtService {
     public decodeJwt(token : string) : JwtPayloadInterface {
         return this.jwtService.verify(token);
     }
+
+    public getJwtTemp(payload: JwtPayloadInterface): string {
+        return this.jwtService.sign(payload, { expiresIn: '15m' });
+    }
 }

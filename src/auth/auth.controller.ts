@@ -1,12 +1,15 @@
-import { Controller, Post, Body, Param, Res, Get, Req, UseGuards } from '@nestjs/common';
+import { Controller, Post, Body, Res, Get, Req } from '@nestjs/common';
 import { Response } from 'express';
-import { AuthGuard } from '@nestjs/passport';
 import { AuthService } from './auth.service';
-import { CreateUserDto, LoginUserDto, ForgotPasswordDto, RecoverPasswordDto, RequestTokenDto } from './dto';
-import { AUTH_PROVIDERS, Token, User } from 'generated/prisma';
+import { CreateUserDto, LoginUserDto, ForgotPasswordDto, RecoverPasswordDto, RequestTokenDto, CheckEmailUserDto } from './dto';
+import { Token, User } from 'generated/prisma';
 import { Auth, GetUser, Provider } from './decorators';
 import { VALID_PROVIDERS } from './interfaces';
-import { ParseTokenPipe } from 'src/common/pipes/parse-token.pipe';
+import { ParseOtpPipe } from 'src/common/pipes/parse-otp.pipe';
+import { Header } from '@decorators/header.decorator';
+import { validate } from 'uuid';
+import { JwtUser } from './interfaces';
+import { CompleteAccountDto } from './dto/complete-account.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -18,20 +21,48 @@ export class AuthController {
     return this.authService.create(createAuthDto);
   }
 
-  @Post('confirm-account/:token')
-  confirmAccount(@Param('token', ParseTokenPipe) token: Token['token']) {
-    return this.authService.confirmAccount(token);
+  @Post('confirm-account')
+  confirmAccount(
+    @Header('x-token', validate) x_token: Token['id'],
+    @Body('otp', ParseOtpPipe) otp: Token['token']
+  ) {
+    return this.authService.confirmAccount(x_token, otp);
   }
 
+  @Post('complete-account')
+  completeAccount(
+    @Body() completeAccountDto: CompleteAccountDto,
+    @Res({ passthrough: true }) response: Response
+  ) {
+    return this.authService.completeAccount(completeAccountDto, response);
+  }
+
+
+  // Validando token
+  @Post('validate-token')
+  validateToken(
+    @Header('x-token', validate) x_token: Token['id'],
+    @Body('otp', ParseOtpPipe) otp: Token['token']
+  ) {
+    return this.authService.validateToken(x_token, otp);
+  }
+
+  @Post('check-token')
+  checkToken(
+    @Header('x-token', validate) x_token: Token['id']) {
+    return this.authService.checkToken(x_token);
+  }
+  
   @Post('request-token')
   requestToken(@Body() requestTokenDto: RequestTokenDto) {
     return this.authService.requestToken(requestTokenDto);
   }
 
   // 2. AUTENTICACIÓN Y LOGIN
+  // hacer dto
   @Post('check-email')
-  checkEmail(@Body('email') email: User['email']) {
-    return this.authService.checkEmail(email);
+  checkEmail(@Body() checkEmailUserDto: CheckEmailUserDto) {
+    return this.authService.checkEmail(checkEmailUserDto);
   }
 
   @Post('login')
@@ -42,12 +73,12 @@ export class AuthController {
     return this.authService.login(loginUserDto, response);
   }
 
-  @Post('confirm-access/:token')
+  @Post('confirm-access')
   confirmAccess(
-    @Param('token', ParseTokenPipe) token: Token['token'],
+    @Body('otp', ParseOtpPipe) otp: Token['token'],
     @Res({ passthrough: true }) response: Response
   ) {
-    return this.authService.confirmAccess(token, response);
+    return this.authService.confirmAccess(otp, response);
   }
 
   // 3. AUTENTICACIÓN CON GOOGLE
@@ -67,18 +98,19 @@ export class AuthController {
     return this.authService.forgotPassword(forgotPasswordDto);
   }
 
-  @Post('recover-password/:token')
+  @Post('recover-password')
   recoverPassword(
-    @Param('token', ParseTokenPipe) token: Token['token'],
-    @Body() recoverPasswordDto: RecoverPasswordDto
+    @Body() recoverPasswordDto: RecoverPasswordDto,
+    @Header('x-token', validate) token: Token['token'],
   ) {
     return this.authService.recoverPassword(recoverPasswordDto, token);
   }
 
   // 5. VALIDACIÓN DE USUARIO AUTENTICADO
   @Get()
-  @Auth(AUTH_PROVIDERS.LOCAL)
-  validate(@GetUser() user: User) {
+  @Auth()
+  // @Auth(AUTH_PROVIDERS.LOCAL)
+  validate(@GetUser() user: JwtUser) {
     return user;
   }
 }

@@ -30,7 +30,7 @@ export class CookieService {
     
     getMaxAge(mode: MODE)  {
         if(mode === MODE.SESSION) return 1000 * 60 * 60 * 24 * 7;
-        if(mode === MODE.TEMP) return 1000 * 60 * 5;
+        if(mode === MODE.TEMP) return 1000 * 60 * 60;
         if(mode === MODE.ERROR) return 1000 * 60
     }
 }

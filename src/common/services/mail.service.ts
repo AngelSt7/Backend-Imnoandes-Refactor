@@ -2,6 +2,11 @@ import { Injectable, OnModuleInit } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import * as nodemailer from 'nodemailer';
 
+interface Token {
+  id: string
+  token: string
+}
+
 @Injectable()
 export class MailService implements OnModuleInit {
   private transporter: nodemailer.Transporter;
@@ -20,7 +25,7 @@ export class MailService implements OnModuleInit {
     });
   }
 
-  async sendAccountConfirmationEmail(to: string, token: string, name: string) {
+  async sendAccountConfirmationEmail(to: string, token: Token, name: string) {
     await this.transporter.sendMail({
       from: `"ImnoAndes" <${this.configService.get('SMTP_USER')}>`,
       to,
@@ -35,13 +40,13 @@ export class MailService implements OnModuleInit {
                         Para confirmar tu cuenta, visita el siguiente enlace:
                     </p>
                     <div style="text-align: center; margin: 20px 0;">
-                        <a href="/auth/confirm/${token}" 
+                        <a href="/auth/confirm-account/${token.id}" 
                             style="display: inline-block; padding: 10px 20px; background-color: #4CAF50; color: white; text-decoration: none; font-weight: bold; border-radius: 5px;">
                             Confirmar Cuenta
                         </a>
                     </div>
                     <div style="text-align: center; font-size: 18px; font-weight: bold; margin: 20px 0;">
-                        ${token}
+                        ${token.token}
                     </div>
                     <p style="font-size: 16px; line-height: 1.5; color: #555;">
                         <strong>Nota:</strong> Este token expira en 10 minutos.
@@ -56,7 +61,7 @@ export class MailService implements OnModuleInit {
     });
   }
 
-  async sendPasswordResetEmail(to: string, token: string, name: string) {
+  async sendPasswordResetEmail(to: string, token: Token, name: string) {
     await this.transporter.sendMail({
       from: `"ImnoAndes" <${this.configService.get('SMTP_USER')}>`,
       to,
@@ -71,13 +76,13 @@ export class MailService implements OnModuleInit {
                   Si fuiste tú quien hizo esta solicitud, puedes continuar el proceso haciendo clic en el siguiente botón:
                 </p>
                 <div style="text-align: center; margin: 20px 0;">
-                  <a href="/auth/forgot/${token}" 
+                  <a href="http://localhost:3000/auth/recover-password/${token.id}" 
                       style="display: inline-block; padding: 10px 20px; background-color: #4CAF50; color: white; text-decoration: none; font-weight: bold; border-radius: 5px;">
                       Restablecer contraseña
                   </a>
                 </div>
                 <div style="text-align: center; font-size: 18px; font-weight: bold; margin: 20px 0;">
-                  ${token}
+                  ${token.token}
                 </div>
                 <p style="font-size: 16px; line-height: 1.5; color: #555;">
                   <strong>Importante:</strong> Este código expirará en 10 minutos por motivos de seguridad.

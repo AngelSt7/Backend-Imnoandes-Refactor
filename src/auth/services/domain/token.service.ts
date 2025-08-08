@@ -2,6 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { Token, User } from 'generated/prisma';
 import { TokenRepository } from '../../repository';
 import { DateService } from '../utils';
+import { isUUID } from 'class-validator';
 
 @Injectable()
 export class TokenService {
@@ -10,14 +11,23 @@ export class TokenService {
         private readonly dateService: DateService
     ) { }
 
-    public async valid(token: Token['token']) {
-        const tokenDB = await this.tokenRepository.findOne(token)
-        if (!tokenDB) throw new NotFoundException('Token not found, request a new one')
-        if(tokenDB.expiresAt < new Date()) {
-            await this.delete(tokenDB.userId)
-            throw new NotFoundException('Token expired, request a new one')
+    public async valid(input: Token['token'] | Token['id']) {
+        const tokenDB = isUUID(input)
+            ? await this.tokenRepository.findById(input as Token['id'])
+            : await this.tokenRepository.findOne(input as Token['token']);
+
+        if (!tokenDB)  throw new NotFoundException('Token not found, request a new one');
+
+        if (tokenDB.expiresAt < new Date()) {
+            await this.delete(tokenDB.userId);
+            throw new NotFoundException('Token expired, request a new one');
         }
-        return tokenDB.userId
+
+        return {
+            userId: tokenDB.userId,
+            id: tokenDB.id,
+            token: tokenDB.token
+        };
     }
 
     public generate() {
@@ -28,8 +38,11 @@ export class TokenService {
         await this.delete(id)
         const token = this.generate()
         const expires = this.dateService.expiresAt()
-        await this.tokenRepository.create(Number(token), expires, id)
-        return token
+        const newToken = await this.tokenRepository.create(Number(token), expires, id)
+        return {
+            id: newToken.id,
+            token: newToken.token.toString()
+        }
     }
 
     public async delete(id: User['id']) {

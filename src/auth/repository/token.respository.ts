@@ -17,6 +17,10 @@ export class TokenRepository {
         return await this.prisma.token.findFirst({ where: { token: token } });
     }
 
+    async findById(id: Token['id']) {
+        return await this.prisma.token.findUnique({ where: { id } });
+    }
+
     async delete(userId: User['id']) {
         return await this.prisma.token.deleteMany({ where: { userId } });
     }

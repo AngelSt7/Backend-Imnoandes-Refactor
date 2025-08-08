@@ -5,6 +5,7 @@ import { DateService } from '../utils/date.service';
 import { BcryptService } from '../crypto/bcrypt.service';
 import { HandleErrorsService } from 'src/common/services/handle-errors.service';
 import { AUTH_PROVIDERS, User } from 'generated/prisma';
+import { CompleteAccountDto } from '../../dto/complete-account.dto';
 
 @Injectable()
 export class UserService {
@@ -24,6 +25,15 @@ export class UserService {
             const password = await this.bcryptService.hash(createUserDto.password);
             const user = await this.userRepository.create({ ...createUserDto, birthDate, password });
             return user;
+        } catch (error) {
+            this.handleErrorsService.handleError(error, this.context)
+        }
+    }
+
+    async completeAccount(completeAccountDto: CompleteAccountDto, userId: User['id']) {
+        try {
+            const birthDate = this.dateService.convert(completeAccountDto.birthDate);
+            return await this.userRepository.completeAccount({ ...completeAccountDto, birthDate, id: userId });
         } catch (error) {
             this.handleErrorsService.handleError(error, this.context)
         }
