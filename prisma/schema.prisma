@@ -8,12 +8,24 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+//enums
 enum AUTH_PROVIDERS {
   LOCAL
   GOOGLE
   FACEBOOK
 }
 
+enum PROPERTY_TYPE {
+  SALE
+  RENT
+}
+
+enum CURRENCY {
+  PEN
+  USD
+}
+
+// Modelos
 model User {
   id           String         @id @default(uuid())
   name         String
@@ -26,7 +38,9 @@ model User {
   phone        String?        @unique
   createdAt    DateTime       @default(now())
   updatedAt    DateTime       @updatedAt
-  token        Token?
+
+  token    Token?
+  property Property[]
 }
 
 model Token {
@@ -34,5 +48,118 @@ model Token {
   userId    String   @unique
   token     Int      @unique
   expiresAt DateTime
-  user      User     @relation(fields: [userId], references: [id])
+
+  user User @relation(fields: [userId], references: [id])
+}
+
+model Departament {
+  id          String @id @default(uuid())
+  departament String
+
+  province Province[]
+  district District[]
+  Property Property[]
+}
+
+model Province {
+  id            String @id @default(uuid())
+  province      String
+  departamentId String
+
+  departament Departament @relation(fields: [departamentId], references: [id])
+  district    District[]
+  
+  property    Property[]
+}
+
+model District {
+  id            String @id @default(uuid())
+  district      String
+  provinceId    String
+  departamentId String
+
+  province    Province    @relation(fields: [provinceId], references: [id])
+  departament Departament @relation(fields: [departamentId], references: [id])
+  property    Property[]
+}
+
+model Service {
+  id                String              @id @default(uuid())
+  service           String
+  slug              String
+  // serviceToPropert
+  serviceToProperty ServiceToProperty[]
+}
+
+model ServiceToProperty {
+  id         String @id @default(uuid())
+  propertyId String
+  serviceId  String
+
+  service  Service  @relation(fields: [serviceId], references: [id])
+  property Property @relation(fields: [propertyId], references: [id])
+}
+
+model ImagesGallery {
+  id         String @id @default(uuid())
+  propertyId String
+  url        String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  property Property @relation(fields: [propertyId], references: [id])
+}
+
+model MainImage {
+  id       String   @id
+  url      String
+  property Property @relation(fields: [id], references: [id])
+}
+
+model Property {
+  id            String        @id @default(uuid())
+  property_type PROPERTY_TYPE
+  currency      CURRENCY
+  price         Float
+  location      String
+  description   String
+  availability  Boolean       @default(true)
+  userId        String
+  districtId    String
+  departmentId  String
+  provinceId    String
+  imageId       String?
+  slug          String
+
+  // Relaciones
+  residential ResidentialProperty?
+  commercial  CommercialProperty?
+  mainImage   MainImage?
+
+  user        User        @relation(fields: [userId], references: [id])
+  district    District    @relation(fields: [districtId], references: [id])
+  departament Departament @relation(fields: [departmentId], references: [id])
+  province    Province    @relation(fields: [provinceId], references: [id])
+
+  serviceToProperty ServiceToProperty[]
+  imagesGallery     ImagesGallery[]
+}
+
+model ResidentialProperty {
+  id        String  @id
+  bedrooms  Int
+  bathrooms Int
+  area      Float
+  furnished Boolean
+
+  property Property @relation(fields: [id], references: [id])
+}
+
+model CommercialProperty {
+  id            String  @id
+  floor         Int
+  parkingSpaces Boolean
+
+  property Property @relation(fields: [id], references: [id])
 }
