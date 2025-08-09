@@ -25,6 +25,15 @@ enum CURRENCY {
   USD
 }
 
+enum PROPERTY_CATEGORY {
+  HOUSE
+  APARTMENT
+  LAND
+  COMMERCIAL
+  OFFICE
+  WAREHOUSE
+}
+
 // Modelos
 model User {
   id           String         @id @default(uuid())
@@ -63,18 +72,20 @@ model Departament {
 
 model Province {
   id            String @id @default(uuid())
-  province      String
+  province      String @unique
+  slug          String @unique
   departamentId String
 
   departament Departament @relation(fields: [departamentId], references: [id])
   district    District[]
-  
-  property    Property[]
+
+  property Property[]
 }
 
 model District {
   id            String @id @default(uuid())
   district      String
+  slug          String
   provinceId    String
   departamentId String
 
@@ -119,8 +130,11 @@ model MainImage {
 
 model Property {
   id            String        @id @default(uuid())
+  name          String        @unique
+  slug          String
   property_type PROPERTY_TYPE
   currency      CURRENCY
+  property_category PROPERTY_CATEGORY 
   price         Float
   location      String
   description   String
@@ -129,8 +143,6 @@ model Property {
   districtId    String
   departmentId  String
   provinceId    String
-  imageId       String?
-  slug          String
 
   // Relaciones
   residential ResidentialProperty?
