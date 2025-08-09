@@ -10,7 +10,6 @@ import { BcryptService, oAuthService,TokenService, JwtService, CookieService, Da
 import { RedirectService } from './services/redirect/redirect.service';
 import { MessageService } from './services/utils/message.service';
 
-
 @Module({
   imports: [
     CommonModule,
@@ -27,6 +26,6 @@ import { MessageService } from './services/utils/message.service';
   controllers: [AuthController],
   providers: [JwtStrategy, AuthService, BcryptService, TokenService, JwtService, CookieService, 
     GoogleStrategy, UserRepository, DateService, TokenRepository, UserService, oAuthService, RedirectService, MessageService],
-  exports: [JwtStrategy, PassportModule, JwtModule, AuthService]
+  exports: [JwtStrategy, PassportModule, JwtModule, AuthService, AuthModule]
 })
 export class AuthModule {}

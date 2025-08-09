@@ -8,8 +8,8 @@ export class HandleErrorsService {
     auth: {
       email: 'This email is already in use',
     },
-    cars: {
-      slug: 'The slug must be unique, please change model, year or brand',
+    property: {
+      slug: 'The slug must be unique, change name to property',
     },
   };
 
