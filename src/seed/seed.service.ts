@@ -2,9 +2,11 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/common/services/prisma.service';
 import { SERVICES_SEED } from './data/services-data.seed';
 import { DEPARTAMENT_SEED } from './data/departament-data.seed';
-import { Departament, Province } from 'generated/prisma';
+import { Departament, Property, Province } from 'generated/prisma';
 import { PROVINCE_SEED } from './data/province-data.seed';
 import { DISTRICT_SEED } from './data/district-data.seed';
+import { PROPERTY_SEED } from './data/property-data.seed';
+import { PropertyService } from 'src/property-me';
 
 interface PreparedProvince {
 
@@ -17,7 +19,8 @@ interface PreparedProvince {
 @Injectable()
 export class SeedService {
     constructor(
-        private readonly prisma: PrismaService
+        private readonly prisma: PrismaService,
+        private readonly propertyService: PropertyService
     ) { }
 
     async runSeed() {
@@ -26,6 +29,41 @@ export class SeedService {
 
         return 'SEED EXECUTED SUCCESSFULLY';
     }
+
+    async runSeedProperty() {
+        await this.prisma.commercialProperty.deleteMany();
+        await this.prisma.residentialProperty.deleteMany();
+        await this.prisma.serviceToProperty.deleteMany();
+        await this.prisma.property.deleteMany();
+
+        const insertOne = PROPERTY_SEED.slice(0, 25)
+        const insertTwo = PROPERTY_SEED.slice(25, 50)
+
+        const idOne = "76962696-dc44-427e-882d-d1da0c28c333"
+        const idTwo = "80cdee91-1afb-45a8-a354-c7882c5a38ee"
+
+        const insertOnePromises = insertOne.map(inset => (
+            this.propertyService.create(inset, this.getSlug(inset.name), idOne)
+        ))
+
+        const insertTwoPromises = insertTwo.map(inset => (
+            this.propertyService.create(inset, this.getSlug(inset.name), idTwo)
+        ))
+
+        await Promise.all([
+            ...insertOnePromises,
+            ...insertTwoPromises
+
+        ])
+
+        return 'SEED TO PROPERTY EXECUTED SUCCESSFULLY';
+    }
+
+    getSlug(name: Property['name']) {
+        return name.toLocaleLowerCase().trim().replace(/\s+/g, '-')
+    }
+
+
 
     async deleteTables() {
         await this.prisma.service.deleteMany()

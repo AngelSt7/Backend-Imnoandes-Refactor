@@ -1,11 +1,13 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
 import { PropertyMeService } from './property-me.service';
-import { CreatePropertyMeDto } from './dto/create-property-me.dto';
-import { UpdatePropertyMeDto } from './dto/update-property-me.dto';
+import { CreatePropertyMeDto } from './dto/request/create-property-me.dto';
+import { UpdatePropertyMeDto } from './dto/request/update-property-me.dto';
 import { Auth, GetUser } from 'src/auth/decorators';
-import { JwtUser } from 'src/auth/interfaces';
 import { PropertyService } from './services';
-import { User } from 'generated/prisma';
+import { Property, User } from 'generated/prisma';
+import { Cached } from '@decorators/cache/cached.decorator';
+import { CACHE_KEYS } from 'src/cache/cache-keys';
+import { PaginationPropertyMeDto } from './dto';
 
 @Auth()
 @Controller('property-me')
@@ -14,35 +16,46 @@ export class PropertyMeController {
   constructor(
     private readonly propertyMeService: PropertyMeService,
     private readonly propertyService: PropertyService
-  ) {}
+  ) { }
 
 
   @Post()
-  create(
+  async create(
     @GetUser('id') userId: User['id'],
     @Body() createPropertyMeDto: CreatePropertyMeDto
   ) {
-
-    return this.propertyMeService.create(createPropertyMeDto, userId);
+    return await this.propertyMeService.create(createPropertyMeDto, userId);
   }
 
   @Get()
-  findAll() {
-    return this.propertyMeService.findAll();
+  @Cached(CACHE_KEYS.PROPERTIES_ME)
+  async findAll(
+    @GetUser('id') userId: User['id'],
+    @Query() queryParams: PaginationPropertyMeDto
+  ) {
+    return await this.propertyMeService.findAll(userId, queryParams);
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.propertyMeService.findOne(+id);
+  @Cached(CACHE_KEYS.PROPERTY_ME)
+  findOne(
+    @Param('id') id: Property['id']
+  ) {
+    return this.propertyMeService.findOne(id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updatePropertyMeDto: UpdatePropertyMeDto) {
-    return this.propertyMeService.update(+id, updatePropertyMeDto);
+  @Auth()
+  update(
+    @GetUser('id') userId: User['id'],
+    @Param('id') id: Property['id'],
+    @Body() updatePropertyMeDto: UpdatePropertyMeDto
+  ) {
+    return this.propertyMeService.update(id, updatePropertyMeDto, userId);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.propertyMeService.remove(+id);
+  remove(@Param('id') id: Property['id']) {
+    return this.propertyMeService.changeStatus(id);
   }
 }

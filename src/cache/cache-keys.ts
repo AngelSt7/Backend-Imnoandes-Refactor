@@ -1,4 +1,4 @@
 export enum CACHE_KEYS {
-    CARS = 'cars',
-    CAR = 'car'
+    PROPERTIES_ME = 'properties-me',     // listado
+    PROPERTY_ME = 'property-me'          // detalle
 }

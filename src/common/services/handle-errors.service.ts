@@ -9,7 +9,7 @@ export class HandleErrorsService {
       email: 'This email is already in use',
     },
     property: {
-      slug: 'The slug must be unique, change name to property',
+      name: 'The name must be unique, change name to property',
     },
   };
 

@@ -1,7 +1,11 @@
 import { Module } from '@nestjs/common';
 import { CommonModule } from 'src/common/common.module';
 import { AuthModule } from 'src/auth';
-import { PropertyService, PropertyRepository, PropertyMeController, PropertyMeService } from '.';
+import { PropertyService, PropertyRepository, PropertyMeController, PropertyMeService, ServiceService, PropertyFactoryService } from '.';
+import { FilterService } from './services/filter';
+import { PropertyFormatterService } from './services/formatter';
+import { PropertyUtilsService } from './services/utils/property-utils.service';
+
 
 
 @Module({
@@ -15,7 +19,15 @@ import { PropertyService, PropertyRepository, PropertyMeController, PropertyMeSe
   providers: [
     PropertyMeService,
     PropertyService,
-    PropertyRepository
+    PropertyRepository,
+    PropertyFactoryService,
+    PropertyFormatterService,
+    FilterService,
+    PropertyUtilsService,
+    ServiceService
   ],
+  exports: [
+    PropertyService
+  ]
 })
 export class PropertyMeModule {}

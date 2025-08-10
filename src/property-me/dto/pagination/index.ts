@@ -1,0 +1,1 @@
+export { PaginationPropertyMeDto } from "./pagination-property-me.dto";

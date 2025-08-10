@@ -1,4 +1,4 @@
-import { IsArray, IsBoolean, IsEnum, IsNumber, IsPositive, IsString, IsUrl, IsUUID, Length } from "class-validator";
+import { IsArray, IsBoolean, IsEnum, IsNumber, IsPositive, IsString, IsUUID, Length } from "class-validator";
 import { CURRENCY, PROPERTY_CATEGORY, PROPERTY_TYPE } from "generated/prisma";
 
 export class CreatePropertyMeDto {
@@ -70,5 +70,5 @@ export class CreatePropertyMeDto {
 
     @IsArray()
     @IsUUID('4', { each: true })
-    serviceIds: string[]
+    servicesId: string[]
 }

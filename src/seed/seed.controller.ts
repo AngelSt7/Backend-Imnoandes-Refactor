@@ -9,4 +9,9 @@ export class SeedController {
   executeSeed() {
     return this.seedService.runSeed();
   }
+
+  @Get('/property')
+  executeSeedProperty() {
+    return this.seedService.runSeedProperty();
+  }
 }
