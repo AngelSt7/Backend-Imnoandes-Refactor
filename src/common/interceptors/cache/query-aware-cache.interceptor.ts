@@ -30,6 +30,7 @@ export class QueryAwareCacheInterceptor implements NestInterceptor {
     const finalKey = this.cacheUtilsService.generateCacheKey(baseKey, query, resource);
 
     const cached = await this.redisService.get(finalKey);
+    console.log(finalKey)
     if (cached)  return of(JSON.parse(cached));
     
     return next.handle().pipe(

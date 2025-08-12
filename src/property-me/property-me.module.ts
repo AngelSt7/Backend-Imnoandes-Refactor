@@ -1,12 +1,7 @@
 import { Module } from '@nestjs/common';
 import { CommonModule } from 'src/common/common.module';
 import { AuthModule } from 'src/auth';
-import { PropertyService, PropertyRepository, PropertyMeController, PropertyMeService, ServiceService, PropertyFactoryService } from '.';
-import { FilterService } from './services/filter';
-import { PropertyFormatterService } from './services/formatter';
-import { PropertyUtilsService } from './services/utils/property-utils.service';
-
-
+import { PropertyService, PropertyRepository, PropertyMeController, PropertyMeService, ServiceToPropertyService, PropertyFactoryService, FilterService, ServiceToPropertyUtilsService, PropertyFormatterService, TransactionService, ServiceToPropertyRepository  } from '.';
 
 @Module({
   imports: [
@@ -23,8 +18,10 @@ import { PropertyUtilsService } from './services/utils/property-utils.service';
     PropertyFactoryService,
     PropertyFormatterService,
     FilterService,
-    PropertyUtilsService,
-    ServiceService
+    ServiceToPropertyUtilsService,
+    ServiceToPropertyService,
+    TransactionService,
+    ServiceToPropertyRepository
   ],
   exports: [
     PropertyService

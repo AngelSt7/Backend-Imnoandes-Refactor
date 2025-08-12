@@ -1,2 +1,2 @@
-export { ServiceService } from './service.service';
+export { ServiceToPropertyService } from './service-to-property.service';
 export { PropertyService } from "./property.service";

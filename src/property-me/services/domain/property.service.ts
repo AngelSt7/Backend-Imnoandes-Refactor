@@ -1,20 +1,14 @@
-import { CreatePropertyDB, OnePropertyDB } from 'src/property-me/interfaces';
 import { HandleErrorsService } from '../../../common/services';
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { Property, User } from 'generated/prisma';
+import { Prisma, Property, User } from 'generated/prisma';
 import { PropertyRepository } from 'src/property-me/repository';
 import { CreatePropertyMeDto, PaginationPropertyMeDto, UpdatePropertyMeDto } from 'src/property-me/dto';
 import { PropertyFactoryService } from '../factory';
 import { PropertyFormatterService } from '../formatter';
-import { Cached } from '@decorators/cache/cached.decorator';
-import { CACHE_KEYS } from 'src/cache/cache-keys';
 import { FilterService } from '../filter/filter.service';
-import { FormattedOneProperty } from 'src/property-me/interfaces/one-property-bd.interface';
-import { PropertyUtilsService } from '../utils/property-utils.service';
-import { ServiceService } from './service.service';
+
 @Injectable()
 export class PropertyService {
-
     private readonly context = 'property'
 
     constructor(
@@ -23,13 +17,12 @@ export class PropertyService {
         private readonly propertyFactory: PropertyFactoryService,
         private readonly propertyFormatter: PropertyFormatterService,
         private readonly filterService: FilterService,
-        private readonly propertyUtils: PropertyUtilsService,
-        private readonly serviceService: ServiceService
     ) { }
 
 
-    async create(createPropertyMeDto: CreatePropertyMeDto, slug: Property['slug'], userId: User['id']) {
+    async create(createPropertyMeDto: CreatePropertyMeDto, userId: User['id']) {
         try {
+            const slug = this.slug(createPropertyMeDto.name);
             const property = this.propertyFactory.preparedCreate(createPropertyMeDto, slug, userId);
             return await this.propertyRepository.create(property)
         } catch (error) {
@@ -43,17 +36,24 @@ export class PropertyService {
         const propertiesFormatted = this.propertyFormatter.formatAll(properties);
         return propertiesFormatted
     }
-    
-    async findOne(id: Property['id']) {
-        const property = await this.propertyRepository.findOne(id);
-        if(!property) throw new NotFoundException('Property not found');
+
+    async findOne(id: Property['id'], userId: User['id']) {
+        const property = await this.propertyRepository.findOne(id, userId);
+        if (!property) throw new NotFoundException('Property not found');
         const propertyFormatted = this.propertyFormatter.formatOne(property);
         return propertyFormatted
     }
 
-    async update(id: Property['id'], updatePropertyMeDto: UpdatePropertyMeDto, userId: User['id']) {
+    async findOneWithRelations(id: Property['id'], userId: User['id']) {
+        const property = await this.propertyRepository.findOneWithRelations(id, userId);
+        if (!property) throw new NotFoundException('Property not found');
+        const propertyFormatted = this.propertyFormatter.formatDetail(property);
+        return propertyFormatted
+    }
+
+    async update(id: Property['id'], updatePropertyMeDto: UpdatePropertyMeDto, prismaClient: Prisma.TransactionClient) {
         const slug = this.slug(updatePropertyMeDto.name!);
-        return await this.propertyRepository.update(id, updatePropertyMeDto, slug, userId);
+        return await this.propertyRepository.update(id, updatePropertyMeDto, slug, prismaClient);
     }
 
     async changeStatus(id: Property['id'], availability: Property['availability']) {

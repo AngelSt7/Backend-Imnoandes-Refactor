@@ -1,3 +1,3 @@
-export { CreatePropertyDB } from "./create-property.interface"
-export { OnePropertyDB } from "./one-property-bd.interface" 
-export { AllPropertiesBD } from "./all-properties-bd.interface"
+export * from "./shared"
+export * from "./raw"
+export * from "./formatted"

@@ -43,11 +43,11 @@ export class SeedService {
         const idTwo = "80cdee91-1afb-45a8-a354-c7882c5a38ee"
 
         const insertOnePromises = insertOne.map(inset => (
-            this.propertyService.create(inset, this.getSlug(inset.name), idOne)
+            this.propertyService.create(inset, idOne)
         ))
 
         const insertTwoPromises = insertTwo.map(inset => (
-            this.propertyService.create(inset, this.getSlug(inset.name), idTwo)
+            this.propertyService.create(inset, idTwo)
         ))
 
         await Promise.all([

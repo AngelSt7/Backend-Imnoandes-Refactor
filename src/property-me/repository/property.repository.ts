@@ -10,12 +10,19 @@ export class PropertyRepository {
         private readonly prisma: PrismaService
     ) { }
 
-    async create(data: Prisma.PropertyCreateInput) {
-        return await this.prisma.property.create({ data });
+    async create(
+        data: Prisma.PropertyCreateInput,
+        prismaClient: PrismaService | Prisma.TransactionClient = this.prisma
+    ) {
+        return await prismaClient.property.create({ data });
     }
 
-    async findAll(userId: User['id'], filters: Prisma.PropertyWhereInput) {
-        return await this.prisma.property.findMany({
+    async findAll(
+        userId: User['id'], 
+        filters: Prisma.PropertyWhereInput,
+        prismaClient: PrismaService | Prisma.TransactionClient = this.prisma
+    ) {
+        return await prismaClient.property.findMany({
             where: { userId, ...filters },
             select: {
                 id: true, name: true, price: true, currency: true,
@@ -27,10 +34,17 @@ export class PropertyRepository {
         });
     }
 
-    async findOne(id: Property['id']) {
-        return await this.prisma.property.findUnique({
-            where: { id },
-            include: {
+    async findOne(
+        id: Property['id'],
+        userId: User['id'],
+        prismaClient: PrismaService | Prisma.TransactionClient = this.prisma
+    ) {
+        return await prismaClient.property.findUnique({
+            where: { id, userId },
+            select: {
+                id: true, name: true, price: true, currency: true,
+                property_type: true, property_category: true, availability: true, location: true,
+                description: true, districtId: true, departmentId: true, provinceId: true,
                 commercial: { select: { floor: true, parkingSpaces: true } },
                 residential: { select: { bedrooms: true, bathrooms: true, area: true, furnished: true } },
                 serviceToProperty: { select: { service: { select: { service: true, id: true } } } }
@@ -38,8 +52,36 @@ export class PropertyRepository {
         });
     }
 
-    async update(id: Property['id'], data: UpdatePropertyMeDto, slug: Property['slug'], userId: User['id']) {
-        return await this.prisma.property.update({
+    async findOneWithRelations(
+        id: Property['id'], userId: User['id'],
+        prismaClient: PrismaService | Prisma.TransactionClient = this.prisma
+    ) {
+        return prismaClient.property.findUnique({
+            where: { id, userId },
+            select: {
+                id: true, name: true, price: true, currency: true,
+                property_type: true, property_category: true, availability: true, location: true,
+                description: true,
+                commercial: { select: { floor: true, parkingSpaces: true } },
+                residential: { select: { bedrooms: true, bathrooms: true, area: true, furnished: true } },
+                serviceToProperty: { select: { service: { select: { service: true, id: true } } } },
+                province: { select: { province: true, } },
+                district: { select: { district: true, } },
+                departament: { select: { departament: true, } },
+                mainImage: { select: { url: true } },
+                imagesGallery: { select: { url: true } }
+            }
+        });
+    }
+
+    // Hibrido
+    async update(
+        id: Property['id'], 
+        data: UpdatePropertyMeDto, 
+        slug: Property['slug'], 
+        prismaClient: PrismaService | Prisma.TransactionClient = this.prisma
+    ) {
+        return await prismaClient.property.update({
             where: { id },
             data: {
                 name: data.name,
@@ -75,7 +117,11 @@ export class PropertyRepository {
         });
     }
 
-    async changeStatus(id: Property['id'], availability: Property['availability']) {
-        return await this.prisma.property.update({ where: { id }, data: { availability: !availability } });
+    async changeStatus(
+        id: Property['id'],
+        availability: Property['availability'],
+        prismaClient: PrismaService | Prisma.TransactionClient = this.prisma
+    ) {
+        return await prismaClient.property.update({ where: { id }, data: { availability: !availability } });
     }
 }
