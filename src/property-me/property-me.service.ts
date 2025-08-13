@@ -1,11 +1,10 @@
-import { Injectable, Logger } from '@nestjs/common';
-import { CreatePropertyMeDto, PaginationPropertyMeDto, UpdatePropertyMeDto } from './dto';
-import { Property, User } from 'generated/prisma';
-import { PropertyService, TransactionService, ServiceToPropertyUtilsService } from './services';
-import { CacheUtilsService } from 'src/common/services';
 import { CACHE_KEYS } from 'src/cache/cache-keys';
-import { PropertyFormatted } from './interfaces';
-import { PropertyFactoryService } from './services/factory/property-factory.service';
+import { CacheUtilsService } from 'src/common/services';
+import { CreatePropertyMeDto, PaginationPropertyMeDto, UpdatePropertyMeDto } from './dto';
+import { Injectable, Logger } from '@nestjs/common';
+import { Property, User } from 'generated/prisma';
+import { PropertyFormatted } from './interfaces';;
+import { PropertyService, TransactionService, ServiceToPropertyUtilsService } from './services';
 
 @Injectable()
 export class PropertyMeService {

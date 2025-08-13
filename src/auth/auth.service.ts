@@ -1,7 +1,7 @@
 import { BadRequestException, Injectable, Logger } from '@nestjs/common';
 import { Response } from 'express';
 import { CreateUserDto, LoginUserDto, RequestTokenDto, ForgotPasswordDto, RecoverPasswordDto, CheckEmailUserDto } from './dto';
-import { MailService } from 'src/common/services/mail.service';
+import { MailService } from 'src/common/services/mails/mail.service';
 import { AUTH_PROVIDERS, Token, User } from 'generated/prisma';
 import { BcryptService, CookieService, JwtService, TokenService, UserService, MessageService, RedirectService } from './services';
 import { MODE } from './interfaces';

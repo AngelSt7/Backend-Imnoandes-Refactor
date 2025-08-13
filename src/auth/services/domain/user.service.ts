@@ -3,7 +3,7 @@ import { UserRepository } from '../../repository/user.respository';
 import { CreateUserDto } from '../../dto';
 import { DateService } from '../utils/date.service';
 import { BcryptService } from '../crypto/bcrypt.service';
-import { HandleErrorsService } from 'src/common/services/handle-errors.service';
+import { HandleErrorsService } from 'src/common/services/errors/handle-errors.service';
 import { AUTH_PROVIDERS, User } from 'generated/prisma';
 import { CompleteAccountDto } from '../../dto/complete-account.dto';
 

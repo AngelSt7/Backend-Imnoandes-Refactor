@@ -1,6 +1,6 @@
+import { CreatePropertyMeDto, UpdatePropertyMeDto } from 'src/property-me/dto';
 import { Injectable } from '@nestjs/common';
 import { Prisma, Property, User } from 'generated/prisma';
-import { CreatePropertyMeDto, UpdatePropertyMeDto } from 'src/property-me/dto';
 
 @Injectable()
 export class PropertyFactoryService {

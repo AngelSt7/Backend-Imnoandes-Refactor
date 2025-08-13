@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { PrismaService } from 'src/common/services/prisma.service';
+import { PrismaService } from 'src/common/services/prisma/prisma.service';
 import { SERVICES_SEED } from './data/services-data.seed';
 import { DEPARTMENT_SEED } from './data/departament-data.seed';
 import { Department, Property, Province } from 'generated/prisma';

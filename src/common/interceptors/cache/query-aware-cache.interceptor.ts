@@ -4,9 +4,9 @@ import { Injectable, NestInterceptor, ExecutionContext, CallHandler } from '@nes
 import { Reflector } from '@nestjs/core';
 import { Request } from 'express';
 import { CACHE_KEY_META, CACHE_TTL_META } from 'src/common/decorators/cache/cached.decorator';
-import { CacheUtilsService } from 'src/common/services/cache-utils.service';
-import { RedisService } from 'src/common/services/redis.service';
+import { RedisService } from 'src/common/services/redis/redis.service';
 import { CACHE_KEYS } from 'src/cache/cache-keys';
+import { CacheUtilsService } from 'src/common/services';
 
 @Injectable()
 export class QueryAwareCacheInterceptor implements NestInterceptor {
@@ -31,7 +31,7 @@ export class QueryAwareCacheInterceptor implements NestInterceptor {
 
     const cached = await this.redisService.get(finalKey);
     if (cached)  {
-      console.log('cache hit');
+      console.log('cache tomada');
       return of(JSON.parse(cached));
     }
     

@@ -33,9 +33,12 @@ export class PropertyService {
     async findAll(userId: User['id'], queryParams: PaginationPropertyMeDto) {
         const filters = this.filterService.getFilter(queryParams);
         const preparedSelect = this.propertyFactoryService.preparedFindAll();
-        const properties = await this.propertyRepository.findAll(userId, filters, preparedSelect);
-        const propertiesFormatted = this.propertyFormatterService.formatAll(properties);
-        return propertiesFormatted
+        const properties = await this.propertyRepository.findAll(userId, filters, queryParams, preparedSelect);
+        const propertiesFormatted = this.propertyFormatterService.formatAll(properties.data);
+        return {
+            data: propertiesFormatted,
+            meta: properties.meta
+        }
     }
 
     async findOne(id: Property['id'], userId: User['id']) {

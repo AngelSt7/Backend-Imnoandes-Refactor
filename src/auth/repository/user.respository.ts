@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { PrismaService } from 'src/common/services/prisma.service';
+import { PrismaService } from 'src/common/services/prisma/prisma.service';
 import { CreateUserDto, oAuthGoogleDto } from '../dto';
 import { User } from 'generated/prisma';
 import { isEmail, IsEmail } from 'class-validator';
