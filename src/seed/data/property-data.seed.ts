@@ -1,6 +1,25 @@
-import { CreatePropertyMeDto } from "src/property-me";
 
-export const PROPERTY_SEED : CreatePropertyMeDto[] = [
+export interface PropertySeed {
+  name: string;
+  property_type: "RENT" | "SALE";
+  property_category:   "HOUSE" | "APARTMENT" | "LAND" | "COMMERCIAL" | "OFFICE" | "WAREHOUSE"
+  currency: "USD" | "PEN";
+  price: number;
+  location: string;
+  description: string;
+  availability: boolean;
+  departmentId: string;
+  provinceId: string;
+  districtId: string;
+  bedrooms: number;
+  bathrooms: number;
+  area: number;
+  furnished: boolean;
+  floor: number;
+  parkingSpaces: boolean;
+}
+
+export const PROPERTY_SEED : PropertySeed[] = [
   {
     name: "Oficina premium con vista panorámica",
     property_type: "RENT",
@@ -10,22 +29,15 @@ export const PROPERTY_SEED : CreatePropertyMeDto[] = [
     location: "Av. La Molina 765, La Molina, Lima",
     description: "Prestigiosa oficina con vista panorámica de la ciudad y acabados de lujo.",
     availability: true,
-    departmentId: "dd956901-bdc5-4706-9e6e-2ae5d0dbd386",
-    provinceId: "263776b3-d580-4180-a647-1ae4243d0cd0",
-    districtId: "28afb350-d075-4cc4-b801-323b16cc0629",
+    departmentId: "f81254d3-17f4-46ca-a983-614bde3d73c6",
+    provinceId: "fa43b1b0-5393-4394-a0d3-5036bbd525aa",
+    districtId: "08e53a01-816f-4971-a305-ba10b140f817",
     bedrooms: 0,
     bathrooms: 2,
     area: 120,
     furnished: true,
     floor: 16,
     parkingSpaces: true,
-    servicesId: [
-      "501f285e-d764-40cb-8926-c97dc550fc39",
-      "85451458-517b-4fb4-8e0b-b99ad6937073",
-      "53caa572-7ebd-441c-b970-d955c8413b4e",
-      "72d08d3e-646d-425c-bbf3-1024c1daad91",
-      "a9ab0252-d472-4151-845f-b9eb51372675"
-    ]
   },
   {
     name: "Casa con estudio de arte",
@@ -36,21 +48,15 @@ export const PROPERTY_SEED : CreatePropertyMeDto[] = [
     location: "Calle Los Jazmines 123, La Molina, Lima",
     description: "Única casa con estudio de arte independiente, perfecta para artistas o creativos.",
     availability: true,
-    departmentId: "dd956901-bdc5-4706-9e6e-2ae5d0dbd386",
-    provinceId: "263776b3-d580-4180-a647-1ae4243d0cd0",
-    districtId: "28afb350-d075-4cc4-b801-323b16cc0629",
+    departmentId: "f81254d3-17f4-46ca-a983-614bde3d73c6",
+    provinceId: "fa43b1b0-5393-4394-a0d3-5036bbd525aa",
+    districtId: "08e53a01-816f-4971-a305-ba10b140f817",
     bedrooms: 3,
     bathrooms: 2,
     area: 185,
     furnished: false,
     floor: 1,
     parkingSpaces: true,
-    servicesId: [
-      "501f285e-d764-40cb-8926-c97dc550fc39",
-      "85451458-517b-4fb4-8e0b-b99ad6937073",
-      "72d08d3e-646d-425c-bbf3-1024c1daad91",
-      "2e87326d-5be1-4a67-9740-0dfb8fb5ef8d"
-    ]
   },
   {
     name: "Departamento dúplex con terraza",
@@ -61,22 +67,15 @@ export const PROPERTY_SEED : CreatePropertyMeDto[] = [
     location: "Av. Los Constructores 456, La Molina, Lima",
     description: "Espacioso dúplex con amplia terraza, ideal para familias que buscan confort y estilo.",
     availability: true,
-    departmentId: "dd956901-bdc5-4706-9e6e-2ae5d0dbd386",
-    provinceId: "263776b3-d580-4180-a647-1ae4243d0cd0",
-    districtId: "28afb350-d075-4cc4-b801-323b16cc0629",
+    departmentId: "f81254d3-17f4-46ca-a983-614bde3d73c6",
+    provinceId: "fa43b1b0-5393-4394-a0d3-5036bbd525aa",
+    districtId: "08e53a01-816f-4971-a305-ba10b140f817",
     bedrooms: 3,
     bathrooms: 3,
     area: 140,
     furnished: false,
     floor: 14,
     parkingSpaces: true,
-    servicesId: [
-      "501f285e-d764-40cb-8926-c97dc550fc39",
-      "85451458-517b-4fb4-8e0b-b99ad6937073",
-      "53caa572-7ebd-441c-b970-d955c8413b4e",
-      "72d08d3e-646d-425c-bbf3-1024c1daad91",
-      "2e87326d-5be1-4a67-9740-0dfb8fb5ef8d"
-    ]
   },
 
   // MAGDALENA DEL MAR (10 propiedades)
@@ -89,22 +88,15 @@ export const PROPERTY_SEED : CreatePropertyMeDto[] = [
     location: "Malecón Magdalena 789, Magdalena del Mar, Lima",
     description: "Hermoso departamento frente al mar con amplio balcón y vista espectacular al océano.",
     availability: true,
-    departmentId: "dd956901-bdc5-4706-9e6e-2ae5d0dbd386",
-    provinceId: "263776b3-d580-4180-a647-1ae4243d0cd0",
-    districtId: "e7e26400-6280-4876-9d45-4d6ce759fb5f",
+    departmentId: "f81254d3-17f4-46ca-a983-614bde3d73c6",
+    provinceId: "fa43b1b0-5393-4394-a0d3-5036bbd525aa",
+    districtId: "f8d6e669-cb2d-4046-ba77-de4f3b0ff39a",
     bedrooms: 2,
     bathrooms: 2,
     area: 90,
     furnished: false,
     floor: 7,
     parkingSpaces: true,
-    servicesId: [
-      "501f285e-d764-40cb-8926-c97dc550fc39",
-      "85451458-517b-4fb4-8e0b-b99ad6937073",
-      "53caa572-7ebd-441c-b970-d955c8413b4e",
-      "72d08d3e-646d-425c-bbf3-1024c1daad91",
-      "a9ab0252-d472-4151-845f-b9eb51372675"
-    ]
   },
   {
     name: "Casa tradicional en zona histórica",
@@ -115,21 +107,15 @@ export const PROPERTY_SEED : CreatePropertyMeDto[] = [
     location: "Av. Brasil 234, Magdalena del Mar, Lima",
     description: "Encantadora casa de estilo tradicional en la zona histórica del distrito.",
     availability: true,
-    departmentId: "dd956901-bdc5-4706-9e6e-2ae5d0dbd386",
-    provinceId: "263776b3-d580-4180-a647-1ae4243d0cd0",
-    districtId: "e7e26400-6280-4876-9d45-4d6ce759fb5f",
+    departmentId: "f81254d3-17f4-46ca-a983-614bde3d73c6",
+    provinceId: "fa43b1b0-5393-4394-a0d3-5036bbd525aa",
+    districtId: "f8d6e669-cb2d-4046-ba77-de4f3b0ff39a",
     bedrooms: 3,
     bathrooms: 2,
     area: 150,
     furnished: false,
     floor: 1,
-    parkingSpaces: true,
-    servicesId: [
-      "501f285e-d764-40cb-8926-c97dc550fc39",
-      "85451458-517b-4fb4-8e0b-b99ad6937073",
-      "72d08d3e-646d-425c-bbf3-1024c1daad91",
-      "2e87326d-5be1-4a67-9740-0dfb8fb5ef8d"
-    ]
+    parkingSpaces: true
   },
   {
     name: "Oficina boutique en zona residencial",
@@ -140,21 +126,15 @@ export const PROPERTY_SEED : CreatePropertyMeDto[] = [
     location: "Av. Sucre 567, Magdalena del Mar, Lima",
     description: "Acogedora oficina boutique en tranquila zona residencial, ideal para consultorio.",
     availability: true,
-    departmentId: "dd956901-bdc5-4706-9e6e-2ae5d0dbd386",
-    provinceId: "263776b3-d580-4180-a647-1ae4243d0cd0",
-    districtId: "e7e26400-6280-4876-9d45-4d6ce759fb5f",
+    departmentId: "f81254d3-17f4-46ca-a983-614bde3d73c6",
+    provinceId: "fa43b1b0-5393-4394-a0d3-5036bbd525aa",
+    districtId: "f8d6e669-cb2d-4046-ba77-de4f3b0ff39a",
     bedrooms: 0,
     bathrooms: 1,
     area: 60,
     furnished: true,
     floor: 2,
-    parkingSpaces: false,
-    servicesId: [
-      "501f285e-d764-40cb-8926-c97dc550fc39",
-      "85451458-517b-4fb4-8e0b-b99ad6937073",
-      "72d08d3e-646d-425c-bbf3-1024c1daad91",
-      "a9ab0252-d472-4151-845f-b9eb51372675"
-    ]
+    parkingSpaces: false
   },
   {
     name: "Departamento acogedor cerca del parque",
@@ -165,21 +145,15 @@ export const PROPERTY_SEED : CreatePropertyMeDto[] = [
     location: "Calle Francisco de Paula Gonzales Vigil 891, Magdalena del Mar, Lima",
     description: "Acogedor departamento muy cerca al Parque Central, en zona tranquila y segura.",
     availability: true,
-    departmentId: "dd956901-bdc5-4706-9e6e-2ae5d0dbd386",
-    provinceId: "263776b3-d580-4180-a647-1ae4243d0cd0",
-    districtId: "e7e26400-6280-4876-9d45-4d6ce759fb5f",
+    departmentId: "f81254d3-17f4-46ca-a983-614bde3d73c6",
+    provinceId: "fa43b1b0-5393-4394-a0d3-5036bbd525aa",
+    districtId: "f8d6e669-cb2d-4046-ba77-de4f3b0ff39a",
     bedrooms: 2,
     bathrooms: 1,
     area: 72,
     furnished: false,
     floor: 4,
-    parkingSpaces: false,
-    servicesId: [
-      "501f285e-d764-40cb-8926-c97dc550fc39",
-      "85451458-517b-4fb4-8e0b-b99ad6937073",
-      "53caa572-7ebd-441c-b970-d955c8413b4e",
-      "72d08d3e-646d-425c-bbf3-1024c1daad91"
-    ]
+    parkingSpaces: false
   },
   {
     name: "Casa moderna con patio amplio",
@@ -190,21 +164,15 @@ export const PROPERTY_SEED : CreatePropertyMeDto[] = [
     location: "Calle José Galvez 345, Magdalena del Mar, Lima",
     description: "Moderna casa de dos pisos con amplio patio trasero, perfecta para familias.",
     availability: true,
-    departmentId: "dd956901-bdc5-4706-9e6e-2ae5d0dbd386",
-    provinceId: "263776b3-d580-4180-a647-1ae4243d0cd0",
-    districtId: "e7e26400-6280-4876-9d45-4d6ce759fb5f",
+    departmentId: "f81254d3-17f4-46ca-a983-614bde3d73c6",
+    provinceId: "fa43b1b0-5393-4394-a0d3-5036bbd525aa",
+    districtId: "f8d6e669-cb2d-4046-ba77-de4f3b0ff39a",
     bedrooms: 3,
     bathrooms: 2,
     area: 165,
     furnished: false,
     floor: 1,
-    parkingSpaces: true,
-    servicesId: [
-      "501f285e-d764-40cb-8926-c97dc550fc39",
-      "85451458-517b-4fb4-8e0b-b99ad6937073",
-      "72d08d3e-646d-425c-bbf3-1024c1daad91",
-      "2e87326d-5be1-4a67-9740-0dfb8fb5ef8d"
-    ]
+    parkingSpaces: true
   },
   {
     name: "Local comercial en centro del distrito",
@@ -215,21 +183,15 @@ export const PROPERTY_SEED : CreatePropertyMeDto[] = [
     location: "Av. Javier Prado Oeste 678, Magdalena del Mar, Lima",
     description: "Estratégico local comercial en el corazón comercial del distrito.",
     availability: true,
-    departmentId: "dd956901-bdc5-4706-9e6e-2ae5d0dbd386",
-    provinceId: "263776b3-d580-4180-a647-1ae4243d0cd0",
-    districtId: "e7e26400-6280-4876-9d45-4d6ce759fb5f",
+    departmentId: "f81254d3-17f4-46ca-a983-614bde3d73c6",
+    provinceId: "fa43b1b0-5393-4394-a0d3-5036bbd525aa",
+    districtId: "f8d6e669-cb2d-4046-ba77-de4f3b0ff39a",
     bedrooms: 0,
     bathrooms: 1,
     area: 85,
     furnished: false,
     floor: 1,
-    parkingSpaces: false,
-    servicesId: [
-      "501f285e-d764-40cb-8926-c97dc550fc39",
-      "85451458-517b-4fb4-8e0b-b99ad6937073",
-      "72d08d3e-646d-425c-bbf3-1024c1daad91",
-      "a9ab0252-d472-4151-845f-b9eb51372675"
-    ]
+    parkingSpaces: false
   },
   {
     name: "Estudio cerca de universidades",
@@ -240,21 +202,15 @@ export const PROPERTY_SEED : CreatePropertyMeDto[] = [
     location: "Av. Costanera 432, Magdalena del Mar, Lima",
     description: "Práctico estudio cerca de universidades, ideal para estudiantes o jóvenes profesionales.",
     availability: true,
-    departmentId: "dd956901-bdc5-4706-9e6e-2ae5d0dbd386",
-    provinceId: "263776b3-d580-4180-a647-1ae4243d0cd0",
-    districtId: "e7e26400-6280-4876-9d45-4d6ce759fb5f",
+    departmentId: "f81254d3-17f4-46ca-a983-614bde3d73c6",
+    provinceId: "fa43b1b0-5393-4394-a0d3-5036bbd525aa",
+    districtId: "f8d6e669-cb2d-4046-ba77-de4f3b0ff39a",
     bedrooms: 1,
     bathrooms: 1,
     area: 40,
     furnished: true,
     floor: 3,
-    parkingSpaces: false,
-    servicesId: [
-      "501f285e-d764-40cb-8926-c97dc550fc39",
-      "85451458-517b-4fb4-8e0b-b99ad6937073",
-      "72d08d3e-646d-425c-bbf3-1024c1daad91",
-      "53caa572-7ebd-441c-b970-d955c8413b4e"
-    ]
+    parkingSpaces: false
   },
   {
     name: "Casa con vista al mar y jardín",
@@ -265,21 +221,15 @@ export const PROPERTY_SEED : CreatePropertyMeDto[] = [
     location: "Calle Leoncio Prado 765, Magdalena del Mar, Lima",
     description: "Hermosa casa con vista parcial al mar, jardín frontal y excelente ubicación.",
     availability: true,
-    departmentId: "dd956901-bdc5-4706-9e6e-2ae5d0dbd386",
-    provinceId: "263776b3-d580-4180-a647-1ae4243d0cd0",
-    districtId: "e7e26400-6280-4876-9d45-4d6ce759fb5f",
+    departmentId: "f81254d3-17f4-46ca-a983-614bde3d73c6",
+    provinceId: "fa43b1b0-5393-4394-a0d3-5036bbd525aa",
+    districtId: "f8d6e669-cb2d-4046-ba77-de4f3b0ff39a",
     bedrooms: 3,
     bathrooms: 2,
     area: 170,
     furnished: false,
     floor: 1,
-    parkingSpaces: true,
-    servicesId: [
-      "501f285e-d764-40cb-8926-c97dc550fc39",
-      "85451458-517b-4fb4-8e0b-b99ad6937073",
-      "72d08d3e-646d-425c-bbf3-1024c1daad91",
-      "2e87326d-5be1-4a67-9740-0dfb8fb5ef8d"
-    ]
+    parkingSpaces: true
   },
   {
     name: "Departamento familiar renovado",
@@ -290,21 +240,15 @@ export const PROPERTY_SEED : CreatePropertyMeDto[] = [
     location: "Av. Mariscal Castilla 123, Magdalena del Mar, Lima",
     description: "Departamento completamente renovado, luminoso y con excelente distribución.",
     availability: true,
-    departmentId: "dd956901-bdc5-4706-9e6e-2ae5d0dbd386",
-    provinceId: "263776b3-d580-4180-a647-1ae4243d0cd0",
-    districtId: "e7e26400-6280-4876-9d45-4d6ce759fb5f",
+    departmentId: "f81254d3-17f4-46ca-a983-614bde3d73c6",
+    provinceId: "fa43b1b0-5393-4394-a0d3-5036bbd525aa",
+    districtId: "f8d6e669-cb2d-4046-ba77-de4f3b0ff39a",
     bedrooms: 2,
     bathrooms: 1,
     area: 75,
     furnished: false,
     floor: 5,
-    parkingSpaces: false,
-    servicesId: [
-      "501f285e-d764-40cb-8926-c97dc550fc39",
-      "85451458-517b-4fb4-8e0b-b99ad6937073",
-      "53caa572-7ebd-441c-b970-d955c8413b4e",
-      "72d08d3e-646d-425c-bbf3-1024c1daad91"
-    ]
+    parkingSpaces: false
   },
   {
     name: "Terreno residencial con potencial",
@@ -315,21 +259,15 @@ export const PROPERTY_SEED : CreatePropertyMeDto[] = [
     location: "Calle 28 de Julio 456, Magdalena del Mar, Lima",
     description: "Excelente terreno residencial en zona de alta valorización, cerca del mar.",
     availability: true,
-    departmentId: "dd956901-bdc5-4706-9e6e-2ae5d0dbd386",
-    provinceId: "263776b3-d580-4180-a647-1ae4243d0cd0",
-    districtId: "e7e26400-6280-4876-9d45-4d6ce759fb5f",
+    departmentId: "f81254d3-17f4-46ca-a983-614bde3d73c6",
+    provinceId: "fa43b1b0-5393-4394-a0d3-5036bbd525aa",
+    districtId: "f8d6e669-cb2d-4046-ba77-de4f3b0ff39a",
     bedrooms: 0,
     bathrooms: 0,
     area: 220,
     furnished: false,
     floor: 1,
-    parkingSpaces: false,
-    servicesId: [
-      "501f285e-d764-40cb-8926-c97dc550fc39",
-      "85451458-517b-4fb4-8e0b-b99ad6937073",
-      "72d08d3e-646d-425c-bbf3-1024c1daad91",
-      "a9ab0252-d472-4151-845f-b9eb51372675"
-    ]
+    parkingSpaces: false
   },
   {
     name: "Casa moderna en zona residencial",
@@ -340,21 +278,15 @@ export const PROPERTY_SEED : CreatePropertyMeDto[] = [
     location: "Calle San Martín 789, Miraflores, Lima",
     description: "Hermosa casa de 3 pisos en zona tranquila, ideal para familias, con jardín y cochera.",
     availability: true,
-    departmentId: "dd956901-bdc5-4706-9e6e-2ae5d0dbd386",
-    provinceId: "263776b3-d580-4180-a647-1ae4243d0cd0",
-    districtId: "c2f4db3d-b6bc-4833-9df1-7816c6cd263e",
+    departmentId: "f81254d3-17f4-46ca-a983-614bde3d73c6",
+    provinceId: "fa43b1b0-5393-4394-a0d3-5036bbd525aa",
+    districtId: "6d1dd0d0-c0f1-4abb-a685-4fe64778a9bf",
     bedrooms: 4,
     bathrooms: 3,
     area: 180,
     furnished: false,
     floor: 1,
-    parkingSpaces: true,
-    servicesId: [
-      "501f285e-d764-40cb-8926-c97dc550fc39",
-      "85451458-517b-4fb4-8e0b-b99ad6937073",
-      "72d08d3e-646d-425c-bbf3-1024c1daad91",
-      "2e87326d-5be1-4a67-9740-0dfb8fb5ef8d"
-    ]
+    parkingSpaces: true
   },
   {
     name: "Oficina comercial en Av. Pardo",
@@ -365,22 +297,15 @@ export const PROPERTY_SEED : CreatePropertyMeDto[] = [
     location: "Av. José Pardo 234, Miraflores, Lima",
     description: "Oficina totalmente equipada en una de las avenidas más importantes de Miraflores.",
     availability: true,
-    departmentId: "dd956901-bdc5-4706-9e6e-2ae5d0dbd386",
-    provinceId: "263776b3-d580-4180-a647-1ae4243d0cd0",
-    districtId: "c2f4db3d-b6bc-4833-9df1-7816c6cd263e",
+    departmentId: "f81254d3-17f4-46ca-a983-614bde3d73c6",
+    provinceId: "fa43b1b0-5393-4394-a0d3-5036bbd525aa",
+    districtId: "6d1dd0d0-c0f1-4abb-a685-4fe64778a9bf",
     bedrooms: 0,
     bathrooms: 2,
     area: 85,
     furnished: true,
     floor: 8,
-    parkingSpaces: true,
-    servicesId: [
-      "501f285e-d764-40cb-8926-c97dc550fc39",
-      "85451458-517b-4fb4-8e0b-b99ad6937073",
-      "53caa572-7ebd-441c-b970-d955c8413b4e",
-      "72d08d3e-646d-425c-bbf3-1024c1daad91",
-      "a9ab0252-d472-4151-845f-b9eb51372675"
-    ]
+    parkingSpaces: true
   },
   {
     name: "Departamento acogedor cerca al parque",
@@ -391,21 +316,15 @@ export const PROPERTY_SEED : CreatePropertyMeDto[] = [
     location: "Calle Esperanza 567, Miraflores, Lima",
     description: "Departamento cómodo y luminoso, perfecto para pareja joven o profesional soltero.",
     availability: true,
-    departmentId: "dd956901-bdc5-4706-9e6e-2ae5d0dbd386",
-    provinceId: "263776b3-d580-4180-a647-1ae4243d0cd0",
-    districtId: "c2f4db3d-b6bc-4833-9df1-7816c6cd263e",
+    departmentId: "f81254d3-17f4-46ca-a983-614bde3d73c6",
+    provinceId: "fa43b1b0-5393-4394-a0d3-5036bbd525aa",
+    districtId: "6d1dd0d0-c0f1-4abb-a685-4fe64778a9bf",
     bedrooms: 2,
     bathrooms: 1,
     area: 68,
     furnished: false,
     floor: 6,
-    parkingSpaces: false,
-    servicesId: [
-      "501f285e-d764-40cb-8926-c97dc550fc39",
-      "85451458-517b-4fb4-8e0b-b99ad6937073",
-      "53caa572-7ebd-441c-b970-d955c8413b4e",
-      "72d08d3e-646d-425c-bbf3-1024c1daad91"
-    ]
+    parkingSpaces: false
   },
   {
     name: "Terreno comercial en zona céntrica",
@@ -416,21 +335,15 @@ export const PROPERTY_SEED : CreatePropertyMeDto[] = [
     location: "Av. Benavides 891, Miraflores, Lima",
     description: "Excelente terreno para desarrollo comercial en una de las zonas más valoradas de Lima.",
     availability: true,
-    departmentId: "dd956901-bdc5-4706-9e6e-2ae5d0dbd386",
-    provinceId: "263776b3-d580-4180-a647-1ae4243d0cd0",
-    districtId: "c2f4db3d-b6bc-4833-9df1-7816c6cd263e",
+    departmentId: "f81254d3-17f4-46ca-a983-614bde3d73c6",
+    provinceId: "fa43b1b0-5393-4394-a0d3-5036bbd525aa",
+    districtId: "6d1dd0d0-c0f1-4abb-a685-4fe64778a9bf",
     bedrooms: 0,
     bathrooms: 0,
     area: 300,
     furnished: false,
     floor: 1,
-    parkingSpaces: false,
-    servicesId: [
-      "501f285e-d764-40cb-8926-c97dc550fc39",
-      "85451458-517b-4fb4-8e0b-b99ad6937073",
-      "72d08d3e-646d-425c-bbf3-1024c1daad91",
-      "a9ab0252-d472-4151-845f-b9eb51372675"
-    ]
+    parkingSpaces: false
   },
   {
     name: "Local comercial en centro de Miraflores",
@@ -441,21 +354,15 @@ export const PROPERTY_SEED : CreatePropertyMeDto[] = [
     location: "Av. Larco 345, Miraflores, Lima",
     description: "Amplio local comercial en pleno corazón de Miraflores, ideal para retail o restaurante.",
     availability: true,
-    departmentId: "dd956901-bdc5-4706-9e6e-2ae5d0dbd386",
-    provinceId: "263776b3-d580-4180-a647-1ae4243d0cd0",
-    districtId: "c2f4db3d-b6bc-4833-9df1-7816c6cd263e",
+    departmentId: "f81254d3-17f4-46ca-a983-614bde3d73c6",
+    provinceId: "fa43b1b0-5393-4394-a0d3-5036bbd525aa",
+    districtId: "6d1dd0d0-c0f1-4abb-a685-4fe64778a9bf",
     bedrooms: 0,
     bathrooms: 2,
     area: 150,
     furnished: false,
     floor: 1,
-    parkingSpaces: false,
-    servicesId: [
-      "501f285e-d764-40cb-8926-c97dc550fc39",
-      "85451458-517b-4fb4-8e0b-b99ad6937073",
-      "72d08d3e-646d-425c-bbf3-1024c1daad91",
-      "a9ab0252-d472-4151-845f-b9eb51372675"
-    ]
+    parkingSpaces: false
   },
   {
     name: "Penthouse exclusivo con terraza",
@@ -466,23 +373,15 @@ export const PROPERTY_SEED : CreatePropertyMeDto[] = [
     location: "Calle Schell 678, Miraflores, Lima",
     description: "Penthouse de lujo con amplia terraza, jacuzzi y vista panorámica de la ciudad.",
     availability: true,
-    departmentId: "dd956901-bdc5-4706-9e6e-2ae5d0dbd386",
-    provinceId: "263776b3-d580-4180-a647-1ae4243d0cd0",
-    districtId: "c2f4db3d-b6bc-4833-9df1-7816c6cd263e",
+    departmentId: "f81254d3-17f4-46ca-a983-614bde3d73c6",
+    provinceId: "fa43b1b0-5393-4394-a0d3-5036bbd525aa",
+    districtId: "6d1dd0d0-c0f1-4abb-a685-4fe64778a9bf",
     bedrooms: 3,
     bathrooms: 3,
     area: 160,
     furnished: true,
     floor: 15,
-    parkingSpaces: true,
-    servicesId: [
-      "501f285e-d764-40cb-8926-c97dc550fc39",
-      "85451458-517b-4fb4-8e0b-b99ad6937073",
-      "f1084201-6129-4779-9f7c-9a54aceae9ac",
-      "a9ab0252-d472-4151-845f-b9eb51372675",
-      "53caa572-7ebd-441c-b970-d955c8413b4e",
-      "3a19860e-b850-40cf-9a5f-7fc07e86d713"
-    ]
+    parkingSpaces: true
   },
   {
     name: "Departamento familiar en zona tranquila",
@@ -493,22 +392,15 @@ export const PROPERTY_SEED : CreatePropertyMeDto[] = [
     location: "Calle General Borgono 432, Miraflores, Lima",
     description: "Cómodo departamento ideal para familias, en zona residencial tranquila y segura.",
     availability: true,
-    departmentId: "dd956901-bdc5-4706-9e6e-2ae5d0dbd386",
-    provinceId: "263776b3-d580-4180-a647-1ae4243d0cd0",
-    districtId: "c2f4db3d-b6bc-4833-9df1-7816c6cd263e",
+    departmentId: "f81254d3-17f4-46ca-a983-614bde3d73c6",
+    provinceId: "fa43b1b0-5393-4394-a0d3-5036bbd525aa",
+    districtId: "6d1dd0d0-c0f1-4abb-a685-4fe64778a9bf",
     bedrooms: 3,
     bathrooms: 2,
     area: 105,
     furnished: false,
     floor: 4,
-    parkingSpaces: true,
-    servicesId: [
-      "501f285e-d764-40cb-8926-c97dc550fc39",
-      "85451458-517b-4fb4-8e0b-b99ad6937073",
-      "53caa572-7ebd-441c-b970-d955c8413b4e",
-      "72d08d3e-646d-425c-bbf3-1024c1daad91",
-      "2e87326d-5be1-4a67-9740-0dfb8fb5ef8d"
-    ]
+    parkingSpaces: true
   },
   {
     name: "Casa con jardín y piscina",
@@ -519,22 +411,15 @@ export const PROPERTY_SEED : CreatePropertyMeDto[] = [
     location: "Calle 28 de Julio 765, Miraflores, Lima",
     description: "Hermosa casa de dos pisos con amplio jardín, piscina y excelente ubicación.",
     availability: true,
-    departmentId: "dd956901-bdc5-4706-9e6e-2ae5d0dbd386",
-    provinceId: "263776b3-d580-4180-a647-1ae4243d0cd0",
-    districtId: "c2f4db3d-b6bc-4833-9df1-7816c6cd263e",
+    departmentId: "f81254d3-17f4-46ca-a983-614bde3d73c6",
+    provinceId: "fa43b1b0-5393-4394-a0d3-5036bbd525aa",
+    districtId: "6d1dd0d0-c0f1-4abb-a685-4fe64778a9bf",
     bedrooms: 4,
     bathrooms: 3,
     area: 220,
     furnished: false,
     floor: 1,
-    parkingSpaces: true,
-    servicesId: [
-      "501f285e-d764-40cb-8926-c97dc550fc39",
-      "85451458-517b-4fb4-8e0b-b99ad6937073",
-      "f1084201-6129-4779-9f7c-9a54aceae9ac",
-      "72d08d3e-646d-425c-bbf3-1024c1daad91",
-      "2e87326d-5be1-4a67-9740-0dfb8fb5ef8d"
-    ]
+    parkingSpaces: true
   },
   {
     name: "Estudio moderno para joven profesional",
@@ -545,21 +430,15 @@ export const PROPERTY_SEED : CreatePropertyMeDto[] = [
     location: "Av. Diagonal 123, Miraflores, Lima",
     description: "Estudio completamente amoblado, perfecto para profesional joven que busca comodidad.",
     availability: true,
-    departmentId: "dd956901-bdc5-4706-9e6e-2ae5d0dbd386",
-    provinceId: "263776b3-d580-4180-a647-1ae4243d0cd0",
-    districtId: "c2f4db3d-b6bc-4833-9df1-7816c6cd263e",
+    departmentId: "f81254d3-17f4-46ca-a983-614bde3d73c6",
+    provinceId: "fa43b1b0-5393-4394-a0d3-5036bbd525aa",
+    districtId: "6d1dd0d0-c0f1-4abb-a685-4fe64778a9bf",
     bedrooms: 1,
     bathrooms: 1,
     area: 45,
     furnished: true,
     floor: 7,
-    parkingSpaces: false,
-    servicesId: [
-      "501f285e-d764-40cb-8926-c97dc550fc39",
-      "85451458-517b-4fb4-8e0b-b99ad6937073",
-      "53caa572-7ebd-441c-b970-d955c8413b4e",
-      "72d08d3e-646d-425c-bbf3-1024c1daad91"
-    ]
+    parkingSpaces: false
   },
 
   // SURCO (10 propiedades)
@@ -572,23 +451,15 @@ export const PROPERTY_SEED : CreatePropertyMeDto[] = [
     location: "Av. El Polo 456, Santiago de Surco, Lima",
     description: "Elegante casa en condominio privado con áreas verdes, club house y seguridad 24h.",
     availability: true,
-    departmentId: "dd956901-bdc5-4706-9e6e-2ae5d0dbd386",
-    provinceId: "263776b3-d580-4180-a647-1ae4243d0cd0",
-    districtId: "d50e385c-0e71-49f7-9554-6d8bb41289f4",
+    departmentId: "f81254d3-17f4-46ca-a983-614bde3d73c6",
+    provinceId: "fa43b1b0-5393-4394-a0d3-5036bbd525aa",
+    districtId: "5eb08551-f14d-4044-b243-5f876a67675a",
     bedrooms: 4,
     bathrooms: 3,
     area: 200,
     furnished: false,
     floor: 1,
-    parkingSpaces: true,
-    servicesId: [
-      "501f285e-d764-40cb-8926-c97dc550fc39",
-      "85451458-517b-4fb4-8e0b-b99ad6937073",
-      "a9ab0252-d472-4151-845f-b9eb51372675",
-      "8002817c-afa6-4511-a380-ba33a0f773dc",
-      "3a19860e-b850-40cf-9a5f-7fc07e86d713",
-      "2e87326d-5be1-4a67-9740-0dfb8fb5ef8d"
-    ]
+    parkingSpaces: true
   },
   {
     name: "Departamento moderno en torre residencial",
@@ -599,22 +470,15 @@ export const PROPERTY_SEED : CreatePropertyMeDto[] = [
     location: "Av. Primavera 789, Santiago de Surco, Lima",
     description: "Moderno departamento en complejo residencial con amenities completos.",
     availability: true,
-    departmentId: "dd956901-bdc5-4706-9e6e-2ae5d0dbd386",
-    provinceId: "263776b3-d580-4180-a647-1ae4243d0cd0",
-    districtId: "d50e385c-0e71-49f7-9554-6d8bb41289f4",
+    departmentId: "f81254d3-17f4-46ca-a983-614bde3d73c6",
+    provinceId: "fa43b1b0-5393-4394-a0d3-5036bbd525aa",
+    districtId: "5eb08551-f14d-4044-b243-5f876a67675a",
     bedrooms: 2,
     bathrooms: 2,
     area: 88,
     furnished: true,
     floor: 9,
-    parkingSpaces: true,
-    servicesId: [
-      "501f285e-d764-40cb-8926-c97dc550fc39",
-      "85451458-517b-4fb4-8e0b-b99ad6937073",
-      "53caa572-7ebd-441c-b970-d955c8413b4e",
-      "f1084201-6129-4779-9f7c-9a54aceae9ac",
-      "a9ab0252-d472-4151-845f-b9eb51372675"
-    ]
+    parkingSpaces: true
   },
   {
     name: "Oficina corporativa en centro empresarial",
@@ -625,22 +489,15 @@ export const PROPERTY_SEED : CreatePropertyMeDto[] = [
     location: "Av. Cristóbal de Peralta 234, Santiago de Surco, Lima",
     description: "Moderna oficina en centro empresarial de primer nivel con todas las facilidades.",
     availability: true,
-    departmentId: "dd956901-bdc5-4706-9e6e-2ae5d0dbd386",
-    provinceId: "263776b3-d580-4180-a647-1ae4243d0cd0",
-    districtId: "d50e385c-0e71-49f7-9554-6d8bb41289f4",
+    departmentId: "f81254d3-17f4-46ca-a983-614bde3d73c6",
+    provinceId: "fa43b1b0-5393-4394-a0d3-5036bbd525aa",
+    districtId: "5eb08551-f14d-4044-b243-5f876a67675a",
     bedrooms: 0,
     bathrooms: 1,
     area: 95,
     furnished: true,
     floor: 12,
-    parkingSpaces: true,
-    servicesId: [
-      "501f285e-d764-40cb-8926-c97dc550fc39",
-      "85451458-517b-4fb4-8e0b-b99ad6937073",
-      "53caa572-7ebd-441c-b970-d955c8413b4e",
-      "72d08d3e-646d-425c-bbf3-1024c1daad91",
-      "a9ab0252-d472-4151-845f-b9eb51372675"
-    ]
+    parkingSpaces: true
   },
   {
     name: "Terreno residencial con proyecto aprobado",
@@ -651,21 +508,15 @@ export const PROPERTY_SEED : CreatePropertyMeDto[] = [
     location: "Calle Las Magnolias 567, Santiago de Surco, Lima",
     description: "Excelente terreno en zona residencial consolidada con proyecto arquitectónico aprobado.",
     availability: true,
-    departmentId: "dd956901-bdc5-4706-9e6e-2ae5d0dbd386",
-    provinceId: "263776b3-d580-4180-a647-1ae4243d0cd0",
-    districtId: "d50e385c-0e71-49f7-9554-6d8bb41289f4",
+    departmentId: "f81254d3-17f4-46ca-a983-614bde3d73c6",
+    provinceId: "fa43b1b0-5393-4394-a0d3-5036bbd525aa",
+    districtId: "5eb08551-f14d-4044-b243-5f876a67675a",
     bedrooms: 0,
     bathrooms: 0,
     area: 280,
     furnished: false,
     floor: 1,
     parkingSpaces: false,
-    servicesId: [
-      "501f285e-d764-40cb-8926-c97dc550fc39",
-      "85451458-517b-4fb4-8e0b-b99ad6937073",
-      "72d08d3e-646d-425c-bbf3-1024c1daad91",
-      "a9ab0252-d472-4151-845f-b9eb51372675"
-    ]
   },
   {
     name: "Almacén industrial en zona logística",
@@ -676,21 +527,15 @@ export const PROPERTY_SEED : CreatePropertyMeDto[] = [
     location: "Av. Los Frutales 891, Santiago de Surco, Lima",
     description: "Amplio almacén con facilidades logísticas, ideal para distribución y almacenamiento.",
     availability: true,
-    departmentId: "dd956901-bdc5-4706-9e6e-2ae5d0dbd386",
-    provinceId: "263776b3-d580-4180-a647-1ae4243d0cd0",
-    districtId: "d50e385c-0e71-49f7-9554-6d8bb41289f4",
+    departmentId: "f81254d3-17f4-46ca-a983-614bde3d73c6",
+    provinceId: "fa43b1b0-5393-4394-a0d3-5036bbd525aa",
+    districtId: "5eb08551-f14d-4044-b243-5f876a67675a",
     bedrooms: 0,
     bathrooms: 2,
     area: 500,
     furnished: false,
     floor: 1,
     parkingSpaces: true,
-    servicesId: [
-      "501f285e-d764-40cb-8926-c97dc550fc39",
-      "85451458-517b-4fb4-8e0b-b99ad6937073",
-      "72d08d3e-646d-425c-bbf3-1024c1daad91",
-      "a9ab0252-d472-4151-845f-b9eb51372675"
-    ]
   },
   {
     name: "Departamento familiar con vista al parque",
@@ -701,22 +546,15 @@ export const PROPERTY_SEED : CreatePropertyMeDto[] = [
     location: "Av. Benavides 345, Santiago de Surco, Lima",
     description: "Cómodo departamento con hermosa vista al Parque de la Amistad, muy tranquilo.",
     availability: true,
-    departmentId: "dd956901-bdc5-4706-9e6e-2ae5d0dbd386",
-    provinceId: "263776b3-d580-4180-a647-1ae4243d0cd0",
-    districtId: "d50e385c-0e71-49f7-9554-6d8bb41289f4",
+    departmentId: "f81254d3-17f4-46ca-a983-614bde3d73c6",
+    provinceId: "fa43b1b0-5393-4394-a0d3-5036bbd525aa",
+    districtId: "5eb08551-f14d-4044-b243-5f876a67675a",
     bedrooms: 3,
     bathrooms: 2,
     area: 110,
     furnished: false,
     floor: 8,
-    parkingSpaces: true,
-    servicesId: [
-      "501f285e-d764-40cb-8926-c97dc550fc39",
-      "85451458-517b-4fb4-8e0b-b99ad6937073",
-      "53caa572-7ebd-441c-b970-d955c8413b4e",
-      "72d08d3e-646d-425c-bbf3-1024c1daad91",
-      "2e87326d-5be1-4a67-9740-0dfb8fb5ef8d"
-    ]
+    parkingSpaces: true
   },
   {
     name: "Local comercial en avenida principal",
@@ -727,21 +565,15 @@ export const PROPERTY_SEED : CreatePropertyMeDto[] = [
     location: "Av. Tomás Marsano 678, Santiago de Surco, Lima",
     description: "Estratégico local comercial con alta visibilidad en una de las principales avenidas.",
     availability: true,
-    departmentId: "dd956901-bdc5-4706-9e6e-2ae5d0dbd386",
-    provinceId: "263776b3-d580-4180-a647-1ae4243d0cd0",
-    districtId: "d50e385c-0e71-49f7-9554-6d8bb41289f4",
+    departmentId: "f81254d3-17f4-46ca-a983-614bde3d73c6",
+    provinceId: "fa43b1b0-5393-4394-a0d3-5036bbd525aa",
+    districtId: "5eb08551-f14d-4044-b243-5f876a67675a",
     bedrooms: 0,
     bathrooms: 1,
     area: 120,
     furnished: false,
     floor: 1,
-    parkingSpaces: true,
-    servicesId: [
-      "501f285e-d764-40cb-8926-c97dc550fc39",
-      "85451458-517b-4fb4-8e0b-b99ad6937073",
-      "72d08d3e-646d-425c-bbf3-1024c1daad91",
-      "a9ab0252-d472-4151-845f-b9eb51372675"
-    ]
+    parkingSpaces: true
   },
   {
     name: "Casa moderna con jardín amplio",
@@ -752,22 +584,15 @@ export const PROPERTY_SEED : CreatePropertyMeDto[] = [
     location: "Calle Los Tulipanes 432, Santiago de Surco, Lima",
     description: "Hermosa casa de diseño contemporáneo con amplio jardín y acabados de calidad.",
     availability: true,
-    departmentId: "dd956901-bdc5-4706-9e6e-2ae5d0dbd386",
-    provinceId: "263776b3-d580-4180-a647-1ae4243d0cd0",
-    districtId: "d50e385c-0e71-49f7-9554-6d8bb41289f4",
+    departmentId: "f81254d3-17f4-46ca-a983-614bde3d73c6",
+    provinceId: "fa43b1b0-5393-4394-a0d3-5036bbd525aa",
+    districtId: "5eb08551-f14d-4044-b243-5f876a67675a",
     bedrooms: 3,
     bathrooms: 2,
     area: 175,
     furnished: false,
     floor: 1,
-    parkingSpaces: true,
-    servicesId: [
-      "501f285e-d764-40cb-8926-c97dc550fc39",
-      "85451458-517b-4fb4-8e0b-b99ad6937073",
-      "72d08d3e-646d-425c-bbf3-1024c1daad91",
-      "8002817c-afa6-4511-a380-ba33a0f773dc",
-      "2e87326d-5be1-4a67-9740-0dfb8fb5ef8d"
-    ]
+    parkingSpaces: true
   },
   {
     name: "Departamento ejecutivo amoblado",
@@ -778,22 +603,15 @@ export const PROPERTY_SEED : CreatePropertyMeDto[] = [
     location: "Av. Javier Prado Este 765, Santiago de Surco, Lima",
     description: "Elegante departamento completamente amoblado, ideal para ejecutivos.",
     availability: true,
-    departmentId: "dd956901-bdc5-4706-9e6e-2ae5d0dbd386",
-    provinceId: "263776b3-d580-4180-a647-1ae4243d0cd0",
-    districtId: "d50e385c-0e71-49f7-9554-6d8bb41289f4",
+    departmentId: "f81254d3-17f4-46ca-a983-614bde3d73c6",
+    provinceId: "fa43b1b0-5393-4394-a0d3-5036bbd525aa",
+    districtId: "5eb08551-f14d-4044-b243-5f876a67675a",
     bedrooms: 2,
     bathrooms: 2,
     area: 78,
     furnished: true,
     floor: 11,
-    parkingSpaces: true,
-    servicesId: [
-      "501f285e-d764-40cb-8926-c97dc550fc39",
-      "85451458-517b-4fb4-8e0b-b99ad6937073",
-      "53caa572-7ebd-441c-b970-d955c8413b4e",
-      "72d08d3e-646d-425c-bbf3-1024c1daad91",
-      "3a19860e-b850-40cf-9a5f-7fc07e86d713"
-    ]
+    parkingSpaces: true
   },
   {
     name: "Duplex con terraza y parrilla",
@@ -804,21 +622,15 @@ export const PROPERTY_SEED : CreatePropertyMeDto[] = [
     location: "Calle Monte Rosa 123, Santiago de Surco, Lima",
     description: "Espacioso duplex con terraza privada, parrilla y excelente iluminación natural.",
     availability: true,
-    departmentId: "dd956901-bdc5-4706-9e6e-2ae5d0dbd386",
-    provinceId: "263776b3-d580-4180-a647-1ae4243d0cd0",
-    districtId: "d50e385c-0e71-49f7-9554-6d8bb41289f4",
+    departmentId: "f81254d3-17f4-46ca-a983-614bde3d73c6",
+    provinceId: "fa43b1b0-5393-4394-a0d3-5036bbd525aa",
+    districtId: "5eb08551-f14d-4044-b243-5f876a67675a",
     bedrooms: 3,
     bathrooms: 2,
     area: 125,
     furnished: false,
     floor: 10,
-    parkingSpaces: true,
-    servicesId: [
-      "501f285e-d764-40cb-8926-c97dc550fc39",
-      "85451458-517b-4fb4-8e0b-b99ad6937073",
-      "72d08d3e-646d-425c-bbf3-1024c1daad91",
-      "2e87326d-5be1-4a67-9740-0dfb8fb5ef8d"
-    ]
+    parkingSpaces: true
   },
 
   // CHORRILLOS (10 propiedades)
@@ -831,22 +643,15 @@ export const PROPERTY_SEED : CreatePropertyMeDto[] = [
     location: "Malecón Grau 456, Chorrillos, Lima",
     description: "Increíble casa frente al mar con vista panorámica al océano Pacífico.",
     availability: true,
-    departmentId: "dd956901-bdc5-4706-9e6e-2ae5d0dbd386",
-    provinceId: "263776b3-d580-4180-a647-1ae4243d0cd0",
-    districtId: "c19c1a7a-228f-4029-a2d0-4fd641a54842",
+    departmentId: "f81254d3-17f4-46ca-a983-614bde3d73c6",
+    provinceId: "fa43b1b0-5393-4394-a0d3-5036bbd525aa",
+    districtId: "55319202-4f22-4e87-9103-a9a388ccef60",
     bedrooms: 4,
     bathrooms: 3,
     area: 190,
     furnished: false,
     floor: 1,
-    parkingSpaces: true,
-    servicesId: [
-      "501f285e-d764-40cb-8926-c97dc550fc39",
-      "85451458-517b-4fb4-8e0b-b99ad6937073",
-      "72d08d3e-646d-425c-bbf3-1024c1daad91",
-      "a9ab0252-d472-4151-845f-b9eb51372675",
-      "2e87326d-5be1-4a67-9740-0dfb8fb5ef8d"
-    ]
+    parkingSpaces: true
   },
   {
     name: "Departamento cerca de la playa",
@@ -857,21 +662,15 @@ export const PROPERTY_SEED : CreatePropertyMeDto[] = [
     location: "Av. Huaylas 789, Chorrillos, Lima",
     description: "Cómodo departamento a pocas cuadras de la playa, perfecto para vacaciones.",
     availability: true,
-    departmentId: "dd956901-bdc5-4706-9e6e-2ae5d0dbd386",
-    provinceId: "263776b3-d580-4180-a647-1ae4243d0cd0",
-    districtId: "c19c1a7a-228f-4029-a2d0-4fd641a54842",
+    departmentId: "f81254d3-17f4-46ca-a983-614bde3d73c6",
+    provinceId: "fa43b1b0-5393-4394-a0d3-5036bbd525aa",
+    districtId: "55319202-4f22-4e87-9103-a9a388ccef60",
     bedrooms: 2,
     bathrooms: 1,
     area: 75,
     furnished: true,
     floor: 5,
-    parkingSpaces: false,
-    servicesId: [
-      "501f285e-d764-40cb-8926-c97dc550fc39",
-      "85451458-517b-4fb4-8e0b-b99ad6937073",
-      "72d08d3e-646d-425c-bbf3-1024c1daad91",
-      "53caa572-7ebd-441c-b970-d955c8413b4e"
-    ]
+    parkingSpaces: false
   },
   {
     name: "Terreno industrial con zonificación",
@@ -882,21 +681,15 @@ export const PROPERTY_SEED : CreatePropertyMeDto[] = [
     location: "Av. Defensores del Morro 234, Chorrillos, Lima",
     description: "Amplio terreno industrial con todas las facilidades para desarrollo manufacturero.",
     availability: true,
-    departmentId: "dd956901-bdc5-4706-9e6e-2ae5d0dbd386",
-    provinceId: "263776b3-d580-4180-a647-1ae4243d0cd0",
-    districtId: "c19c1a7a-228f-4029-a2d0-4fd641a54842",
+    departmentId: "f81254d3-17f4-46ca-a983-614bde3d73c6",
+    provinceId: "fa43b1b0-5393-4394-a0d3-5036bbd525aa",
+    districtId: "55319202-4f22-4e87-9103-a9a388ccef60",
     bedrooms: 0,
     bathrooms: 0,
     area: 800,
     furnished: false,
     floor: 1,
-    parkingSpaces: false,
-    servicesId: [
-      "501f285e-d764-40cb-8926-c97dc550fc39",
-      "85451458-517b-4fb4-8e0b-b99ad6937073",
-      "72d08d3e-646d-425c-bbf3-1024c1daad91",
-      "a9ab0252-d472-4151-845f-b9eb51372675"
-    ]
+    parkingSpaces: false
   },
   {
     name: "Casa familiar en zona residencial",
@@ -907,21 +700,15 @@ export const PROPERTY_SEED : CreatePropertyMeDto[] = [
     location: "Calle Los Cedros 567, Chorrillos, Lima",
     description: "Acogedora casa familiar en tranquila zona residencial con jardín y cochera.",
     availability: true,
-    departmentId: "dd956901-bdc5-4706-9e6e-2ae5d0dbd386",
-    provinceId: "263776b3-d580-4180-a647-1ae4243d0cd0",
-    districtId: "c19c1a7a-228f-4029-a2d0-4fd641a54842",
+    departmentId: "f81254d3-17f4-46ca-a983-614bde3d73c6",
+    provinceId: "fa43b1b0-5393-4394-a0d3-5036bbd525aa",
+    districtId: "55319202-4f22-4e87-9103-a9a388ccef60",
     bedrooms: 3,
     bathrooms: 2,
     area: 140,
     furnished: false,
     floor: 1,
-    parkingSpaces: true,
-    servicesId: [
-      "501f285e-d764-40cb-8926-c97dc550fc39",
-      "85451458-517b-4fb4-8e0b-b99ad6937073",
-      "72d08d3e-646d-425c-bbf3-1024c1daad91",
-      "2e87326d-5be1-4a67-9740-0dfb8fb5ef8d"
-    ]
+    parkingSpaces: true
   },
   {
     name: "Almacén con oficinas administrativas",
@@ -932,21 +719,15 @@ export const PROPERTY_SEED : CreatePropertyMeDto[] = [
     location: "Av. Prolongación Huaylas 891, Chorrillos, Lima",
     description: "Moderno almacén con área de oficinas, ideal para operaciones logísticas.",
     availability: true,
-    departmentId: "dd956901-bdc5-4706-9e6e-2ae5d0dbd386",
-    provinceId: "263776b3-d580-4180-a647-1ae4243d0cd0",
-    districtId: "c19c1a7a-228f-4029-a2d0-4fd641a54842",
+    departmentId: "f81254d3-17f4-46ca-a983-614bde3d73c6",
+    provinceId: "fa43b1b0-5393-4394-a0d3-5036bbd525aa",
+    districtId: "55319202-4f22-4e87-9103-a9a388ccef60",
     bedrooms: 0,
     bathrooms: 3,
     area: 400,
     furnished: false,
     floor: 1,
-    parkingSpaces: true,
-    servicesId: [
-      "501f285e-d764-40cb-8926-c97dc550fc39",
-      "85451458-517b-4fb4-8e0b-b99ad6937073",
-      "72d08d3e-646d-425c-bbf3-1024c1daad91",
-      "a9ab0252-d472-4151-845f-b9eb51372675"
-    ]
+    parkingSpaces: true
   },
   {
     name: "Departamento económico para estudiantes",
@@ -957,21 +738,15 @@ export const PROPERTY_SEED : CreatePropertyMeDto[] = [
     location: "Av. Lima 345, Chorrillos, Lima",
     description: "Departamento económico y funcional, ideal para estudiantes o jóvenes profesionales.",
     availability: true,
-    departmentId: "dd956901-bdc5-4706-9e6e-2ae5d0dbd386",
-    provinceId: "263776b3-d580-4180-a647-1ae4243d0cd0",
-    districtId: "c19c1a7a-228f-4029-a2d0-4fd641a54842",
+    departmentId: "f81254d3-17f4-46ca-a983-614bde3d73c6",
+    provinceId: "fa43b1b0-5393-4394-a0d3-5036bbd525aa",
+    districtId: "55319202-4f22-4e87-9103-a9a388ccef60",
     bedrooms: 1,
     bathrooms: 1,
     area: 45,
     furnished: false,
     floor: 3,
     parkingSpaces: false,
-    servicesId: [
-      "501f285e-d764-40cb-8926-c97dc550fc39",
-      "85451458-517b-4fb4-8e0b-b99ad6937073",
-      "72d08d3e-646d-425c-bbf3-1024c1daad91",
-      "53caa572-7ebd-441c-b970-d955c8413b4e"
-    ]
   },
   {
     name: "Local comercial en mercado central",
@@ -982,21 +757,15 @@ export const PROPERTY_SEED : CreatePropertyMeDto[] = [
     location: "Mercado de Chorrillos, Av. Pedro Miotta 678, Chorrillos, Lima",
     description: "Estratégico local comercial en el corazón comercial del distrito.",
     availability: true,
-    departmentId: "dd956901-bdc5-4706-9e6e-2ae5d0dbd386",
-    provinceId: "263776b3-d580-4180-a647-1ae4243d0cd0",
-    districtId: "c19c1a7a-228f-4029-a2d0-4fd641a54842",
+    departmentId: "f81254d3-17f4-46ca-a983-614bde3d73c6",
+    provinceId: "fa43b1b0-5393-4394-a0d3-5036bbd525aa",
+    districtId: "55319202-4f22-4e87-9103-a9a388ccef60",
     bedrooms: 0,
     bathrooms: 1,
     area: 60,
     furnished: false,
     floor: 1,
     parkingSpaces: false,
-    servicesId: [
-      "501f285e-d764-40cb-8926-c97dc550fc39",
-      "85451458-517b-4fb4-8e0b-b99ad6937073",
-      "72d08d3e-646d-425c-bbf3-1024c1daad91",
-      "a9ab0252-d472-4151-845f-b9eb51372675"
-    ]
   },
   {
     name: "Casa de playa con acceso directo",
@@ -1007,21 +776,15 @@ export const PROPERTY_SEED : CreatePropertyMeDto[] = [
     location: "Playa La Herradura, Chorrillos, Lima",
     description: "Exclusiva casa de playa con acceso directo a La Herradura, perfecta para descanso.",
     availability: true,
-    departmentId: "dd956901-bdc5-4706-9e6e-2ae5d0dbd386",
-    provinceId: "263776b3-d580-4180-a647-1ae4243d0cd0",
-    districtId: "c19c1a7a-228f-4029-a2d0-4fd641a54842",
+    departmentId: "f81254d3-17f4-46ca-a983-614bde3d73c6",
+    provinceId: "fa43b1b0-5393-4394-a0d3-5036bbd525aa",
+    districtId: "55319202-4f22-4e87-9103-a9a388ccef60",
     bedrooms: 3,
     bathrooms: 2,
     area: 160,
     furnished: true,
     floor: 1,
     parkingSpaces: true,
-    servicesId: [
-      "501f285e-d764-40cb-8926-c97dc550fc39",
-      "85451458-517b-4fb4-8e0b-b99ad6937073",
-      "72d08d3e-646d-425c-bbf3-1024c1daad91",
-      "2e87326d-5be1-4a67-9740-0dfb8fb5ef8d"
-    ]
   },
   {
     name: "Departamento con balcón y vista",
@@ -1032,21 +795,15 @@ export const PROPERTY_SEED : CreatePropertyMeDto[] = [
     location: "Av. Alameda Sur 432, Chorrillos, Lima",
     description: "Luminoso departamento con balcón y hermosa vista a las áreas verdes del distrito.",
     availability: true,
-    departmentId: "dd956901-bdc5-4706-9e6e-2ae5d0dbd386",
-    provinceId: "263776b3-d580-4180-a647-1ae4243d0cd0",
-    districtId: "c19c1a7a-228f-4029-a2d0-4fd641a54842",
+    departmentId: "f81254d3-17f4-46ca-a983-614bde3d73c6",
+    provinceId: "fa43b1b0-5393-4394-a0d3-5036bbd525aa",
+    districtId: "55319202-4f22-4e87-9103-a9a388ccef60",
     bedrooms: 2,
     bathrooms: 1,
     area: 68,
     furnished: false,
     floor: 6,
     parkingSpaces: false,
-    servicesId: [
-      "501f285e-d764-40cb-8926-c97dc550fc39",
-      "85451458-517b-4fb4-8e0b-b99ad6937073",
-      "53caa572-7ebd-441c-b970-d955c8413b4e",
-      "72d08d3e-646d-425c-bbf3-1024c1daad91"
-    ]
   },
   {
     name: "Oficina moderna en centro de negocios",
@@ -1057,22 +814,15 @@ export const PROPERTY_SEED : CreatePropertyMeDto[] = [
     location: "Av. El Carmen 765, Chorrillos, Lima",
     description: "Moderna oficina en desarrollo empresarial emergente con excelente proyección.",
     availability: true,
-    departmentId: "dd956901-bdc5-4706-9e6e-2ae5d0dbd386",
-    provinceId: "263776b3-d580-4180-a647-1ae4243d0cd0",
-    districtId: "c19c1a7a-228f-4029-a2d0-4fd641a54842",
+    departmentId: "f81254d3-17f4-46ca-a983-614bde3d73c6",
+    provinceId: "fa43b1b0-5393-4394-a0d3-5036bbd525aa",
+    districtId: "55319202-4f22-4e87-9103-a9a388ccef60",
     bedrooms: 0,
     bathrooms: 2,
     area: 80,
     furnished: true,
     floor: 4,
     parkingSpaces: true,
-    servicesId: [
-      "501f285e-d764-40cb-8926-c97dc550fc39",
-      "85451458-517b-4fb4-8e0b-b99ad6937073",
-      "53caa572-7ebd-441c-b970-d955c8413b4e",
-      "72d08d3e-646d-425c-bbf3-1024c1daad91",
-      "a9ab0252-d472-4151-845f-b9eb51372675"
-    ]
   },
 
   // LA MOLINA (10 propiedades)
@@ -1085,24 +835,15 @@ export const PROPERTY_SEED : CreatePropertyMeDto[] = [
     location: "Av. La Fontana 456, La Molina, Lima",
     description: "Espectacular casa de lujo en exclusivo condominio con club house y áreas recreativas.",
     availability: true,
-    departmentId: "dd956901-bdc5-4706-9e6e-2ae5d0dbd386",
-    provinceId: "263776b3-d580-4180-a647-1ae4243d0cd0",
-    districtId: "28afb350-d075-4cc4-b801-323b16cc0629",
+    departmentId: "f81254d3-17f4-46ca-a983-614bde3d73c6",
+    provinceId: "fa43b1b0-5393-4394-a0d3-5036bbd525aa",
+    districtId: "08e53a01-816f-4971-a305-ba10b140f817",
     bedrooms: 5,
     bathrooms: 4,
     area: 280,
     furnished: false,
     floor: 1,
     parkingSpaces: true,
-    servicesId: [
-      "501f285e-d764-40cb-8926-c97dc550fc39",
-      "85451458-517b-4fb4-8e0b-b99ad6937073",
-      "f1084201-6129-4779-9f7c-9a54aceae9ac",
-      "a9ab0252-d472-4151-845f-b9eb51372675",
-      "3a19860e-b850-40cf-9a5f-7fc07e86d713",
-      "8002817c-afa6-4511-a380-ba33a0f773dc",
-      "2e87326d-5be1-4a67-9740-0dfb8fb5ef8d"
-    ]
   },
   {
     name: "Departamento ejecutivo en torre premium",
@@ -1113,23 +854,15 @@ export const PROPERTY_SEED : CreatePropertyMeDto[] = [
     location: "Av. Javier Prado Este 789, La Molina, Lima",
     description: "Elegante departamento en torre de lujo con amenities de clase mundial.",
     availability: true,
-    departmentId: "dd956901-bdc5-4706-9e6e-2ae5d0dbd386",
-    provinceId: "263776b3-d580-4180-a647-1ae4243d0cd0",
-    districtId: "28afb350-d075-4cc4-b801-323b16cc0629",
+    departmentId: "f81254d3-17f4-46ca-a983-614bde3d73c6",
+    provinceId: "fa43b1b0-5393-4394-a0d3-5036bbd525aa",
+    districtId: "08e53a01-816f-4971-a305-ba10b140f817",
     bedrooms: 3,
     bathrooms: 2,
     area: 110,
     furnished: true,
     floor: 18,
     parkingSpaces: true,
-    servicesId: [
-      "501f285e-d764-40cb-8926-c97dc550fc39",
-      "85451458-517b-4fb4-8e0b-b99ad6937073",
-      "53caa572-7ebd-441c-b970-d955c8413b4e",
-      "f1084201-6129-4779-9f7c-9a54aceae9ac",
-      "a9ab0252-d472-4151-845f-b9eb51372675",
-      "3a19860e-b850-40cf-9a5f-7fc07e86d713"
-    ]
   },
   {
     name: "Terreno premium para desarrollo",
@@ -1140,21 +873,15 @@ export const PROPERTY_SEED : CreatePropertyMeDto[] = [
     location: "Av. Raúl Ferrero 234, La Molina, Lima",
     description: "Exclusivo terreno en la mejor zona de La Molina, ideal para proyecto residencial de lujo.",
     availability: true,
-    departmentId: "dd956901-bdc5-4706-9e6e-2ae5d0dbd386",
-    provinceId: "263776b3-d580-4180-a647-1ae4243d0cd0",
-    districtId: "28afb350-d075-4cc4-b801-323b16cc0629",
+    departmentId: "f81254d3-17f4-46ca-a983-614bde3d73c6",
+    provinceId: "fa43b1b0-5393-4394-a0d3-5036bbd525aa",
+    districtId: "08e53a01-816f-4971-a305-ba10b140f817",
     bedrooms: 0,
     bathrooms: 0,
     area: 400,
     furnished: false,
     floor: 1,
     parkingSpaces: false,
-    servicesId: [
-      "501f285e-d764-40cb-8926-c97dc550fc39",
-      "85451458-517b-4fb4-8e0b-b99ad6937073",
-      "72d08d3e-646d-425c-bbf3-1024c1daad91",
-      "a9ab0252-d472-4151-845f-b9eb51372675"
-    ]
   },
   {
     name: "Oficina corporativa de alto nivel",
@@ -1165,23 +892,15 @@ export const PROPERTY_SEED : CreatePropertyMeDto[] = [
     location: "Av. La Universidad 567, La Molina, Lima",
     description: "Prestigiosa oficina corporativa en moderno edificio inteligente con tecnología avanzada.",
     availability: true,
-    departmentId: "dd956901-bdc5-4706-9e6e-2ae5d0dbd386",
-    provinceId: "263776b3-d580-4180-a647-1ae4243d0cd0",
-    districtId: "28afb350-d075-4cc4-b801-323b16cc0629",
+    departmentId: "f81254d3-17f4-46ca-a983-614bde3d73c6",
+    provinceId: "fa43b1b0-5393-4394-a0d3-5036bbd525aa",
+    districtId: "08e53a01-816f-4971-a305-ba10b140f817",
     bedrooms: 0,
     bathrooms: 3,
     area: 150,
     furnished: true,
     floor: 15,
     parkingSpaces: true,
-    servicesId: [
-      "501f285e-d764-40cb-8926-c97dc550fc39",
-      "85451458-517b-4fb4-8e0b-b99ad6937073",
-      "53caa572-7ebd-441c-b970-d955c8413b4e",
-      "72d08d3e-646d-425c-bbf3-1024c1daad91",
-      "a9ab0252-d472-4151-845f-b9eb51372675",
-      "3a19860e-b850-40cf-9a5f-7fc07e86d713"
-    ]
   },
   {
     name: "Casa moderna con piscina y jardín",
@@ -1192,23 +911,15 @@ export const PROPERTY_SEED : CreatePropertyMeDto[] = [
     location: "Calle Los Eucaliptos 891, La Molina, Lima",
     description: "Hermosa casa de diseño moderno con amplia piscina, jardín landscaping y acabados premium.",
     availability: true,
-    departmentId: "dd956901-bdc5-4706-9e6e-2ae5d0dbd386",
-    provinceId: "263776b3-d580-4180-a647-1ae4243d0cd0",
-    districtId: "28afb350-d075-4cc4-b801-323b16cc0629",
+    departmentId: "f81254d3-17f4-46ca-a983-614bde3d73c6",
+    provinceId: "fa43b1b0-5393-4394-a0d3-5036bbd525aa",
+    districtId: "08e53a01-816f-4971-a305-ba10b140f817",
     bedrooms: 4,
     bathrooms: 3,
     area: 240,
     furnished: false,
     floor: 1,
     parkingSpaces: true,
-    servicesId: [
-      "501f285e-d764-40cb-8926-c97dc550fc39",
-      "85451458-517b-4fb4-8e0b-b99ad6937073",
-      "f1084201-6129-4779-9f7c-9a54aceae9ac",
-      "72d08d3e-646d-425c-bbf3-1024c1daad91",
-      "2e87326d-5be1-4a67-9740-0dfb8fb5ef8d",
-      "08fcc229-7ed3-494c-af85-f34557bda0a0"
-    ]
   },
   {
     name: "Departamento familiar con vista al golf",
@@ -1219,22 +930,15 @@ export const PROPERTY_SEED : CreatePropertyMeDto[] = [
     location: "Av. Los Fresnos 345, La Molina, Lima",
     description: "Exclusivo departamento con hermosa vista al campo de golf del Club La Planicie.",
     availability: true,
-    departmentId: "dd956901-bdc5-4706-9e6e-2ae5d0dbd386",
-    provinceId: "263776b3-d580-4180-a647-1ae4243d0cd0",
-    districtId: "28afb350-d075-4cc4-b801-323b16cc0629",
+    departmentId: "f81254d3-17f4-46ca-a983-614bde3d73c6",
+    provinceId: "fa43b1b0-5393-4394-a0d3-5036bbd525aa",
+    districtId: "08e53a01-816f-4971-a305-ba10b140f817",
     bedrooms: 3,
     bathrooms: 2,
     area: 125,
     furnished: true,
     floor: 8,
     parkingSpaces: true,
-    servicesId: [
-      "501f285e-d764-40cb-8926-c97dc550fc39",
-      "85451458-517b-4fb4-8e0b-b99ad6937073",
-      "53caa572-7ebd-441c-b970-d955c8413b4e",
-      "72d08d3e-646d-425c-bbf3-1024c1daad91",
-      "a9ab0252-d472-4151-845f-b9eb51372675"
-    ]
   },
   {
     name: "Local comercial en centro comercial",
@@ -1245,22 +949,15 @@ export const PROPERTY_SEED : CreatePropertyMeDto[] = [
     location: "Centro Comercial Molina Plaza, La Molina, Lima",
     description: "Prime local comercial en el centro comercial más exclusivo del distrito.",
     availability: true,
-    departmentId: "dd956901-bdc5-4706-9e6e-2ae5d0dbd386",
-    provinceId: "263776b3-d580-4180-a647-1ae4243d0cd0",
-    districtId: "28afb350-d075-4cc4-b801-323b16cc0629",
+    departmentId: "f81254d3-17f4-46ca-a983-614bde3d73c6",
+    provinceId: "fa43b1b0-5393-4394-a0d3-5036bbd525aa",
+    districtId: "08e53a01-816f-4971-a305-ba10b140f817",
     bedrooms: 0,
     bathrooms: 2,
     area: 180,
     furnished: false,
     floor: 2,
     parkingSpaces: true,
-    servicesId: [
-      "501f285e-d764-40cb-8926-c97dc550fc39",
-      "85451458-517b-4fb4-8e0b-b99ad6937073",
-      "53caa572-7ebd-441c-b970-d955c8413b4e",
-      "72d08d3e-646d-425c-bbf3-1024c1daad91",
-      "a9ab0252-d472-4151-845f-b9eb51372675"
-    ]
   },
   {
     name: "Penthouse de lujo con terraza privada",
@@ -1271,24 +968,15 @@ export const PROPERTY_SEED : CreatePropertyMeDto[] = [
     location: "Av. El Corregidor 678, La Molina, Lima",
     description: "Impresionante penthouse de lujo con terraza privada de 200m², jacuzzi y vistas espectaculares.",
     availability: true,
-    departmentId: "dd956901-bdc5-4706-9e6e-2ae5d0dbd386",
-    provinceId: "263776b3-d580-4180-a647-1ae4243d0cd0",
-    districtId: "28afb350-d075-4cc4-b801-323b16cc0629",
+    departmentId: "f81254d3-17f4-46ca-a983-614bde3d73c6",
+    provinceId: "fa43b1b0-5393-4394-a0d3-5036bbd525aa",
+    districtId: "08e53a01-816f-4971-a305-ba10b140f817",
     bedrooms: 4,
     bathrooms: 4,
     area: 200,
     furnished: true,
     floor: 20,
     parkingSpaces: true,
-    servicesId: [
-      "501f285e-d764-40cb-8926-c97dc550fc39",
-      "85451458-517b-4fb4-8e0b-b99ad6937073",
-      "53caa572-7ebd-441c-b970-d955c8413b4e",
-      "f1084201-6129-4779-9f7c-9a54aceae9ac",
-      "a9ab0252-d472-4151-845f-b9eb51372675",
-      "3a19860e-b850-40cf-9a5f-7fc07e86d713",
-      "2e87326d-5be1-4a67-9740-0dfb8fb5ef8d"
-    ]
   },
   {
     name: "Casa en condominio con club ecuestre",
@@ -1299,23 +987,14 @@ export const PROPERTY_SEED : CreatePropertyMeDto[] = [
     location: "Condominio El Polo, La Molina, Lima",
     description: "Exclusiva casa en condominio privado con acceso a club ecuestre y canchas de tenis.",
     availability: true,
-    departmentId: "dd956901-bdc5-4706-9e6e-2ae5d0dbd386",
-    provinceId: "263776b3-d580-4180-a647-1ae4243d0cd0",
-    districtId: "28afb350-d075-4cc4-b801-323b16cc0629",
+    departmentId: "f81254d3-17f4-46ca-a983-614bde3d73c6",
+    provinceId: "fa43b1b0-5393-4394-a0d3-5036bbd525aa",
+    districtId: "08e53a01-816f-4971-a305-ba10b140f817",
     bedrooms: 4,
     bathrooms: 3,
     area: 220,
     furnished: true,
     floor: 1,
     parkingSpaces: true,
-    servicesId: [
-      "501f285e-d764-40cb-8926-c97dc550fc39",
-      "85451458-517b-4fb4-8e0b-b99ad6937073",
-      "a9ab0252-d472-4151-845f-b9eb51372675",
-      "3a19860e-b850-40cf-9a5f-7fc07e86d713",
-      "8002817c-afa6-4511-a380-ba33a0f773dc",
-      "2e87326d-5be1-4a67-9740-0dfb8fb5ef8d",
-      "08fcc229-7ed3-494c-af85-f34557bda0a0"
-    ]
   },
 ]

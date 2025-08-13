@@ -1,6 +1,6 @@
 import { 
   PROPERTY_TYPE, CURRENCY, PROPERTY_CATEGORY, 
-  Property, Province, District, Departament, 
+  Property, Province, District, Department, 
   ResidentialProperty, CommercialProperty, Service, 
   MainImage, ImagesGallery 
 } from "generated/prisma";
@@ -22,7 +22,7 @@ export interface BasePropertyWithDescription extends BasePropertyMinimal {
 
 export interface BasePropertyWithLocationIds extends BasePropertyWithDescription {
   districtId: District['id'];
-  departmentId: Departament['id'];
+  departmentId: Department['id'];
   provinceId: Province['id'];
 }
 
@@ -53,8 +53,8 @@ export interface DistrictInfo {
   district: District['district'];
 }
 
-export interface DepartamentInfo {
-  departament: Departament['departament'];
+export interface DepartmentInfo {
+  department: Department['department'];
 }
 
 export interface MainImageInfo {

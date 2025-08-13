@@ -1,20 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/common/services/prisma.service';
 import { SERVICES_SEED } from './data/services-data.seed';
-import { DEPARTAMENT_SEED } from './data/departament-data.seed';
-import { Departament, Property, Province } from 'generated/prisma';
+import { DEPARTMENT_SEED } from './data/departament-data.seed';
+import { Department, Property, Province } from 'generated/prisma';
 import { PROVINCE_SEED } from './data/province-data.seed';
 import { DISTRICT_SEED } from './data/district-data.seed';
-import { PROPERTY_SEED } from './data/property-data.seed';
-import { PropertyService } from 'src/property-me';
-
-interface PreparedProvince {
-
-    province: string;
-    departamentId: string;
-    slug: string;
-
-}
+import { PROPERTY_SEED, PropertySeed } from './data/property-data.seed';
+import { CreatePropertyMeDto, PropertyService } from 'src/property-me';
 
 @Injectable()
 export class SeedService {
@@ -39,15 +31,17 @@ export class SeedService {
         const insertOne = PROPERTY_SEED.slice(0, 25)
         const insertTwo = PROPERTY_SEED.slice(25, 50)
 
-        const idOne = "76962696-dc44-427e-882d-d1da0c28c333"
-        const idTwo = "80cdee91-1afb-45a8-a354-c7882c5a38ee"
+        const idOne = "4737c061-6d19-4f0d-b7f1-7b03ffbecbc7"
+        const idTwo = "399af104-1076-4833-a232-ae2670a31ad0"
+
+        const services = await this.getServices();
 
         const insertOnePromises = insertOne.map(inset => (
-            this.propertyService.create(inset, idOne)
+            this.propertyService.create(this.preparedProperties(services, inset), idOne)
         ))
 
         const insertTwoPromises = insertTwo.map(inset => (
-            this.propertyService.create(inset, idTwo)
+            this.propertyService.create(this.preparedProperties(services, inset), idTwo)
         ))
 
         await Promise.all([
@@ -63,13 +57,52 @@ export class SeedService {
         return name.toLocaleLowerCase().trim().replace(/\s+/g, '-')
     }
 
+    preparedProperties(
+        services: { service: string; id: string; }[],
+        property: PropertySeed
+    ): CreatePropertyMeDto {
+
+        const luz = services.find(service => service.service === 'Luz')?.id;
+        const agua = services.find(service => service.service === 'Agua Potable')?.id;
+
+        const fixed = [luz, agua].filter(Boolean);
+        const exclude = services
+            .filter(service => service.service !== 'Luz' && service.service !== 'Agua Potable')
+            .map(service => service.id);
+        
+        if (property.property_category === "LAND") {
+            return {
+                ...property,
+                servicesId: fixed as string[]
+            };
+        }
+        const getRandomInt = (max: number) => Math.floor(Math.random() * max);
+
+        const nRandom = getRandomInt(exclude.length) + 1;
+
+        const usedIndexes = new Set<number>();
+        const randomServices: string[] = [];
+
+        while (randomServices.length < nRandom) {
+            const randomIndex = getRandomInt(exclude.length);
+            if (!usedIndexes.has(randomIndex)) {
+                usedIndexes.add(randomIndex);
+                randomServices.push(exclude[randomIndex]);
+            }
+        }
+
+        return {
+            ...property,
+            servicesId: [...fixed, ...randomServices] as string[]
+        };
+    }
 
 
     async deleteTables() {
         await this.prisma.service.deleteMany()
         await this.prisma.district.deleteMany()
         await this.prisma.province.deleteMany()
-        await this.prisma.departament.deleteMany()
+        await this.prisma.department.deleteMany()
     }
 
     async insertServices() {
@@ -77,12 +110,12 @@ export class SeedService {
         await this.prisma.service.createMany({ data: SERVICES_SEED });
 
         // crear departamentos
-        await this.prisma.departament.createMany({ data: DEPARTAMENT_SEED });
+        await this.prisma.department.createMany({ data: DEPARTMENT_SEED });
 
         // recuperamos al data cuando creamos los departamentos
-        const departaments = await this.getDepartaments();
+        const departments = await this.getDepartments();
 
-        const provinces = await this.preparedProvinces(departaments);
+        const provinces = await this.preparedProvinces(departments);
 
 
         await this.prisma.province.createMany({ data: provinces });
@@ -91,18 +124,18 @@ export class SeedService {
         // recuperamos al data cuando creamos las provincias
         const provincesData = await this.getProvinces();
 
-        const districts = await this.preparedDistricts(provincesData, departaments);
+        const districts = await this.preparedDistricts(provincesData, departments);
 
         await this.prisma.district.createMany({ data: districts });
         return
     }
 
 
-    async preparedDistricts(prov: Province[], dep: Departament[]) {
+    async preparedDistricts(prov: Province[], dep: Department[]) {
         const districts = DISTRICT_SEED.map(dist => ({
             slug: dist.slug,
             provinceId: prov.find(p => this.normalizeText(p.province) == this.normalizeText(dist.province))?.id || '',
-            departamentId: dep.find(depItem => this.normalizeText(depItem.departament) == this.normalizeText(dist.departament))?.id || '',
+            departmentId: dep.find(depItem => this.normalizeText(depItem.department) == this.normalizeText(dist.department))?.id || '',
             district: dist.district
         }))
         return districts
@@ -111,29 +144,30 @@ export class SeedService {
 
     normalizeText(text: string) {
         return text
-            .normalize("NFD") // separa las letras de los acentos
-            .replace(/[\u0300-\u036f]/g, '') // quita los acentos
+            .normalize("NFD")
+            .replace(/[\u0300-\u036f]/g, '')
             .toLowerCase();
     }
 
-    async preparedProvinces(dep: Departament[]) {
+    async preparedProvinces(dep: Department[]) {
         const provinces = PROVINCE_SEED.map(p => ({
             province: p.province,
-            departamentId: dep.find(d => d.departament.toLocaleLowerCase() === p.departament)?.id || '',
+            departmentId: dep.find(d => d.department.toLocaleLowerCase() === p.department)?.id || '',
             slug: p.slug
         }))
 
         return provinces
     }
 
-
-
-
     async getProvinces() {
         return await this.prisma.province.findMany();
     }
 
-    async getDepartaments() {
-        return await this.prisma.departament.findMany();
+    async getDepartments() {
+        return await this.prisma.department.findMany();
+    }
+
+    async getServices() {
+        return await this.prisma.service.findMany({ select: { id: true, service: true } });
     }
 }

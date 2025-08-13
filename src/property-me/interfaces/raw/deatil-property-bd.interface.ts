@@ -1,7 +1,7 @@
 // property.detail.types.ts
 import { 
   BasePropertyWithDescription, ResidentialDetails, CommercialDetails, ServiceInfo,
-  MainImageInfo, ImagesGalleryInfo, ProvinceInfo, DistrictInfo, DepartamentInfo
+  MainImageInfo, ImagesGalleryInfo, ProvinceInfo, DistrictInfo, DepartmentInfo
 } from '../shared';
 
 export interface DetailPropertyBD extends BasePropertyWithDescription {
@@ -12,5 +12,5 @@ export interface DetailPropertyBD extends BasePropertyWithDescription {
   imagesGallery: ImagesGalleryInfo[];
   province: ProvinceInfo;
   district: DistrictInfo;
-  departament: DepartamentInfo;
+  department: DepartmentInfo;
 }

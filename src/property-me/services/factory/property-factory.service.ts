@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { Prisma, Property, User } from 'generated/prisma';
-import { CreatePropertyMeDto } from 'src/property-me/dto';
+import { CreatePropertyMeDto, UpdatePropertyMeDto } from 'src/property-me/dto';
 
 @Injectable()
 export class PropertyFactoryService {
@@ -18,7 +18,7 @@ export class PropertyFactoryService {
             property_category: newProperty.property_category,
             user: { connect: { id: userId } },
             district: { connect: { id: newProperty.districtId } },
-            departament: { connect: { id: newProperty.departmentId } },
+            department: { connect: { id: newProperty.departmentId } },
             province: { connect: { id: newProperty.provinceId } },
             residential: {
                 create: {
@@ -38,6 +38,104 @@ export class PropertyFactoryService {
                 create: newProperty.servicesId.map(s => ({ serviceId: s }))
             }
 
+        }
+    }
+
+    preparedUpdate(updateProperty: UpdatePropertyMeDto, slug: Property['slug']): Prisma.PropertyUpdateInput {
+        return {
+            name: updateProperty.name,
+            slug,
+            property_type: updateProperty.property_type,
+            currency: updateProperty.currency,
+            price: updateProperty.price,
+            location: updateProperty.location,
+            description: updateProperty.description,
+            availability: updateProperty.availability,
+            property_category: updateProperty.property_category,
+            district: { connect: { id: updateProperty.districtId } },
+            department: { connect: { id: updateProperty.departmentId } },
+            province: { connect: { id: updateProperty.provinceId } },
+
+            residential: {
+                update: {
+                    bedrooms: updateProperty.bedrooms,
+                    bathrooms: updateProperty.bathrooms,
+                    area: updateProperty.area,
+                    furnished: updateProperty.furnished
+                }
+            },
+            commercial: {
+                update: {
+                    floor: updateProperty.floor,
+                    parkingSpaces: updateProperty.parkingSpaces
+                }
+            },
+            serviceToProperty: {
+                create: updateProperty.servicesId?.map(s => ({ serviceId: s }))
+            }
+        }
+    }
+
+    preparedFindAll(): Prisma.PropertySelect {
+        return {
+            id: true,
+            name: true,
+            price: true,
+            currency: true,
+            property_type: true,
+            property_category: true,
+            availability: true,
+            location: true,
+            residential: {
+                select: {
+                    bedrooms: true,
+                    bathrooms: true, area: true
+                }
+            },
+            province: { select: { province: true, } },
+            district: { select: { district: true, } }
+        }
+    }
+
+    preparedFindOne() {
+        return {
+            id: true,
+            name: true,
+            price: true,
+            currency: true,
+            property_type: true,
+            property_category: true,
+            availability: true,
+            location: true,
+            description: true,
+            districtId: true,
+            departmentId: true,
+            provinceId: true,
+            commercial: { select: { floor: true, parkingSpaces: true } },
+            residential: { select: { bedrooms: true, bathrooms: true, area: true, furnished: true } },
+            serviceToProperty: { select: { service: { select: { service: true, id: true } } } }
+        }
+    }
+
+    preparedFindWhitRelations() {
+        return {
+            id: true,
+            name: true,
+            price: true,
+            currency: true,
+            property_type: true,
+            property_category: true,
+            availability: true,
+            location: true,
+            description: true,
+            commercial: { select: { floor: true, parkingSpaces: true } },
+            residential: { select: { bedrooms: true, bathrooms: true, area: true, furnished: true } },
+            serviceToProperty: { select: { service: { select: { service: true, id: true } } } },
+            province: { select: { province: true, } },
+            district: { select: { district: true, } },
+            department: { select: { department: true, } },
+            mainImage: { select: { url: true } },
+            imagesGallery: { select: { url: true } }
         }
     }
 }

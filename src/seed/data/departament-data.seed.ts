@@ -1,7 +1,7 @@
-export const DEPARTAMENT_SEED = [
-    { departament: "Arequipa"},
-    { departament: "Cusco" },
-    { departament: "Ica" },
-    { departament: "Lima" },
-    { departament: "Piura" },
+export const DEPARTMENT_SEED = [
+    { department: "Arequipa"},
+    { department: "Cusco" },
+    { department: "Ica" },
+    { department: "Lima" },
+    { department: "Piura" },
 ]

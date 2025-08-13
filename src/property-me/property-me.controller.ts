@@ -1,12 +1,12 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Query, ParseUUIDPipe } from '@nestjs/common';
-import { PropertyMeService } from './property-me.service';
-import { CreatePropertyMeDto } from './dto/request/create-property-me.dto';
-import { UpdatePropertyMeDto } from './dto/request/update-property-me.dto';
 import { Auth, GetUser } from 'src/auth/decorators';
-import { Property, User } from 'generated/prisma';
-import { Cached } from '@decorators/cache/cached.decorator';
 import { CACHE_KEYS } from 'src/cache/cache-keys';
-import { PaginationPropertyMeDto } from './dto';
+import { Cached } from '@decorators/cache/cached.decorator';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query, ParseUUIDPipe } from '@nestjs/common';
+import { CreatePropertyMeDto, PaginationPropertyMeDto, UpdatePropertyMeDto } from './dto';
+import { GetProperty, PropertyOwner } from './decorators';
+import { Property, User } from 'generated/prisma';
+import { PropertyFormatted } from './interfaces';
+import { PropertyMeService } from './property-me.service';
 
 @Auth()
 @Controller('property-me')
@@ -15,7 +15,6 @@ export class PropertyMeController {
   constructor(
     private readonly propertyMeService: PropertyMeService,
   ) { }
-
 
   @Post()
   async create(
@@ -45,27 +44,27 @@ export class PropertyMeController {
 
   @Get(':id')
   @Cached(CACHE_KEYS.PROPERTY_ME)
+  @PropertyOwner()
   findOne(
-    @GetUser('id', ParseUUIDPipe) userId: User['id'],
-    @Param('id', ParseUUIDPipe) id: Property['id']
+    @GetProperty() property: PropertyFormatted
   ) {
-    return this.propertyMeService.findOne(id, userId);
+    return property
   }
 
   @Patch(':id')
+  @PropertyOwner()
   update(
-    @GetUser('id', ParseUUIDPipe) userId: User['id'],
-    @Param('id', ParseUUIDPipe) id: Property['id'],
+    @GetProperty() property: PropertyFormatted,
     @Body() updatePropertyMeDto: UpdatePropertyMeDto
   ) {
-    return this.propertyMeService.update(id, updatePropertyMeDto, userId);
+    return this.propertyMeService.update(property, updatePropertyMeDto);
   }
 
   @Delete(':id')
+  @PropertyOwner()
   remove(
-    @GetUser('id', ParseUUIDPipe) userId: User['id'],
-    @Param('id', ParseUUIDPipe) id: Property['id']
+    @GetProperty() property: PropertyFormatted
   ) {
-    return this.propertyMeService.changeStatus(id, userId);
+    return this.propertyMeService.changeStatus(property);
   }
 }

@@ -14,8 +14,8 @@ export class PropertyService {
     constructor(
         private readonly propertyRepository: PropertyRepository,
         private readonly handleErrorsService: HandleErrorsService,
-        private readonly propertyFactory: PropertyFactoryService,
-        private readonly propertyFormatter: PropertyFormatterService,
+        private readonly propertyFactoryService: PropertyFactoryService,
+        private readonly propertyFormatterService: PropertyFormatterService,
         private readonly filterService: FilterService,
     ) { }
 
@@ -23,7 +23,7 @@ export class PropertyService {
     async create(createPropertyMeDto: CreatePropertyMeDto, userId: User['id']) {
         try {
             const slug = this.slug(createPropertyMeDto.name);
-            const property = this.propertyFactory.preparedCreate(createPropertyMeDto, slug, userId);
+            const property = this.propertyFactoryService.preparedCreate(createPropertyMeDto, slug, userId);
             return await this.propertyRepository.create(property)
         } catch (error) {
             this.handleErrorsService.handleError(error, this.context);
@@ -32,28 +32,32 @@ export class PropertyService {
 
     async findAll(userId: User['id'], queryParams: PaginationPropertyMeDto) {
         const filters = this.filterService.getFilter(queryParams);
-        const properties = await this.propertyRepository.findAll(userId, filters);
-        const propertiesFormatted = this.propertyFormatter.formatAll(properties);
+        const preparedSelect = this.propertyFactoryService.preparedFindAll();
+        const properties = await this.propertyRepository.findAll(userId, filters, preparedSelect);
+        const propertiesFormatted = this.propertyFormatterService.formatAll(properties);
         return propertiesFormatted
     }
 
     async findOne(id: Property['id'], userId: User['id']) {
-        const property = await this.propertyRepository.findOne(id, userId);
+        const preparedSelect = this.propertyFactoryService.preparedFindOne();
+        const property = await this.propertyRepository.findOne(id, userId, preparedSelect);
         if (!property) throw new NotFoundException('Property not found');
-        const propertyFormatted = this.propertyFormatter.formatOne(property);
+        const propertyFormatted = this.propertyFormatterService.formatOne(property);
         return propertyFormatted
     }
 
     async findOneWithRelations(id: Property['id'], userId: User['id']) {
-        const property = await this.propertyRepository.findOneWithRelations(id, userId);
+        const preparedSelect = this.propertyFactoryService.preparedFindWhitRelations();
+        const property = await this.propertyRepository.findOneWithRelations(id, userId, preparedSelect);
         if (!property) throw new NotFoundException('Property not found');
-        const propertyFormatted = this.propertyFormatter.formatDetail(property);
+        const propertyFormatted = this.propertyFormatterService.formatDetail(property);
         return propertyFormatted
     }
 
     async update(id: Property['id'], updatePropertyMeDto: UpdatePropertyMeDto, prismaClient: Prisma.TransactionClient) {
-        const slug = this.slug(updatePropertyMeDto.name!);
-        return await this.propertyRepository.update(id, updatePropertyMeDto, slug, prismaClient);
+        const slug = this.slug(updatePropertyMeDto.name);
+        const property = await this.propertyFactoryService.preparedUpdate(updatePropertyMeDto, slug);
+        return await this.propertyRepository.update(id, property, prismaClient);
     }
 
     async changeStatus(id: Property['id'], availability: Property['availability']) {

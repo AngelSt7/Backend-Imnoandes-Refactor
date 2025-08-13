@@ -1,6 +1,6 @@
 import { PROPERTY_TYPE, CURRENCY, PROPERTY_CATEGORY } from "generated/prisma";
 
-export interface FormattedOneProperty {
+export interface PropertyFormatted {
     id: string;
     name: string;
     property_type: PROPERTY_TYPE;

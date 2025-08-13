@@ -1,4 +1,4 @@
-import { AllPropertiesBD, FormattedAllProperty, FormattedDetailProperty, OnePropertyDB } from 'src/property-me/interfaces';
+import { AllPropertiesBD, FormattedAllProperty, FormattedDetailProperty, PropertyFormatted, OnePropertyDB } from 'src/property-me/interfaces';
 import { Injectable } from '@nestjs/common';
 import { DetailPropertyBD } from 'src/property-me/interfaces';
 
@@ -21,7 +21,7 @@ export class PropertyFormatterService {
         }))
     }
 
-    formatOne(property: OnePropertyDB) {
+    formatOne(property: OnePropertyDB) : PropertyFormatted {
         return {
             id: property.id,
             name: property.name,
@@ -65,7 +65,7 @@ export class PropertyFormatterService {
             services: property.serviceToProperty.map(stp => ({ name: stp.service.service})).map(stp => stp.name),
             province: property.province.province,
             district: property.district.district,
-            departament: property.departament.departament,
+            departament: property.department.department,
             mainImage: property.mainImage?.url || null,
             imagesGallery: property.imagesGallery.map(img => img.url)
         }
