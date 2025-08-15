@@ -6,6 +6,8 @@ import { ImagesModule } from './images/images.module';
 import { PropertyMeModule } from './property-me/property-me.module';
 import { PropertyPublicModule } from './property-public/property-public.module';
 import { SeedModule } from './seed/seed.module';
+import { ProvinceModule } from './province/province.module';
+import { DistrictModule } from './district/district.module';
 
 @Module({
   imports: [
@@ -16,6 +18,8 @@ import { SeedModule } from './seed/seed.module';
     PropertyMeModule,
     PropertyPublicModule,
     SeedModule,
+    ProvinceModule,
+    DistrictModule,
   ]
 })
 export class AppModule {}

@@ -34,9 +34,6 @@ export class CreatePropertyMeDto {
     @Length(8, 300)
     description: string
 
-    @IsBoolean()
-    availability: boolean
-
     @IsUUID()
     departmentId: string
 

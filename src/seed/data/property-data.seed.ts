@@ -15,6 +15,8 @@ export interface PropertySeed {
   bathrooms: number;
   area: number;
   furnished: boolean;
+  latitude?: number;
+  longitude?: number;
   floor: number;
   parkingSpaces: boolean;
 }
@@ -38,6 +40,8 @@ export const PROPERTY_SEED : PropertySeed[] = [
     furnished: true,
     floor: 16,
     parkingSpaces: true,
+    latitude: -12.0856346,
+    longitude: -76.9172781
   },
   {
     name: "Casa con estudio de arte",
