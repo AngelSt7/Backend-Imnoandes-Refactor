@@ -1,5 +1,6 @@
 import { IsArray, IsBoolean, IsEnum, IsNumber, IsOptional, IsPositive, IsString, IsUUID, Length, Max, Min } from "class-validator";
 import { CURRENCY, PROPERTY_CATEGORY, PROPERTY_TYPE } from "generated/prisma";
+import { RangeByCategory, RequiredByCategory } from "src/property-me/decorators";
 
 export class CreatePropertyMeDto {
 
@@ -44,13 +45,24 @@ export class CreatePropertyMeDto {
     districtId: string
 
     @IsOptional()
-    @IsNumber()
-    @IsPositive()
+    @RequiredByCategory("property_category", [
+        PROPERTY_CATEGORY.HOUSE,
+        PROPERTY_CATEGORY.APARTMENT,
+    ])
+    @RangeByCategory("property_category", {
+        [PROPERTY_CATEGORY.HOUSE]: { min: 1, max: 10 },
+        [PROPERTY_CATEGORY.APARTMENT]: { min: 1, max: 10 },
+    })
     bedrooms?: number | null
 
     @IsOptional()
-    @IsNumber()
-    @IsPositive()
+    @RangeByCategory("property_category", {
+        [PROPERTY_CATEGORY.HOUSE]: { min: 1, max: 10 },
+        [PROPERTY_CATEGORY.APARTMENT]: { min: 1, max: 10 },
+        [PROPERTY_CATEGORY.COMMERCIAL]: { min: 1, max: 20 },
+        [PROPERTY_CATEGORY.OFFICE]: { min: 1, max: 20 },
+        [PROPERTY_CATEGORY.WAREHOUSE]: { min: 1, max: 5 },
+    })
     bathrooms?: number | null
 
     @IsNumber()
@@ -62,19 +74,35 @@ export class CreatePropertyMeDto {
     furnished?: boolean
 
     @IsOptional()
-    @IsNumber()
-    @IsPositive()
-    floor?: number
+    @RequiredByCategory("property_category", [
+        PROPERTY_CATEGORY.APARTMENT,
+        PROPERTY_CATEGORY.OFFICE,
+        PROPERTY_CATEGORY.COMMERCIAL,
+        PROPERTY_CATEGORY.HOUSE,
+    ])
+    @RangeByCategory("property_category", {
+        [PROPERTY_CATEGORY.HOUSE]: { min: 1, max: 8 },
+        [PROPERTY_CATEGORY.APARTMENT]: { min: 1, max: 50 },
+        [PROPERTY_CATEGORY.COMMERCIAL]: { min: 1, max: 50 },
+        [PROPERTY_CATEGORY.OFFICE]: { min: 1, max: 20 },
+    })
+    floor?: number;
+
 
     @IsOptional()
     @IsBoolean()
     hasParking: boolean
 
     @IsOptional()
-    @IsNumber()
-    @Min(1)
-    @Max(5)
+    @RangeByCategory("property_category", {
+        [PROPERTY_CATEGORY.HOUSE]: { min: 0, max: 5 },
+        [PROPERTY_CATEGORY.WAREHOUSE]: { min: 0, max: 20 },
+        [PROPERTY_CATEGORY.APARTMENT]: { min: 0, max: 2 },
+        [PROPERTY_CATEGORY.OFFICE]: { min: 0, max: 50 },
+        [PROPERTY_CATEGORY.COMMERCIAL]: { min: 0, max: 50 },
+    })
     parkingSpaces?: number | null
+
 
     @IsOptional()
     @IsArray()
