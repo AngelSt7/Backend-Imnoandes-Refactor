@@ -1,5 +1,6 @@
-import { IsArray, IsBoolean, IsEnum, IsNumber, IsPositive, IsString, IsUUID, Length } from "class-validator";
+import { IsArray, IsBoolean, IsEnum, IsNumber, IsOptional, IsPositive, IsString, IsUUID, Length, Max, Min } from "class-validator";
 import { CURRENCY, PROPERTY_CATEGORY, PROPERTY_TYPE } from "generated/prisma";
+import { number } from "joi";
 
 export class CreatePropertyMeDto {
 
@@ -43,10 +44,12 @@ export class CreatePropertyMeDto {
     @IsUUID()
     districtId: string
 
+    @IsOptional()
     @IsNumber()
     @IsPositive()
     bedrooms: number
 
+    @IsOptional()
     @IsNumber()
     @IsPositive()
     bathrooms: number
@@ -55,17 +58,52 @@ export class CreatePropertyMeDto {
     @IsPositive()
     area: number
 
+    @IsOptional()
     @IsBoolean()
     furnished: boolean
 
+    @IsOptional()
     @IsNumber()
     @IsPositive()
     floor: number
 
+    @IsOptional()
     @IsBoolean()
-    parkingSpaces: boolean
+    hasParking: boolean
 
+    @IsOptional()
+    @IsNumber()
+    @Min(1)
+    @Max(5)
+    parkingSpaces: number | null
+
+    @IsOptional()
     @IsArray()
     @IsUUID('4', { each: true })
     servicesId: string[]
+
+    @IsNumber()
+    @Min(-90)
+    @Max(90)
+    latitude: number;
+
+    @IsNumber()
+    @Min(-180)
+    @Max(180)
+    longitude: number;
+
+    @IsOptional()
+    @IsBoolean()
+    hasTerrace: boolean
+
+    @IsNumber()
+    @IsPositive()
+    @Min(1900)
+    @Max(new Date().getFullYear() + 2)
+    yearBuilt: number
+
+    @IsOptional()
+    @IsString()
+    @Length(8, 300)
+    extraInfo: string
 }

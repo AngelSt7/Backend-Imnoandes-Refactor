@@ -15,21 +15,27 @@ export class PropertyFactoryService {
             location: newProperty.location,
             description: newProperty.description,
             property_category: newProperty.property_category,
+            latitude: newProperty.latitude,
+            longitude: newProperty.longitude,
+            yearBuilt: newProperty.yearBuilt,
             user: { connect: { id: userId } },
             district: { connect: { id: newProperty.districtId } },
             department: { connect: { id: newProperty.departmentId } },
             province: { connect: { id: newProperty.provinceId } },
+            extraInfo: newProperty.extraInfo,
             residential: {
                 create: {
                     bedrooms: newProperty.bedrooms,
                     bathrooms: newProperty.bathrooms,
                     area: newProperty.area,
-                    furnished: newProperty.furnished
+                    furnished: newProperty.furnished,
+                    hasTerrace: newProperty.hasTerrace
                 }
             },
             commercial: {
                 create: {
                     floor: newProperty.floor,
+                    hasParking: newProperty.hasParking,
                     parkingSpaces: newProperty.parkingSpaces
                 }
             },
@@ -49,6 +55,9 @@ export class PropertyFactoryService {
             price: updateProperty.price,
             location: updateProperty.location,
             description: updateProperty.description,
+            yearBuilt: updateProperty.yearBuilt,
+            latitude: updateProperty.latitude,
+            longitude: updateProperty.longitude,
             property_category: updateProperty.property_category,
             district: { connect: { id: updateProperty.districtId } },
             department: { connect: { id: updateProperty.departmentId } },
@@ -59,12 +68,14 @@ export class PropertyFactoryService {
                     bedrooms: updateProperty.bedrooms,
                     bathrooms: updateProperty.bathrooms,
                     area: updateProperty.area,
-                    furnished: updateProperty.furnished
+                    furnished: updateProperty.furnished,
+                    hasTerrace: updateProperty.hasTerrace
                 }
             },
             commercial: {
                 update: {
                     floor: updateProperty.floor,
+                    hasParking: updateProperty.hasParking,
                     parkingSpaces: updateProperty.parkingSpaces
                 }
             },
@@ -83,6 +94,7 @@ export class PropertyFactoryService {
             property_type: true,
             property_category: true,
             availability: true,
+            yearBuilt: true,
             location: true,
             residential: {
                 select: {
@@ -107,10 +119,13 @@ export class PropertyFactoryService {
             location: true,
             description: true,
             districtId: true,
+            yearBuilt: true,
             departmentId: true,
+            latitude: true,
+            longitude: true,
             provinceId: true,
-            commercial: { select: { floor: true, parkingSpaces: true } },
-            residential: { select: { bedrooms: true, bathrooms: true, area: true, furnished: true } },
+            commercial: { select: { floor: true,  hasParking: true ,parkingSpaces: true } },
+            residential: { select: { bedrooms: true, bathrooms: true, area: true, furnished: true, hasTerrace: true } },
             serviceToProperty: { select: { service: { select: { service: true, id: true } } } }
         }
     }
@@ -125,9 +140,12 @@ export class PropertyFactoryService {
             property_category: true,
             availability: true,
             location: true,
+            yearBuilt: true,
+            latitude: true,
+            longitude: true,
             description: true,
-            commercial: { select: { floor: true, parkingSpaces: true } },
-            residential: { select: { bedrooms: true, bathrooms: true, area: true, furnished: true } },
+            commercial: { select: { floor: true,  hasParking: true ,parkingSpaces: true } },
+            residential: { select: { bedrooms: true, bathrooms: true, area: true, furnished: true, hasTerrace: true } },
             serviceToProperty: { select: { service: { select: { service: true, id: true } } } },
             province: { select: { province: true, } },
             district: { select: { district: true, } },

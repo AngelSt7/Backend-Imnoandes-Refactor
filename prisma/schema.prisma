@@ -143,6 +143,10 @@ model Property {
   districtId        String
   departmentId      String
   provinceId        String
+  yearBuilt         Int
+  latitude          Float
+  longitude         Float
+  extraInfo         String?
 
   // Relaciones
   residential ResidentialProperty?
@@ -154,24 +158,29 @@ model Property {
   department Department @relation(fields: [departmentId], references: [id])
   province   Province   @relation(fields: [provinceId], references: [id])
 
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
   serviceToProperty ServiceToProperty[]
   imagesGallery     ImagesGallery[]
 }
 
 model ResidentialProperty {
-  id        String  @id
-  bedrooms  Int
-  bathrooms Int
-  area      Float
-  furnished Boolean
+  id         String  @id
+  bedrooms   Int?
+  bathrooms  Int?
+  area       Float
+  furnished  Boolean @default(false)
+  hasTerrace Boolean @default(false)
 
   property Property @relation(fields: [id], references: [id])
 }
 
 model CommercialProperty {
   id            String  @id
-  floor         Int
-  parkingSpaces Boolean
+  floor         Int     @default(1)
+  hasParking    Boolean @default(false)
+  parkingSpaces Int?    
 
   property Property @relation(fields: [id], references: [id])
 }

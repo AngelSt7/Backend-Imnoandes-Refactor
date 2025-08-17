@@ -8,8 +8,9 @@ export interface FormattedAllProperty {
     property_type: PROPERTY_TYPE;
     property_category: PROPERTY_CATEGORY;
     availability: boolean;
+    yearBuilt: number;
     area: number | undefined;
-    bathrooms: number | undefined;
-    bedrooms: number | undefined;
+    bathrooms: number | undefined | null;
+    bedrooms: number | undefined | null;
     location: string;
 }

@@ -8,6 +8,7 @@ import { PropertyPublicModule } from './property-public/property-public.module';
 import { SeedModule } from './seed/seed.module';
 import { ProvinceModule } from './province/province.module';
 import { DistrictModule } from './district/district.module';
+import { ServiceModule } from './service/service.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { DistrictModule } from './district/district.module';
     SeedModule,
     ProvinceModule,
     DistrictModule,
+    ServiceModule,
   ]
 })
 export class AppModule {}

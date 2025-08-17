@@ -13,12 +13,17 @@ export interface PropertyFormatted {
     districtId: string;
     departmentId: string;
     provinceId: string;
-    floor: number | undefined;
-    parkingSpaces: boolean | undefined;
-    bedrooms: number | undefined;
-    bathrooms: number | undefined;
+    floor: number | undefined | null;
+    hasParking: boolean | undefined | null;
+    parkingSpaces: number | undefined | null;
+    bedrooms: number | undefined | null;
+    yearBuilt: number;
+    latitude: number;
+    longitude: number;
+    hasTerrace: boolean | undefined | null;
+    bathrooms: number | undefined | null;
     area: number | undefined;
-    furnished: boolean | undefined;
+    furnished: boolean | undefined | null;
     servicesId: string[];
 
 }

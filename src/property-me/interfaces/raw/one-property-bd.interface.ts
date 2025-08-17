@@ -1,7 +1,10 @@
-import { BasePropertyWithLocationIds, CommercialDetails, ResidentialDetails, ServiceInfo } from "../shared";
+import { BasePropertyWithLocationIds, CommercialDetails, ResidentialDetailsWithTerrace, ServiceInfo } from "../shared";
 
 export interface OnePropertyDB extends BasePropertyWithLocationIds {
-  residential: ResidentialDetails | null;
+  yearBuilt: number;
+  latitude: number;
+  longitude: number;
+  residential: ResidentialDetailsWithTerrace | null;
   commercial: CommercialDetails | null;
   serviceToProperty: ServiceInfo[];
 }

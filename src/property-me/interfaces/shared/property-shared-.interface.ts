@@ -33,8 +33,13 @@ export interface ResidentialDetails {
   furnished?: ResidentialProperty['furnished'];
 }
 
+export interface ResidentialDetailsWithTerrace extends ResidentialDetails {
+  hasTerrace: ResidentialProperty['hasTerrace'];
+}
+
 export interface CommercialDetails {
   floor: CommercialProperty['floor'];
+  hasParking: CommercialProperty['hasParking'];
   parkingSpaces: CommercialProperty['parkingSpaces'];
 }
 

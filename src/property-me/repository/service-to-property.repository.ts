@@ -13,7 +13,6 @@ export class ServiceToPropertyRepository {
         servicesId: ServiceToProperty['serviceId'][], 
         prismaClient: PrismaService | Prisma.TransactionClient = this.prisma
     ) {
-        console.log("borrando los ids", servicesId);
         await prismaClient.serviceToProperty.deleteMany({
             where: {
                 serviceId: {
