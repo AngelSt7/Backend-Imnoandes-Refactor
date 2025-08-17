@@ -1,28 +1,28 @@
 
 export interface PropertySeed {
-  name: string;
-  property_type: "RENT" | "SALE";
-  property_category: "HOUSE" | "APARTMENT" | "LAND" | "COMMERCIAL" | "OFFICE" | "WAREHOUSE"
-  currency: "USD" | "PEN";
-  price: number;
-  location: string;
-  description: string;
-  availability: boolean;
-  departmentId: string;
-  provinceId: string;
-  districtId: string;
-  bedrooms: number;
-  bathrooms: number;
   area: number;
-  furnished: boolean;
-  latitude: number;
-  longitude: number;
+  availability: boolean;
+  bathrooms: number | null;
+  bedrooms: number | null;
+  currency: "USD" | "PEN";
+  departmentId: string;
+  description: string;
+  districtId: string;
   floor: number;
+  furnished: boolean;
   hasParking: boolean;
-  yearBuilt: number;
   hasTerrace: boolean;
+  latitude: number;
+  location: string;
+  longitude: number;
+  name: string;
   parkingSpaces: number | null;
-
+  price: number;
+  property_category: "HOUSE" | "APARTMENT" | "LAND" | "COMMERCIAL" | "OFFICE" | "WAREHOUSE"
+  property_type: "RENT" | "SALE";
+  provinceId: string;
+  yearBuilt: number;
+  extraInfo: string | null
 }
 
 export const PROPERTY_SEED: PropertySeed[] = [
@@ -38,7 +38,7 @@ export const PROPERTY_SEED: PropertySeed[] = [
     departmentId: 'f81254d3-17f4-46ca-a983-614bde3d73c6',
     provinceId: 'fa43b1b0-5393-4394-a0d3-5036bbd525aa',
     districtId: '08e53a01-816f-4971-a305-ba10b140f817',
-    bedrooms: 0,
+    bedrooms: null,
     bathrooms: 2,
     area: 120,
     furnished: true,
@@ -48,7 +48,8 @@ export const PROPERTY_SEED: PropertySeed[] = [
     longitude: -76.9595174,
     hasTerrace: true,
     yearBuilt: 2018,
-    hasParking: true
+    hasParking: true,
+    extraInfo: 'Espacio amplio con buena iluminación natural'
   },
   {
     name: 'Casa con estudio de arte',
@@ -72,7 +73,8 @@ export const PROPERTY_SEED: PropertySeed[] = [
     longitude: -76.9535282,
     hasTerrace: true,
     yearBuilt: 2015,
-    hasParking: true
+    hasParking: true,
+    extraInfo: 'Vecinos amigables, es una zona muy tranquila'
   },
   {
     name: 'Departamento dúplex con terraza',
@@ -96,7 +98,8 @@ export const PROPERTY_SEED: PropertySeed[] = [
     longitude: -76.9490557,
     hasTerrace: true,
     yearBuilt: 2022,
-    hasParking: true
+    hasParking: true,
+    extraInfo: 'Ubicado en un edificio moderno con ascensor'
   },
   {
     name: 'Departamento frente al mar con balcón',
@@ -120,7 +123,8 @@ export const PROPERTY_SEED: PropertySeed[] = [
     longitude: -77.0612703,
     hasTerrace: true,
     yearBuilt: 2022,
-    hasParking: true
+    hasParking: true,
+    extraInfo: 'Ubicado en un edificio moderno con ascensor'
   },
   {
     name: 'Casa tradicional en zona histórica',
@@ -144,7 +148,8 @@ export const PROPERTY_SEED: PropertySeed[] = [
     longitude: -77.0685599,
     hasTerrace: true,
     yearBuilt: 2015,
-    hasParking: true
+    hasParking: true,
+    extraInfo: 'Vecinos amigables, es una zona muy tranquila'
   },
   {
     name: 'Oficina boutique en zona residencial',
@@ -158,7 +163,7 @@ export const PROPERTY_SEED: PropertySeed[] = [
     departmentId: 'f81254d3-17f4-46ca-a983-614bde3d73c6',
     provinceId: 'fa43b1b0-5393-4394-a0d3-5036bbd525aa',
     districtId: 'f8d6e669-cb2d-4046-ba77-de4f3b0ff39a',
-    bedrooms: 0,
+    bedrooms: null,
     bathrooms: 1,
     area: 60,
     furnished: true,
@@ -168,7 +173,8 @@ export const PROPERTY_SEED: PropertySeed[] = [
     longitude: -77.0710942,
     hasTerrace: true,
     yearBuilt: 2018,
-    hasParking: true
+    hasParking: true,
+    extraInfo: 'Espacio amplio con buena iluminación natural'
   },
   {
     name: 'Departamento acogedor cerca del parque',
@@ -192,7 +198,8 @@ export const PROPERTY_SEED: PropertySeed[] = [
     longitude: 0,
     hasTerrace: true,
     yearBuilt: 2022,
-    hasParking: true
+    hasParking: true,
+    extraInfo: 'Ubicado en un edificio moderno con ascensor'
   },
   {
     name: 'Casa moderna con patio amplio',
@@ -216,7 +223,8 @@ export const PROPERTY_SEED: PropertySeed[] = [
     longitude: 0,
     hasTerrace: true,
     yearBuilt: 2015,
-    hasParking: true
+    hasParking: true,
+    extraInfo: 'Vecinos amigables, es una zona muy tranquila'
   },
   {
     name: 'Local comercial en centro del distrito',
@@ -230,7 +238,7 @@ export const PROPERTY_SEED: PropertySeed[] = [
     departmentId: 'f81254d3-17f4-46ca-a983-614bde3d73c6',
     provinceId: 'fa43b1b0-5393-4394-a0d3-5036bbd525aa',
     districtId: 'f8d6e669-cb2d-4046-ba77-de4f3b0ff39a',
-    bedrooms: 0,
+    bedrooms: null,
     bathrooms: 1,
     area: 85,
     furnished: false,
@@ -240,7 +248,8 @@ export const PROPERTY_SEED: PropertySeed[] = [
     longitude: -77.0659744,
     hasTerrace: true,
     yearBuilt: 2010,
-    hasParking: true
+    hasParking: true,
+    extraInfo: 'Zona altamente transitada, ideal para negocios'
   },
   {
     name: 'Estudio cerca de universidades',
@@ -264,7 +273,8 @@ export const PROPERTY_SEED: PropertySeed[] = [
     longitude: 0,
     hasTerrace: true,
     yearBuilt: 2022,
-    hasParking: true
+    hasParking: true,
+    extraInfo: 'Ubicado en un edificio moderno con ascensor'
   },
   {
     name: 'Casa con vista al mar y jardín',
@@ -288,7 +298,8 @@ export const PROPERTY_SEED: PropertySeed[] = [
     longitude: 0,
     hasTerrace: true,
     yearBuilt: 2015,
-    hasParking: true
+    hasParking: true,
+    extraInfo: 'Vecinos amigables, es una zona muy tranquila'
   },
   {
     name: 'Departamento familiar renovado',
@@ -312,7 +323,8 @@ export const PROPERTY_SEED: PropertySeed[] = [
     longitude: -77.0751307,
     hasTerrace: true,
     yearBuilt: 2022,
-    hasParking: true
+    hasParking: true,
+    extraInfo: 'Ubicado en un edificio moderno con ascensor'
   },
   {
     name: 'Terreno residencial con potencial',
@@ -326,8 +338,8 @@ export const PROPERTY_SEED: PropertySeed[] = [
     departmentId: 'f81254d3-17f4-46ca-a983-614bde3d73c6',
     provinceId: 'fa43b1b0-5393-4394-a0d3-5036bbd525aa',
     districtId: 'f8d6e669-cb2d-4046-ba77-de4f3b0ff39a',
-    bedrooms: 0,
-    bathrooms: 0,
+    bedrooms: null,
+    bathrooms: null,
     area: 220,
     furnished: false,
     floor: 1,
@@ -336,7 +348,8 @@ export const PROPERTY_SEED: PropertySeed[] = [
     longitude: -77.0689332,
     hasTerrace: false,
     yearBuilt: 1998,
-    hasParking: false
+    hasParking: false,
+    extraInfo: null
   },
   {
     name: 'Casa moderna en zona residencial',
@@ -360,7 +373,8 @@ export const PROPERTY_SEED: PropertySeed[] = [
     longitude: -77.0267614,
     hasTerrace: true,
     yearBuilt: 2015,
-    hasParking: true
+    hasParking: true,
+    extraInfo: 'Vecinos amigables, es una zona muy tranquila'
   },
   {
     name: 'Oficina comercial en Av. Pardo',
@@ -374,7 +388,7 @@ export const PROPERTY_SEED: PropertySeed[] = [
     departmentId: 'f81254d3-17f4-46ca-a983-614bde3d73c6',
     provinceId: 'fa43b1b0-5393-4394-a0d3-5036bbd525aa',
     districtId: '6d1dd0d0-c0f1-4abb-a685-4fe64778a9bf',
-    bedrooms: 0,
+    bedrooms: null,
     bathrooms: 2,
     area: 85,
     furnished: true,
@@ -384,7 +398,8 @@ export const PROPERTY_SEED: PropertySeed[] = [
     longitude: -77.0330387,
     hasTerrace: true,
     yearBuilt: 2018,
-    hasParking: true
+    hasParking: true,
+    extraInfo: 'Espacio amplio con buena iluminación natural'
   },
   {
     name: 'Departamento acogedor cerca al parque',
@@ -408,7 +423,8 @@ export const PROPERTY_SEED: PropertySeed[] = [
     longitude: -77.0246732,
     hasTerrace: true,
     yearBuilt: 2022,
-    hasParking: true
+    hasParking: true,
+    extraInfo: 'Ubicado en un edificio moderno con ascensor'
   },
   {
     name: 'Terreno comercial en zona céntrica',
@@ -422,8 +438,8 @@ export const PROPERTY_SEED: PropertySeed[] = [
     departmentId: 'f81254d3-17f4-46ca-a983-614bde3d73c6',
     provinceId: 'fa43b1b0-5393-4394-a0d3-5036bbd525aa',
     districtId: '6d1dd0d0-c0f1-4abb-a685-4fe64778a9bf',
-    bedrooms: 0,
-    bathrooms: 0,
+    bedrooms: null,
+    bathrooms: null,
     area: 300,
     furnished: false,
     floor: 1,
@@ -432,7 +448,8 @@ export const PROPERTY_SEED: PropertySeed[] = [
     longitude: -77.0302294,
     hasTerrace: false,
     yearBuilt: 1998,
-    hasParking: false
+    hasParking: false,
+    extraInfo: null
   },
   {
     name: 'Local comercial en centro de Miraflores',
@@ -446,7 +463,7 @@ export const PROPERTY_SEED: PropertySeed[] = [
     departmentId: 'f81254d3-17f4-46ca-a983-614bde3d73c6',
     provinceId: 'fa43b1b0-5393-4394-a0d3-5036bbd525aa',
     districtId: '6d1dd0d0-c0f1-4abb-a685-4fe64778a9bf',
-    bedrooms: 0,
+    bedrooms: null,
     bathrooms: 2,
     area: 150,
     furnished: false,
@@ -456,7 +473,8 @@ export const PROPERTY_SEED: PropertySeed[] = [
     longitude: -77.0288737,
     hasTerrace: true,
     yearBuilt: 2010,
-    hasParking: true
+    hasParking: true,
+    extraInfo: 'Zona altamente transitada, ideal para negocios'
   },
   {
     name: 'Penthouse exclusivo con terraza',
@@ -480,7 +498,8 @@ export const PROPERTY_SEED: PropertySeed[] = [
     longitude: -77.031173,
     hasTerrace: true,
     yearBuilt: 2022,
-    hasParking: true
+    hasParking: true,
+    extraInfo: 'Ubicado en un edificio moderno con ascensor'
   },
   {
     name: 'Departamento familiar en zona tranquila',
@@ -504,7 +523,8 @@ export const PROPERTY_SEED: PropertySeed[] = [
     longitude: -77.033452,
     hasTerrace: true,
     yearBuilt: 2022,
-    hasParking: true
+    hasParking: true,
+    extraInfo: 'Ubicado en un edificio moderno con ascensor'
   },
   {
     name: 'Casa con jardín y piscina',
@@ -528,7 +548,8 @@ export const PROPERTY_SEED: PropertySeed[] = [
     longitude: -77.0356089,
     hasTerrace: true,
     yearBuilt: 2015,
-    hasParking: true
+    hasParking: true,
+    extraInfo: 'Vecinos amigables, es una zona muy tranquila'
   },
   {
     name: 'Estudio moderno para joven profesional',
@@ -552,7 +573,8 @@ export const PROPERTY_SEED: PropertySeed[] = [
     longitude: -77.0302294,
     hasTerrace: true,
     yearBuilt: 2022,
-    hasParking: true
+    hasParking: true,
+    extraInfo: 'Ubicado en un edificio moderno con ascensor'
   },
   {
     name: 'Casa en condominio exclusivo',
@@ -576,7 +598,8 @@ export const PROPERTY_SEED: PropertySeed[] = [
     longitude: -76.9733008,
     hasTerrace: true,
     yearBuilt: 2015,
-    hasParking: true
+    hasParking: true,
+    extraInfo: 'Vecinos amigables, es una zona muy tranquila'
   },
   {
     name: 'Departamento moderno en torre residencial',
@@ -600,7 +623,8 @@ export const PROPERTY_SEED: PropertySeed[] = [
     longitude: -76.9662958,
     hasTerrace: true,
     yearBuilt: 2022,
-    hasParking: true
+    hasParking: true,
+    extraInfo: 'Ubicado en un edificio moderno con ascensor'
   },
   {
     name: 'Oficina corporativa en centro empresarial',
@@ -614,7 +638,7 @@ export const PROPERTY_SEED: PropertySeed[] = [
     departmentId: 'f81254d3-17f4-46ca-a983-614bde3d73c6',
     provinceId: 'fa43b1b0-5393-4394-a0d3-5036bbd525aa',
     districtId: '5eb08551-f14d-4044-b243-5f876a67675a',
-    bedrooms: 0,
+    bedrooms: null,
     bathrooms: 1,
     area: 95,
     furnished: true,
@@ -624,7 +648,8 @@ export const PROPERTY_SEED: PropertySeed[] = [
     longitude: 0,
     hasTerrace: true,
     yearBuilt: 2018,
-    hasParking: true
+    hasParking: true,
+    extraInfo: 'Espacio amplio con buena iluminación natural'
   },
   {
     name: 'Terreno residencial con proyecto aprobado',
@@ -638,8 +663,8 @@ export const PROPERTY_SEED: PropertySeed[] = [
     departmentId: 'f81254d3-17f4-46ca-a983-614bde3d73c6',
     provinceId: 'fa43b1b0-5393-4394-a0d3-5036bbd525aa',
     districtId: '5eb08551-f14d-4044-b243-5f876a67675a',
-    bedrooms: 0,
-    bathrooms: 0,
+    bedrooms: null,
+    bathrooms: null,
     area: 280,
     furnished: false,
     floor: 1,
@@ -648,7 +673,8 @@ export const PROPERTY_SEED: PropertySeed[] = [
     longitude: -76.9859062,
     hasTerrace: false,
     yearBuilt: 1998,
-    hasParking: false
+    hasParking: false,
+    extraInfo: null
   },
   {
     name: 'Almacén industrial en zona logística',
@@ -662,7 +688,7 @@ export const PROPERTY_SEED: PropertySeed[] = [
     departmentId: 'f81254d3-17f4-46ca-a983-614bde3d73c6',
     provinceId: 'fa43b1b0-5393-4394-a0d3-5036bbd525aa',
     districtId: '5eb08551-f14d-4044-b243-5f876a67675a',
-    bedrooms: 0,
+    bedrooms: null,
     bathrooms: 2,
     area: 500,
     furnished: false,
@@ -672,7 +698,8 @@ export const PROPERTY_SEED: PropertySeed[] = [
     longitude: -76.9630937,
     hasTerrace: true,
     yearBuilt: 2005,
-    hasParking: true
+    hasParking: true,
+    extraInfo: 'Cuenta con acceso para camiones y gran capacidad'
   },
   {
     name: 'Departamento familiar con vista al parque',
@@ -696,7 +723,8 @@ export const PROPERTY_SEED: PropertySeed[] = [
     longitude: -76.9895711,
     hasTerrace: true,
     yearBuilt: 2022,
-    hasParking: true
+    hasParking: true,
+    extraInfo: 'Ubicado en un edificio moderno con ascensor'
   },
   {
     name: 'Local comercial en avenida principal',
@@ -710,7 +738,7 @@ export const PROPERTY_SEED: PropertySeed[] = [
     departmentId: 'f81254d3-17f4-46ca-a983-614bde3d73c6',
     provinceId: 'fa43b1b0-5393-4394-a0d3-5036bbd525aa',
     districtId: '5eb08551-f14d-4044-b243-5f876a67675a',
-    bedrooms: 0,
+    bedrooms: null,
     bathrooms: 1,
     area: 120,
     furnished: false,
@@ -720,7 +748,8 @@ export const PROPERTY_SEED: PropertySeed[] = [
     longitude: -76.9943409,
     hasTerrace: true,
     yearBuilt: 2010,
-    hasParking: true
+    hasParking: true,
+    extraInfo: 'Zona altamente transitada, ideal para negocios'
   },
   {
     name: 'Casa moderna con jardín amplio',
@@ -744,7 +773,8 @@ export const PROPERTY_SEED: PropertySeed[] = [
     longitude: 0,
     hasTerrace: true,
     yearBuilt: 2015,
-    hasParking: true
+    hasParking: true,
+    extraInfo: 'Vecinos amigables, es una zona muy tranquila'
   },
   {
     name: 'Departamento ejecutivo amoblado',
@@ -768,7 +798,8 @@ export const PROPERTY_SEED: PropertySeed[] = [
     longitude: -76.9719198,
     hasTerrace: true,
     yearBuilt: 2022,
-    hasParking: true
+    hasParking: true,
+    extraInfo: 'Ubicado en un edificio moderno con ascensor'
   },
   {
     name: 'Duplex con terraza y parrilla',
@@ -792,7 +823,8 @@ export const PROPERTY_SEED: PropertySeed[] = [
     longitude: 0,
     hasTerrace: true,
     yearBuilt: 2022,
-    hasParking: true
+    hasParking: true,
+    extraInfo: 'Ubicado en un edificio moderno con ascensor'
   },
   {
     name: 'Casa frente al mar con vista espectacular',
@@ -816,7 +848,8 @@ export const PROPERTY_SEED: PropertySeed[] = [
     longitude: -77.0262963,
     hasTerrace: true,
     yearBuilt: 2015,
-    hasParking: true
+    hasParking: true,
+    extraInfo: 'Vecinos amigables, es una zona muy tranquila'
   },
   {
     name: 'Departamento cerca de la playa',
@@ -840,7 +873,8 @@ export const PROPERTY_SEED: PropertySeed[] = [
     longitude: -77.0167368,
     hasTerrace: true,
     yearBuilt: 2022,
-    hasParking: true
+    hasParking: true,
+    extraInfo: 'Ubicado en un edificio moderno con ascensor'
   },
   {
     name: 'Terreno industrial con zonificación',
@@ -854,8 +888,8 @@ export const PROPERTY_SEED: PropertySeed[] = [
     departmentId: 'f81254d3-17f4-46ca-a983-614bde3d73c6',
     provinceId: 'fa43b1b0-5393-4394-a0d3-5036bbd525aa',
     districtId: '55319202-4f22-4e87-9103-a9a388ccef60',
-    bedrooms: 0,
-    bathrooms: 0,
+    bedrooms: null,
+    bathrooms: null,
     area: 800,
     furnished: false,
     floor: 1,
@@ -864,7 +898,8 @@ export const PROPERTY_SEED: PropertySeed[] = [
     longitude: -77.0075145,
     hasTerrace: false,
     yearBuilt: 1998,
-    hasParking: false
+    hasParking: false,
+    extraInfo: null
   },
   {
     name: 'Casa familiar en zona residencial',
@@ -888,7 +923,8 @@ export const PROPERTY_SEED: PropertySeed[] = [
     longitude: -76.9897673,
     hasTerrace: true,
     yearBuilt: 2015,
-    hasParking: true
+    hasParking: true,
+    extraInfo: 'Vecinos amigables, es una zona muy tranquila'
   },
   {
     name: 'Almacén con oficinas administrativas',
@@ -902,7 +938,7 @@ export const PROPERTY_SEED: PropertySeed[] = [
     departmentId: 'f81254d3-17f4-46ca-a983-614bde3d73c6',
     provinceId: 'fa43b1b0-5393-4394-a0d3-5036bbd525aa',
     districtId: '55319202-4f22-4e87-9103-a9a388ccef60',
-    bedrooms: 0,
+    bedrooms: null,
     bathrooms: 3,
     area: 400,
     furnished: false,
@@ -912,7 +948,8 @@ export const PROPERTY_SEED: PropertySeed[] = [
     longitude: -76.9711952,
     hasTerrace: true,
     yearBuilt: 2005,
-    hasParking: true
+    hasParking: true,
+    extraInfo: 'Cuenta con acceso para camiones y gran capacidad'
   },
   {
     name: 'Departamento económico para estudiantes',
@@ -936,7 +973,8 @@ export const PROPERTY_SEED: PropertySeed[] = [
     longitude: -76.9996057,
     hasTerrace: true,
     yearBuilt: 2022,
-    hasParking: true
+    hasParking: true,
+    extraInfo: 'Ubicado en un edificio moderno con ascensor'
   },
   {
     name: 'Local comercial en mercado central',
@@ -950,7 +988,7 @@ export const PROPERTY_SEED: PropertySeed[] = [
     departmentId: 'f81254d3-17f4-46ca-a983-614bde3d73c6',
     provinceId: 'fa43b1b0-5393-4394-a0d3-5036bbd525aa',
     districtId: '55319202-4f22-4e87-9103-a9a388ccef60',
-    bedrooms: 0,
+    bedrooms: null,
     bathrooms: 1,
     area: 60,
     furnished: false,
@@ -960,7 +998,8 @@ export const PROPERTY_SEED: PropertySeed[] = [
     longitude: 0,
     hasTerrace: true,
     yearBuilt: 2010,
-    hasParking: true
+    hasParking: true,
+    extraInfo: 'Zona altamente transitada, ideal para negocios'
   },
   {
     name: 'Casa de playa con acceso directo',
@@ -984,7 +1023,8 @@ export const PROPERTY_SEED: PropertySeed[] = [
     longitude: -77.0335499,
     hasTerrace: true,
     yearBuilt: 2015,
-    hasParking: true
+    hasParking: true,
+    extraInfo: 'Vecinos amigables, es una zona muy tranquila'
   },
   {
     name: 'Departamento con balcón y vista',
@@ -1008,7 +1048,8 @@ export const PROPERTY_SEED: PropertySeed[] = [
     longitude: -77.0085678,
     hasTerrace: true,
     yearBuilt: 2022,
-    hasParking: true
+    hasParking: true,
+    extraInfo: 'Ubicado en un edificio moderno con ascensor'
   },
   {
     name: 'Oficina moderna en centro de negocios',
@@ -1022,7 +1063,7 @@ export const PROPERTY_SEED: PropertySeed[] = [
     departmentId: 'f81254d3-17f4-46ca-a983-614bde3d73c6',
     provinceId: 'fa43b1b0-5393-4394-a0d3-5036bbd525aa',
     districtId: '55319202-4f22-4e87-9103-a9a388ccef60',
-    bedrooms: 0,
+    bedrooms: null,
     bathrooms: 2,
     area: 80,
     furnished: true,
@@ -1032,7 +1073,8 @@ export const PROPERTY_SEED: PropertySeed[] = [
     longitude: 0,
     hasTerrace: true,
     yearBuilt: 2018,
-    hasParking: true
+    hasParking: true,
+    extraInfo: 'Espacio amplio con buena iluminación natural'
   },
   {
     name: 'Casa de lujo en condominio cerrado',
@@ -1056,7 +1098,8 @@ export const PROPERTY_SEED: PropertySeed[] = [
     longitude: -76.9449554,
     hasTerrace: true,
     yearBuilt: 2015,
-    hasParking: true
+    hasParking: true,
+    extraInfo: 'Vecinos amigables, es una zona muy tranquila'
   },
   {
     name: 'Departamento ejecutivo en torre premium',
@@ -1080,7 +1123,8 @@ export const PROPERTY_SEED: PropertySeed[] = [
     longitude: -76.9426242,
     hasTerrace: true,
     yearBuilt: 2022,
-    hasParking: true
+    hasParking: true,
+    extraInfo: 'Ubicado en un edificio moderno con ascensor'
   },
   {
     name: 'Terreno premium para desarrollo',
@@ -1094,8 +1138,8 @@ export const PROPERTY_SEED: PropertySeed[] = [
     departmentId: 'f81254d3-17f4-46ca-a983-614bde3d73c6',
     provinceId: 'fa43b1b0-5393-4394-a0d3-5036bbd525aa',
     districtId: '08e53a01-816f-4971-a305-ba10b140f817',
-    bedrooms: 0,
-    bathrooms: 0,
+    bedrooms: null,
+    bathrooms: null,
     area: 400,
     furnished: false,
     floor: 1,
@@ -1104,7 +1148,8 @@ export const PROPERTY_SEED: PropertySeed[] = [
     longitude: -76.9531146,
     hasTerrace: false,
     yearBuilt: 1998,
-    hasParking: false
+    hasParking: false,
+    extraInfo: null
   },
   {
     name: 'Oficina corporativa de alto nivel',
@@ -1118,7 +1163,7 @@ export const PROPERTY_SEED: PropertySeed[] = [
     departmentId: 'f81254d3-17f4-46ca-a983-614bde3d73c6',
     provinceId: 'fa43b1b0-5393-4394-a0d3-5036bbd525aa',
     districtId: '08e53a01-816f-4971-a305-ba10b140f817',
-    bedrooms: 0,
+    bedrooms: null,
     bathrooms: 3,
     area: 150,
     furnished: true,
@@ -1128,7 +1173,8 @@ export const PROPERTY_SEED: PropertySeed[] = [
     longitude: -76.9348602,
     hasTerrace: true,
     yearBuilt: 2018,
-    hasParking: true
+    hasParking: true,
+    extraInfo: 'Espacio amplio con buena iluminación natural'
   },
   {
     name: 'Casa moderna con piscina y jardín',
@@ -1152,7 +1198,8 @@ export const PROPERTY_SEED: PropertySeed[] = [
     longitude: 0,
     hasTerrace: true,
     yearBuilt: 2015,
-    hasParking: true
+    hasParking: true,
+    extraInfo: 'Vecinos amigables, es una zona muy tranquila'
   },
   {
     name: 'Departamento familiar con vista al golf',
@@ -1176,7 +1223,8 @@ export const PROPERTY_SEED: PropertySeed[] = [
     longitude: -76.9416072,
     hasTerrace: true,
     yearBuilt: 2022,
-    hasParking: true
+    hasParking: true,
+    extraInfo: 'Ubicado en un edificio moderno con ascensor'
   },
   {
     name: 'Local comercial en centro comercial',
@@ -1190,7 +1238,7 @@ export const PROPERTY_SEED: PropertySeed[] = [
     departmentId: 'f81254d3-17f4-46ca-a983-614bde3d73c6',
     provinceId: 'fa43b1b0-5393-4394-a0d3-5036bbd525aa',
     districtId: '08e53a01-816f-4971-a305-ba10b140f817',
-    bedrooms: 0,
+    bedrooms: null,
     bathrooms: 2,
     area: 180,
     furnished: false,
@@ -1200,7 +1248,8 @@ export const PROPERTY_SEED: PropertySeed[] = [
     longitude: -76.9501696,
     hasTerrace: true,
     yearBuilt: 2010,
-    hasParking: true
+    hasParking: true,
+    extraInfo: 'Zona altamente transitada, ideal para negocios'
   },
   {
     name: 'Penthouse de lujo con terraza privada',
@@ -1224,7 +1273,8 @@ export const PROPERTY_SEED: PropertySeed[] = [
     longitude: -76.9458939,
     hasTerrace: true,
     yearBuilt: 2022,
-    hasParking: true
+    hasParking: true,
+    extraInfo: 'Ubicado en un edificio moderno con ascensor'
   },
   {
     name: 'Casa en condominio con club ecuestre',
@@ -1248,6 +1298,7 @@ export const PROPERTY_SEED: PropertySeed[] = [
     longitude: 0,
     hasTerrace: true,
     yearBuilt: 2015,
-    hasParking: true
+    hasParking: true,
+    extraInfo: 'Vecinos amigables, es una zona muy tranquila'
   }
 ]

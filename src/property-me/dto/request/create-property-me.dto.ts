@@ -1,6 +1,5 @@
 import { IsArray, IsBoolean, IsEnum, IsNumber, IsOptional, IsPositive, IsString, IsUUID, Length, Max, Min } from "class-validator";
 import { CURRENCY, PROPERTY_CATEGORY, PROPERTY_TYPE } from "generated/prisma";
-import { number } from "joi";
 
 export class CreatePropertyMeDto {
 
@@ -47,12 +46,12 @@ export class CreatePropertyMeDto {
     @IsOptional()
     @IsNumber()
     @IsPositive()
-    bedrooms: number
+    bedrooms?: number | null
 
     @IsOptional()
     @IsNumber()
     @IsPositive()
-    bathrooms: number
+    bathrooms?: number | null
 
     @IsNumber()
     @IsPositive()
@@ -60,12 +59,12 @@ export class CreatePropertyMeDto {
 
     @IsOptional()
     @IsBoolean()
-    furnished: boolean
+    furnished?: boolean
 
     @IsOptional()
     @IsNumber()
     @IsPositive()
-    floor: number
+    floor?: number
 
     @IsOptional()
     @IsBoolean()
@@ -75,7 +74,7 @@ export class CreatePropertyMeDto {
     @IsNumber()
     @Min(1)
     @Max(5)
-    parkingSpaces: number | null
+    parkingSpaces?: number | null
 
     @IsOptional()
     @IsArray()
@@ -94,7 +93,7 @@ export class CreatePropertyMeDto {
 
     @IsOptional()
     @IsBoolean()
-    hasTerrace: boolean
+    hasTerrace?: boolean
 
     @IsNumber()
     @IsPositive()
@@ -105,5 +104,5 @@ export class CreatePropertyMeDto {
     @IsOptional()
     @IsString()
     @Length(8, 300)
-    extraInfo: string
+    extraInfo?: string | null
 }

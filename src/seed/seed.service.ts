@@ -73,7 +73,6 @@ export class SeedService {
         if (property.property_category === "LAND") {
             return {
                 ...property,
-                extraInfo: 'Esta es una demisión',
                 servicesId: fixed as string[]
             };
         }
@@ -94,7 +93,6 @@ export class SeedService {
 
         return {
             ...property,
-            extraInfo: 'Esta es una demisión',
             servicesId: [...fixed, ...randomServices] as string[]
         };
     }
