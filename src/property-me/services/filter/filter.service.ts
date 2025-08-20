@@ -1,4 +1,5 @@
 
+
 import { Injectable } from '@nestjs/common';
 import { Property } from 'generated/prisma';
 import { PaginationPropertyMeDto } from 'src/property-me/dto';
@@ -6,15 +7,15 @@ import { PaginationPropertyMeDto } from 'src/property-me/dto';
 @Injectable()
 export class FilterService {
     private readonly mode = 'insensitive';
-    private readonly searchFields : (keyof Property)[] = ['name'];
+    private readonly searchFields: (keyof Property)[] = ['name'];
 
     getFilter(query: PaginationPropertyMeDto) {
         const filter: any = {};
 
         if (query.search) {
-            filter.OR = this.searchFields.map(field => ({
-                [field]: { contains: query.search, mode: this.mode },
-            }));
+            const words = query.search.trim().split(/[\s-]+/);
+
+            filter.AND = this.getAndFilter(words);
         }
 
         if (query.minPrice || query.maxPrice) {
@@ -31,8 +32,8 @@ export class FilterService {
             'availability',
         ];
 
-        for( const key of exactFilters) {
-            if(query[key] !== undefined && query[key] !== null) {
+        for (const key of exactFilters) {
+            if (query[key] !== undefined && query[key] !== null) {
                 filter[key] = query[key];
             }
         }
@@ -40,5 +41,24 @@ export class FilterService {
         return filter;
     }
 
+    //Filter by AND
+    //example: filter.AND = this.getAndFilter(words);
+    private getAndFilter(words: string[]) {
+        return words.map(word => ({
+            OR: this.searchFields.map(field => ({
+                [field]: { contains: word, mode: this.mode },
+            })),
+        }));
+    }
+
+    //Filter by OR
+    //example: filter.ORD = this.getOrFilter(words);
+    private getOrFilter(words: string[]) {
+        return words.flatMap(word =>
+            this.searchFields.map(field => ({
+                [field]: { contains: word, mode: this.mode },
+            }))
+        );
+    }
 
 }
