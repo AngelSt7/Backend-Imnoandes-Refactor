@@ -21,8 +21,9 @@ export interface PropertySeed {
   property_category: "HOUSE" | "APARTMENT" | "LAND" | "COMMERCIAL" | "OFFICE" | "WAREHOUSE"
   property_type: "RENT" | "SALE";
   provinceId: string;
-  yearBuilt: number;
+  yearBuilt: number | null;
   extraInfo: string | null
+  phone: string
 }
 
 export const PROPERTY_SEED: PropertySeed[] = [
@@ -49,7 +50,8 @@ export const PROPERTY_SEED: PropertySeed[] = [
     hasTerrace: true,
     yearBuilt: 2018,
     hasParking: true,
-    extraInfo: 'Espacio amplio con buena iluminación natural'
+    extraInfo: 'Espacio amplio con buena iluminación natural',
+    phone: '999999999'
   },
   {
     name: 'Casa con estudio de arte',
@@ -74,7 +76,8 @@ export const PROPERTY_SEED: PropertySeed[] = [
     hasTerrace: true,
     yearBuilt: 2015,
     hasParking: true,
-    extraInfo: 'Vecinos amigables, es una zona muy tranquila'
+    extraInfo: 'Vecinos amigables, es una zona muy tranquila',
+    phone: '999999999'
   },
   {
     name: 'Departamento dúplex con terraza',
@@ -99,7 +102,8 @@ export const PROPERTY_SEED: PropertySeed[] = [
     hasTerrace: true,
     yearBuilt: 2022,
     hasParking: true,
-    extraInfo: 'Ubicado en un edificio moderno con ascensor'
+    extraInfo: 'Ubicado en un edificio moderno con ascensor',
+    phone: '999999999'
   },
   {
     name: 'Departamento frente al mar con balcón',
@@ -124,7 +128,8 @@ export const PROPERTY_SEED: PropertySeed[] = [
     hasTerrace: true,
     yearBuilt: 2022,
     hasParking: true,
-    extraInfo: 'Ubicado en un edificio moderno con ascensor'
+    extraInfo: 'Ubicado en un edificio moderno con ascensor',
+    phone: '999999999'
   },
   {
     name: 'Casa tradicional en zona histórica',
@@ -149,7 +154,8 @@ export const PROPERTY_SEED: PropertySeed[] = [
     hasTerrace: true,
     yearBuilt: 2015,
     hasParking: true,
-    extraInfo: 'Vecinos amigables, es una zona muy tranquila'
+    extraInfo: 'Vecinos amigables, es una zona muy tranquila',
+    phone: '999999999'
   },
   {
     name: 'Oficina boutique en zona residencial',
@@ -174,7 +180,8 @@ export const PROPERTY_SEED: PropertySeed[] = [
     hasTerrace: true,
     yearBuilt: 2018,
     hasParking: true,
-    extraInfo: 'Espacio amplio con buena iluminación natural'
+    extraInfo: 'Espacio amplio con buena iluminación natural',
+    phone: '999999999'
   },
   {
     name: 'Departamento acogedor cerca del parque',
@@ -199,7 +206,8 @@ export const PROPERTY_SEED: PropertySeed[] = [
     hasTerrace: true,
     yearBuilt: 2022,
     hasParking: true,
-    extraInfo: 'Ubicado en un edificio moderno con ascensor'
+    extraInfo: 'Ubicado en un edificio moderno con ascensor',
+    phone: '999999999'
   },
   {
     name: 'Casa moderna con patio amplio',
@@ -224,7 +232,8 @@ export const PROPERTY_SEED: PropertySeed[] = [
     hasTerrace: true,
     yearBuilt: 2015,
     hasParking: true,
-    extraInfo: 'Vecinos amigables, es una zona muy tranquila'
+    extraInfo: 'Vecinos amigables, es una zona muy tranquila',
+    phone: '999999999'
   },
   {
     name: 'Local comercial en centro del distrito',
@@ -249,7 +258,8 @@ export const PROPERTY_SEED: PropertySeed[] = [
     hasTerrace: true,
     yearBuilt: 2010,
     hasParking: true,
-    extraInfo: 'Zona altamente transitada, ideal para negocios'
+    extraInfo: 'Zona altamente transitada, ideal para negocios',
+    phone: '999999999'
   },
   {
     name: 'Estudio cerca de universidades',
@@ -274,7 +284,8 @@ export const PROPERTY_SEED: PropertySeed[] = [
     hasTerrace: true,
     yearBuilt: 2022,
     hasParking: true,
-    extraInfo: 'Ubicado en un edificio moderno con ascensor'
+    extraInfo: 'Ubicado en un edificio moderno con ascensor',
+    phone: '999999999'
   },
   {
     name: 'Casa con vista al mar y jardín',
@@ -299,7 +310,8 @@ export const PROPERTY_SEED: PropertySeed[] = [
     hasTerrace: true,
     yearBuilt: 2015,
     hasParking: true,
-    extraInfo: 'Vecinos amigables, es una zona muy tranquila'
+    extraInfo: 'Vecinos amigables, es una zona muy tranquila',
+    phone: '999999999'
   },
   {
     name: 'Departamento familiar renovado',
@@ -324,7 +336,8 @@ export const PROPERTY_SEED: PropertySeed[] = [
     hasTerrace: true,
     yearBuilt: 2022,
     hasParking: true,
-    extraInfo: 'Ubicado en un edificio moderno con ascensor'
+    extraInfo: 'Ubicado en un edificio moderno con ascensor',
+    phone: '999999999'
   },
   {
     name: 'Terreno residencial con potencial',
@@ -347,9 +360,10 @@ export const PROPERTY_SEED: PropertySeed[] = [
     latitude: -12.0866147,
     longitude: -77.0689332,
     hasTerrace: false,
-    yearBuilt: 1998,
+    yearBuilt: null,
     hasParking: false,
-    extraInfo: null
+    extraInfo: null,
+    phone: '999999999'
   },
   {
     name: 'Casa moderna en zona residencial',
@@ -374,7 +388,8 @@ export const PROPERTY_SEED: PropertySeed[] = [
     hasTerrace: true,
     yearBuilt: 2015,
     hasParking: true,
-    extraInfo: 'Vecinos amigables, es una zona muy tranquila'
+    extraInfo: 'Vecinos amigables, es una zona muy tranquila',
+    phone: '999999999'
   },
   {
     name: 'Oficina comercial en Av. Pardo',
@@ -399,7 +414,8 @@ export const PROPERTY_SEED: PropertySeed[] = [
     hasTerrace: true,
     yearBuilt: 2018,
     hasParking: true,
-    extraInfo: 'Espacio amplio con buena iluminación natural'
+    extraInfo: 'Espacio amplio con buena iluminación natural',
+    phone: '999999999'
   },
   {
     name: 'Departamento acogedor cerca al parque',
@@ -424,7 +440,8 @@ export const PROPERTY_SEED: PropertySeed[] = [
     hasTerrace: true,
     yearBuilt: 2022,
     hasParking: true,
-    extraInfo: 'Ubicado en un edificio moderno con ascensor'
+    extraInfo: 'Ubicado en un edificio moderno con ascensor',
+    phone: '999999999'
   },
   {
     name: 'Terreno comercial en zona céntrica',
@@ -447,9 +464,10 @@ export const PROPERTY_SEED: PropertySeed[] = [
     latitude: -12.1209238,
     longitude: -77.0302294,
     hasTerrace: false,
-    yearBuilt: 1998,
+    yearBuilt: null,
     hasParking: false,
-    extraInfo: null
+    extraInfo: null,
+    phone: '999999999'
   },
   {
     name: 'Local comercial en centro de Miraflores',
@@ -474,7 +492,8 @@ export const PROPERTY_SEED: PropertySeed[] = [
     hasTerrace: true,
     yearBuilt: 2010,
     hasParking: true,
-    extraInfo: 'Zona altamente transitada, ideal para negocios'
+    extraInfo: 'Zona altamente transitada, ideal para negocios',
+    phone: '999999999'
   },
   {
     name: 'Penthouse exclusivo con terraza',
@@ -499,7 +518,8 @@ export const PROPERTY_SEED: PropertySeed[] = [
     hasTerrace: true,
     yearBuilt: 2022,
     hasParking: true,
-    extraInfo: 'Ubicado en un edificio moderno con ascensor'
+    extraInfo: 'Ubicado en un edificio moderno con ascensor',
+    phone: '999999999'
   },
   {
     name: 'Departamento familiar en zona tranquila',
@@ -524,7 +544,8 @@ export const PROPERTY_SEED: PropertySeed[] = [
     hasTerrace: true,
     yearBuilt: 2022,
     hasParking: true,
-    extraInfo: 'Ubicado en un edificio moderno con ascensor'
+    extraInfo: 'Ubicado en un edificio moderno con ascensor',
+    phone: '999999999'
   },
   {
     name: 'Casa con jardín y piscina',
@@ -549,7 +570,8 @@ export const PROPERTY_SEED: PropertySeed[] = [
     hasTerrace: true,
     yearBuilt: 2015,
     hasParking: true,
-    extraInfo: 'Vecinos amigables, es una zona muy tranquila'
+    extraInfo: 'Vecinos amigables, es una zona muy tranquila',
+    phone: '999999999'
   },
   {
     name: 'Estudio moderno para joven profesional',
@@ -574,7 +596,8 @@ export const PROPERTY_SEED: PropertySeed[] = [
     hasTerrace: true,
     yearBuilt: 2022,
     hasParking: true,
-    extraInfo: 'Ubicado en un edificio moderno con ascensor'
+    extraInfo: 'Ubicado en un edificio moderno con ascensor',
+    phone: '999999999'
   },
   {
     name: 'Casa en condominio exclusivo',
@@ -599,7 +622,8 @@ export const PROPERTY_SEED: PropertySeed[] = [
     hasTerrace: true,
     yearBuilt: 2015,
     hasParking: true,
-    extraInfo: 'Vecinos amigables, es una zona muy tranquila'
+    extraInfo: 'Vecinos amigables, es una zona muy tranquila',
+    phone: '999999999'
   },
   {
     name: 'Departamento moderno en torre residencial',
@@ -619,12 +643,13 @@ export const PROPERTY_SEED: PropertySeed[] = [
     furnished: true,
     floor: 9,
     parkingSpaces: 1,
-    latitude: -12.1012934,
+    latitude: -12.10129349,
     longitude: -76.9662958,
     hasTerrace: true,
     yearBuilt: 2022,
     hasParking: true,
-    extraInfo: 'Ubicado en un edificio moderno con ascensor'
+    extraInfo: 'Ubicado en un edificio moderno con ascensor',
+    phone: '999999999'
   },
   {
     name: 'Oficina corporativa en centro empresarial',
@@ -649,7 +674,8 @@ export const PROPERTY_SEED: PropertySeed[] = [
     hasTerrace: true,
     yearBuilt: 2018,
     hasParking: true,
-    extraInfo: 'Espacio amplio con buena iluminación natural'
+    extraInfo: 'Espacio amplio con buena iluminación natural',
+    phone: '999999999'
   },
   {
     name: 'Terreno residencial con proyecto aprobado',
@@ -672,9 +698,10 @@ export const PROPERTY_SEED: PropertySeed[] = [
     latitude: -12.1415081,
     longitude: -76.9859062,
     hasTerrace: false,
-    yearBuilt: 1998,
+    yearBuilt: null,
     hasParking: false,
-    extraInfo: null
+    extraInfo: null,
+    phone: '999999999'
   },
   {
     name: 'Almacén industrial en zona logística',
@@ -699,7 +726,8 @@ export const PROPERTY_SEED: PropertySeed[] = [
     hasTerrace: true,
     yearBuilt: 2005,
     hasParking: true,
-    extraInfo: 'Cuenta con acceso para camiones y gran capacidad'
+    extraInfo: 'Cuenta con acceso para camiones y gran capacidad',
+    phone: '999999999'
   },
   {
     name: 'Departamento familiar con vista al parque',
@@ -724,7 +752,8 @@ export const PROPERTY_SEED: PropertySeed[] = [
     hasTerrace: true,
     yearBuilt: 2022,
     hasParking: true,
-    extraInfo: 'Ubicado en un edificio moderno con ascensor'
+    extraInfo: 'Ubicado en un edificio moderno con ascensor',
+    phone: '999999999'
   },
   {
     name: 'Local comercial en avenida principal',
@@ -749,7 +778,8 @@ export const PROPERTY_SEED: PropertySeed[] = [
     hasTerrace: true,
     yearBuilt: 2010,
     hasParking: true,
-    extraInfo: 'Zona altamente transitada, ideal para negocios'
+    extraInfo: 'Zona altamente transitada, ideal para negocios',
+    phone: '999999999'
   },
   {
     name: 'Casa moderna con jardín amplio',
@@ -774,7 +804,8 @@ export const PROPERTY_SEED: PropertySeed[] = [
     hasTerrace: true,
     yearBuilt: 2015,
     hasParking: true,
-    extraInfo: 'Vecinos amigables, es una zona muy tranquila'
+    extraInfo: 'Vecinos amigables, es una zona muy tranquila',
+    phone: '999999999'
   },
   {
     name: 'Departamento ejecutivo amoblado',
@@ -799,7 +830,8 @@ export const PROPERTY_SEED: PropertySeed[] = [
     hasTerrace: true,
     yearBuilt: 2022,
     hasParking: true,
-    extraInfo: 'Ubicado en un edificio moderno con ascensor'
+    extraInfo: 'Ubicado en un edificio moderno con ascensor',
+    phone: '999999999'
   },
   {
     name: 'Duplex con terraza y parrilla',
@@ -824,7 +856,8 @@ export const PROPERTY_SEED: PropertySeed[] = [
     hasTerrace: true,
     yearBuilt: 2022,
     hasParking: true,
-    extraInfo: 'Ubicado en un edificio moderno con ascensor'
+    extraInfo: 'Ubicado en un edificio moderno con ascensor',
+    phone: '999999999'
   },
   {
     name: 'Casa frente al mar con vista espectacular',
@@ -849,7 +882,8 @@ export const PROPERTY_SEED: PropertySeed[] = [
     hasTerrace: true,
     yearBuilt: 2015,
     hasParking: true,
-    extraInfo: 'Vecinos amigables, es una zona muy tranquila'
+    extraInfo: 'Vecinos amigables, es una zona muy tranquila',
+    phone: '999999999'
   },
   {
     name: 'Departamento cerca de la playa',
@@ -874,7 +908,8 @@ export const PROPERTY_SEED: PropertySeed[] = [
     hasTerrace: true,
     yearBuilt: 2022,
     hasParking: true,
-    extraInfo: 'Ubicado en un edificio moderno con ascensor'
+    extraInfo: 'Ubicado en un edificio moderno con ascensor',
+    phone: '999999999'
   },
   {
     name: 'Terreno industrial con zonificación',
@@ -897,9 +932,10 @@ export const PROPERTY_SEED: PropertySeed[] = [
     latitude: -12.1843786,
     longitude: -77.0075145,
     hasTerrace: false,
-    yearBuilt: 1998,
+    yearBuilt: null,
     hasParking: false,
-    extraInfo: null
+    extraInfo: null,
+    phone: '999999999'
   },
   {
     name: 'Casa familiar en zona residencial',
@@ -924,7 +960,8 @@ export const PROPERTY_SEED: PropertySeed[] = [
     hasTerrace: true,
     yearBuilt: 2015,
     hasParking: true,
-    extraInfo: 'Vecinos amigables, es una zona muy tranquila'
+    extraInfo: 'Vecinos amigables, es una zona muy tranquila',
+    phone: '999999999'
   },
   {
     name: 'Almacén con oficinas administrativas',
@@ -949,7 +986,8 @@ export const PROPERTY_SEED: PropertySeed[] = [
     hasTerrace: true,
     yearBuilt: 2005,
     hasParking: true,
-    extraInfo: 'Cuenta con acceso para camiones y gran capacidad'
+    extraInfo: 'Cuenta con acceso para camiones y gran capacidad',
+    phone: '999999999'
   },
   {
     name: 'Departamento económico para estudiantes',
@@ -974,7 +1012,8 @@ export const PROPERTY_SEED: PropertySeed[] = [
     hasTerrace: true,
     yearBuilt: 2022,
     hasParking: true,
-    extraInfo: 'Ubicado en un edificio moderno con ascensor'
+    extraInfo: 'Ubicado en un edificio moderno con ascensor',
+    phone: '999999999'
   },
   {
     name: 'Local comercial en mercado central',
@@ -999,7 +1038,8 @@ export const PROPERTY_SEED: PropertySeed[] = [
     hasTerrace: true,
     yearBuilt: 2010,
     hasParking: true,
-    extraInfo: 'Zona altamente transitada, ideal para negocios'
+    extraInfo: 'Zona altamente transitada, ideal para negocios',
+    phone: '999999999'
   },
   {
     name: 'Casa de playa con acceso directo',
@@ -1024,7 +1064,8 @@ export const PROPERTY_SEED: PropertySeed[] = [
     hasTerrace: true,
     yearBuilt: 2015,
     hasParking: true,
-    extraInfo: 'Vecinos amigables, es una zona muy tranquila'
+    extraInfo: 'Vecinos amigables, es una zona muy tranquila',
+    phone: '999999999'
   },
   {
     name: 'Departamento con balcón y vista',
@@ -1049,7 +1090,8 @@ export const PROPERTY_SEED: PropertySeed[] = [
     hasTerrace: true,
     yearBuilt: 2022,
     hasParking: true,
-    extraInfo: 'Ubicado en un edificio moderno con ascensor'
+    extraInfo: 'Ubicado en un edificio moderno con ascensor',
+    phone: '999999999'
   },
   {
     name: 'Oficina moderna en centro de negocios',
@@ -1074,7 +1116,8 @@ export const PROPERTY_SEED: PropertySeed[] = [
     hasTerrace: true,
     yearBuilt: 2018,
     hasParking: true,
-    extraInfo: 'Espacio amplio con buena iluminación natural'
+    extraInfo: 'Espacio amplio con buena iluminación natural',
+    phone: '999999999'
   },
   {
     name: 'Casa de lujo en condominio cerrado',
@@ -1099,7 +1142,8 @@ export const PROPERTY_SEED: PropertySeed[] = [
     hasTerrace: true,
     yearBuilt: 2015,
     hasParking: true,
-    extraInfo: 'Vecinos amigables, es una zona muy tranquila'
+    extraInfo: 'Vecinos amigables, es una zona muy tranquila',
+    phone: '999999999'
   },
   {
     name: 'Departamento ejecutivo en torre premium',
@@ -1124,7 +1168,8 @@ export const PROPERTY_SEED: PropertySeed[] = [
     hasTerrace: true,
     yearBuilt: 2022,
     hasParking: true,
-    extraInfo: 'Ubicado en un edificio moderno con ascensor'
+    extraInfo: 'Ubicado en un edificio moderno con ascensor',
+    phone: '999999999'
   },
   {
     name: 'Terreno premium para desarrollo',
@@ -1147,9 +1192,10 @@ export const PROPERTY_SEED: PropertySeed[] = [
     latitude: -12.0917608,
     longitude: -76.9531146,
     hasTerrace: false,
-    yearBuilt: 1998,
+    yearBuilt: null,
     hasParking: false,
-    extraInfo: null
+    extraInfo: null,
+    phone: '999999999'
   },
   {
     name: 'Oficina corporativa de alto nivel',
@@ -1174,7 +1220,8 @@ export const PROPERTY_SEED: PropertySeed[] = [
     hasTerrace: true,
     yearBuilt: 2018,
     hasParking: true,
-    extraInfo: 'Espacio amplio con buena iluminación natural'
+    extraInfo: 'Espacio amplio con buena iluminación natural',
+    phone: '999999999'
   },
   {
     name: 'Casa moderna con piscina y jardín',
@@ -1199,7 +1246,8 @@ export const PROPERTY_SEED: PropertySeed[] = [
     hasTerrace: true,
     yearBuilt: 2015,
     hasParking: true,
-    extraInfo: 'Vecinos amigables, es una zona muy tranquila'
+    extraInfo: 'Vecinos amigables, es una zona muy tranquila',
+    phone: '999999999'
   },
   {
     name: 'Departamento familiar con vista al golf',
@@ -1224,7 +1272,8 @@ export const PROPERTY_SEED: PropertySeed[] = [
     hasTerrace: true,
     yearBuilt: 2022,
     hasParking: true,
-    extraInfo: 'Ubicado en un edificio moderno con ascensor'
+    extraInfo: 'Ubicado en un edificio moderno con ascensor',
+    phone: '999999999'
   },
   {
     name: 'Local comercial en centro comercial',
@@ -1249,7 +1298,8 @@ export const PROPERTY_SEED: PropertySeed[] = [
     hasTerrace: true,
     yearBuilt: 2010,
     hasParking: true,
-    extraInfo: 'Zona altamente transitada, ideal para negocios'
+    extraInfo: 'Zona altamente transitada, ideal para negocios',
+    phone: '999999999'
   },
   {
     name: 'Penthouse de lujo con terraza privada',
@@ -1274,7 +1324,8 @@ export const PROPERTY_SEED: PropertySeed[] = [
     hasTerrace: true,
     yearBuilt: 2022,
     hasParking: true,
-    extraInfo: 'Ubicado en un edificio moderno con ascensor'
+    extraInfo: 'Ubicado en un edificio moderno con ascensor',
+    phone: '999999999'
   },
   {
     name: 'Casa en condominio con club ecuestre',
@@ -1299,6 +1350,7 @@ export const PROPERTY_SEED: PropertySeed[] = [
     hasTerrace: true,
     yearBuilt: 2015,
     hasParking: true,
-    extraInfo: 'Vecinos amigables, es una zona muy tranquila'
+    extraInfo: 'Vecinos amigables, es una zona muy tranquila',
+    phone: '999999999'
   }
 ]

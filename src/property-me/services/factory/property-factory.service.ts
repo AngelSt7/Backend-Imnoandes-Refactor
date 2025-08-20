@@ -23,6 +23,7 @@ export class PropertyFactoryService {
             department: { connect: { id: newProperty.departmentId } },
             province: { connect: { id: newProperty.provinceId } },
             extraInfo: newProperty.extraInfo,
+            phone: newProperty.phone,
             residential: {
                 create: {
                     bedrooms: newProperty.bedrooms,
@@ -39,9 +40,11 @@ export class PropertyFactoryService {
                     parkingSpaces: newProperty.parkingSpaces
                 }
             },
-            serviceToProperty: {
-                create: newProperty.servicesId.map(s => ({ serviceId: s }))
-            }
+            ...(newProperty.servicesId?.length ? {
+                serviceToProperty: {
+                    create: newProperty.servicesId.map(s => ({ serviceId: s }))
+                }
+            } : {})
 
         }
     }
@@ -62,7 +65,7 @@ export class PropertyFactoryService {
             district: { connect: { id: updateProperty.districtId } },
             department: { connect: { id: updateProperty.departmentId } },
             province: { connect: { id: updateProperty.provinceId } },
-
+            phone: updateProperty.phone,
             residential: {
                 update: {
                     bedrooms: updateProperty.bedrooms,
@@ -79,9 +82,11 @@ export class PropertyFactoryService {
                     parkingSpaces: updateProperty.parkingSpaces
                 }
             },
-            serviceToProperty: {
-                create: updateProperty.servicesId?.map(s => ({ serviceId: s }))
-            }
+            ...(updateProperty.servicesId?.length ? {
+                serviceToProperty: {
+                    create: updateProperty.servicesId.map(s => ({ serviceId: s }))
+                }
+            } : {})
         }
     }
 

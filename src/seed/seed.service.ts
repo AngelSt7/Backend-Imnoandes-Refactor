@@ -70,12 +70,8 @@ export class SeedService {
             .filter(service => service.service !== 'Luz' && service.service !== 'Agua Potable')
             .map(service => service.id);
         
-        if (property.property_category === "LAND") {
-            return {
-                ...property,
-                servicesId: fixed as string[]
-            };
-        }
+        if (property.property_category === "LAND") return property
+
         const getRandomInt = (max: number) => Math.floor(Math.random() * max);
 
         const nRandom = getRandomInt(exclude.length) + 1;

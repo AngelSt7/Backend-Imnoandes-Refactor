@@ -17,7 +17,7 @@ export interface PropertyFormatted {
     hasParking: boolean | undefined | null;
     parkingSpaces: number | undefined | null;
     bedrooms: number | undefined | null;
-    yearBuilt: number;
+    yearBuilt: number | null;
     latitude: number;
     longitude: number;
     hasTerrace: boolean | undefined | null;

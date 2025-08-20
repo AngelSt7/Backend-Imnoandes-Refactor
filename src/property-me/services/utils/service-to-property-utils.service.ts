@@ -5,7 +5,7 @@ import { UpdatePropertyMeDto } from 'src/property-me/dto';
 export class ServiceToPropertyUtilsService {
 
     preparedData(updateServicesId: UpdatePropertyMeDto['servicesId'] = [], servicesId: string []) {
-        const { adds, deletes } = this.getAddsAndDeletes(updateServicesId, servicesId);
+        const { adds, deletes } = this.getAddsAndDeletes(updateServicesId!, servicesId);
         return { adds, deletes };
     }
 

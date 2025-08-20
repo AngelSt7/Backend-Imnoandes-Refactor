@@ -1,6 +1,8 @@
-import { IsArray, IsBoolean, IsEnum, IsNumber, IsOptional, IsPositive, IsString, IsUUID, Length, Max, Min } from "class-validator";
+import { Type } from "class-transformer";
+import { IsBoolean, IsEnum, IsNumber, IsOptional, IsPositive, IsString, IsUUID, Length, Matches, Max, Min } from "class-validator";
 import { CURRENCY, PROPERTY_CATEGORY, PROPERTY_TYPE } from "generated/prisma";
 import { RangeByCategory, RequiredByCategory } from "src/property-me/decorators";
+import { ArrayByCategory } from "src/property-me/decorators/validation/array-by-category.decorator";
 
 export class CreatePropertyMeDto {
 
@@ -91,23 +93,21 @@ export class CreatePropertyMeDto {
 
     @IsOptional()
     @IsBoolean()
-    hasParking: boolean
+    hasParking?: boolean
 
     @IsOptional()
     @RangeByCategory("property_category", {
-        [PROPERTY_CATEGORY.HOUSE]: { min: 0, max: 5 },
-        [PROPERTY_CATEGORY.WAREHOUSE]: { min: 0, max: 20 },
-        [PROPERTY_CATEGORY.APARTMENT]: { min: 0, max: 2 },
-        [PROPERTY_CATEGORY.OFFICE]: { min: 0, max: 50 },
-        [PROPERTY_CATEGORY.COMMERCIAL]: { min: 0, max: 50 },
+        [PROPERTY_CATEGORY.HOUSE]: { min: 1, max: 5 },
+        [PROPERTY_CATEGORY.WAREHOUSE]: { min: 1, max: 20 },
+        [PROPERTY_CATEGORY.APARTMENT]: { min: 1, max: 2 },
+        [PROPERTY_CATEGORY.OFFICE]: { min: 1, max: 50 },
+        [PROPERTY_CATEGORY.COMMERCIAL]: { min: 1, max: 50 },
     })
     parkingSpaces?: number | null
 
-
     @IsOptional()
-    @IsArray()
-    @IsUUID('4', { each: true })
-    servicesId: string[]
+    @ArrayByCategory("property_category", [PROPERTY_CATEGORY.LAND])
+    servicesId?: string[] | null;
 
     @IsNumber()
     @Min(-90)
@@ -123,14 +123,26 @@ export class CreatePropertyMeDto {
     @IsBoolean()
     hasTerrace?: boolean
 
+    @IsOptional()
     @IsNumber()
-    @IsPositive()
     @Min(1900)
-    @Max(new Date().getFullYear() + 2)
-    yearBuilt: number
+    @Max(new Date().getFullYear())
+    @RequiredByCategory("property_category", [
+        PROPERTY_CATEGORY.HOUSE,
+        PROPERTY_CATEGORY.APARTMENT,
+        PROPERTY_CATEGORY.OFFICE,
+        PROPERTY_CATEGORY.COMMERCIAL,
+    ])
+    yearBuilt?: number | null;
 
     @IsOptional()
     @IsString()
     @Length(8, 300)
     extraInfo?: string | null
+
+    @IsString()
+    @Type(() => String)
+    @Matches(/^9[0-9]{8}$/, { message: 'El teléfono debe tener 9 dígitos y comenzar con 9' })
+    phone: string;
+        
 }
