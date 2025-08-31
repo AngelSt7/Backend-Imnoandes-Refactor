@@ -122,10 +122,13 @@ model ImagesGallery {
   property Property @relation(fields: [propertyId], references: [id])
 }
 
-model MainImage {
-  id       String   @id
-  url      String
-  property Property @relation(fields: [id], references: [id])
+model ImageMain {
+  id        String   @id
+  url       String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  property  Property @relation(fields: [id], references: [id])
 }
 
 model Property {
@@ -152,7 +155,7 @@ model Property {
   // Relaciones
   residential ResidentialProperty?
   commercial  CommercialProperty?
-  mainImage   MainImage?
+  mainImage   ImageMain?
 
   user       User       @relation(fields: [userId], references: [id])
   district   District   @relation(fields: [districtId], references: [id])
@@ -181,7 +184,7 @@ model CommercialProperty {
   id            String  @id
   floor         Int     @default(1)
   hasParking    Boolean @default(false)
-  parkingSpaces Int?    
+  parkingSpaces Int?
 
   property Property @relation(fields: [id], references: [id])
 }

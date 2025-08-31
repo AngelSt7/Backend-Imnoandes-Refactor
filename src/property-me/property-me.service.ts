@@ -5,6 +5,10 @@ import { Injectable, Logger } from '@nestjs/common';
 import { Property, User } from 'generated/prisma';
 import { PropertyFormatted } from './interfaces';;
 import { PropertyService, TransactionService, ServiceToPropertyUtilsService } from './services';
+import { CreateImageMainPropertyMeDto } from './dto/request/create-image-main-property-me.dto';
+import { CreateImagesGalleryPropertyMeDto } from './dto/request/create-images-gallery-property-me.dto';
+import { ImageMainService } from './services/domain/image-main.service';
+import { ImagesGalleryService } from './services/domain/images-gallery.service';
 
 @Injectable()
 export class PropertyMeService {
@@ -13,6 +17,8 @@ export class PropertyMeService {
 
   constructor(
     private readonly propertyService: PropertyService,
+    private readonly imageMainService: ImageMainService,
+    private readonly imagesGalleryService: ImagesGalleryService,
     private readonly cacheUtilsService: CacheUtilsService,
     private readonly serviceToPropertyUtils: ServiceToPropertyUtilsService,
     private readonly transactionService: TransactionService
@@ -25,6 +31,17 @@ export class PropertyMeService {
       message: 'Property created successfully',
     }
   }
+
+  async createImageMain(createImageMainPropertyMeDto: CreateImageMainPropertyMeDto, userId: User['id']) {
+    this.propertyService.findOne(createImageMainPropertyMeDto.id, userId);
+    return await this.imageMainService.createImageMain(createImageMainPropertyMeDto);
+  }
+
+   async createImagesGallery(createImagesGalleryPropertyMeDto: CreateImagesGalleryPropertyMeDto, userId: User['id']) {
+    this.propertyService.findOne(createImagesGalleryPropertyMeDto.id, userId);
+    return await this.imagesGalleryService.createImagesGallery(createImagesGalleryPropertyMeDto);
+  }
+
 
   async findAll(queryParams: PaginationPropertyMeDto, userId: User['id'],) {
     return await this.propertyService.findAll(userId, queryParams);

@@ -2,7 +2,7 @@ import {
   PROPERTY_TYPE, CURRENCY, PROPERTY_CATEGORY, 
   Property, Province, District, Department, 
   ResidentialProperty, CommercialProperty, Service, 
-  MainImage, ImagesGallery 
+  ImageMain, ImagesGallery 
 } from "generated/prisma";
 
 export interface BasePropertyMinimal {
@@ -62,8 +62,8 @@ export interface DepartmentInfo {
   department: Department['department'];
 }
 
-export interface MainImageInfo {
-  url: MainImage['url'] | null;
+export interface ImageMainInfo {
+  url: ImageMain['url'] | null;
 }
 
 export interface ImagesGalleryInfo {

@@ -100,7 +100,10 @@ export class PropertyFactoryService {
             property_category: true,
             availability: true,
             yearBuilt: true,
+            phone: true,
             location: true,
+            createdAt: true,
+            updatedAt: true,
             residential: {
                 select: {
                     bedrooms: true,
@@ -155,7 +158,7 @@ export class PropertyFactoryService {
             province: { select: { province: true, } },
             district: { select: { district: true, } },
             department: { select: { department: true, } },
-            mainImage: { select: { url: true } },
+            imageMain: { select: { url: true } },
             imagesGallery: { select: { url: true } }
         }
     }

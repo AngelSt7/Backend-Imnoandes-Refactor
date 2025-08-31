@@ -7,7 +7,7 @@ import { PaginationPropertyMeDto } from 'src/property-me/dto';
 @Injectable()
 export class FilterService {
     private readonly mode = 'insensitive';
-    private readonly searchFields: (keyof Property)[] = ['name'];
+    private readonly searchFields: (keyof Property)[] = ['name', 'location'];
 
     getFilter(query: PaginationPropertyMeDto) {
         const filter: any = {};
@@ -26,9 +26,7 @@ export class FilterService {
 
         const exactFilters: (keyof PaginationPropertyMeDto)[] = [
             'currency',
-            'departamentId',
-            'provinceId',
-            'districtId',
+            'departmentId',
             'availability',
         ];
 
@@ -53,7 +51,7 @@ export class FilterService {
 
     //Filter by OR
     //example: filter.ORD = this.getOrFilter(words);
-    private getOrFilter(words: string[]) {
+    private  __getOrFilter(words: string[]) {
         return words.flatMap(word =>
             this.searchFields.map(field => ({
                 [field]: { contains: word, mode: this.mode },

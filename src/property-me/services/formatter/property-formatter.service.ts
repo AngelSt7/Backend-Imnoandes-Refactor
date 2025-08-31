@@ -11,9 +11,12 @@ export class PropertyFormatterService {
             name: property.name,
             price: property.price,
             currency: property.currency,
+            phone: property.phone,
             property_type: property.property_type,
             property_category: property.property_category,
             availability: property.availability,
+            createdAt: property.createdAt,
+            updatedAt: property.updatedAt,
             area: property.residential?.area,
             yearBuilt: property.yearBuilt,
             bathrooms: property.residential?.bathrooms,
@@ -77,7 +80,7 @@ export class PropertyFormatterService {
             province: property.province.province,
             district: property.district.district,
             departament: property.department.department,
-            mainImage: property.mainImage?.url || null,
+            imageMain: property.imageMain?.url || null,
             imagesGallery: property.imagesGallery.map(img => img.url)
         }
     }

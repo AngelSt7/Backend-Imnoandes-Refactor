@@ -6,6 +6,10 @@ import { CreatePropertyMeDto, PaginationPropertyMeDto, UpdatePropertyMeDto } fro
 import { PropertyFactoryService } from '../factory';
 import { PropertyFormatterService } from '../formatter';
 import { FilterService } from '../filter/filter.service';
+import { CreateImageMainPropertyMeDto } from 'src/property-me/dto/request/create-image-main-property-me.dto';
+import { ImageMainRepository } from '../../repository/image-main.repository';
+import { CreateImagesGalleryPropertyMeDto } from 'src/property-me/dto/request/create-images-gallery-property-me.dto';
+import { ImagesGalleryRepository } from '../../repository/images-gallery.respository';
 
 @Injectable()
 export class PropertyService {
@@ -13,6 +17,8 @@ export class PropertyService {
 
     constructor(
         private readonly propertyRepository: PropertyRepository,
+        private readonly imageMainRepository: ImageMainRepository,
+        private readonly imagesGalleryRepository: ImagesGalleryRepository,
         private readonly handleErrorsService: HandleErrorsService,
         private readonly propertyFactoryService: PropertyFactoryService,
         private readonly propertyFormatterService: PropertyFormatterService,
@@ -20,15 +26,16 @@ export class PropertyService {
     ) { }
 
 
-    async create(createPropertyMeDto: CreatePropertyMeDto, userId: User['id']) {
+    async create(dto: CreatePropertyMeDto, userId: User['id']) {
         try {
-            const slug = this.slug(createPropertyMeDto.name);
-            const property = this.propertyFactoryService.preparedCreate(createPropertyMeDto, slug, userId);
+            const slug = this.slug(dto.name);
+            const property = this.propertyFactoryService.preparedCreate(dto, slug, userId);
             return await this.propertyRepository.create(property)
         } catch (error) {
             this.handleErrorsService.handleError(error, this.context);
         }
     }
+
 
     async findAll(userId: User['id'], queryParams: PaginationPropertyMeDto) {
         const filters = this.filterService.getFilter(queryParams);

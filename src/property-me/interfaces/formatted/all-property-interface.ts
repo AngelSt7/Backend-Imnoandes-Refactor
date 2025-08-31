@@ -7,8 +7,11 @@ export interface FormattedAllProperty {
     currency: CURRENCY;
     property_type: PROPERTY_TYPE;
     property_category: PROPERTY_CATEGORY;
+    phone: Property['phone'];
     availability: Property['availability'];
     yearBuilt: Property['yearBuilt'];
+    createdAt: Property['createdAt'];
+    updatedAt: Property['updatedAt'];
     area: ResidentialProperty['area'] | undefined;
     bathrooms: ResidentialProperty['bathrooms'] | undefined;
     bedrooms: ResidentialProperty['bathrooms'] | undefined;

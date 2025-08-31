@@ -4,6 +4,7 @@ import { PrismaService } from 'src/common/services/prisma/prisma.service';
 import { PaginationService } from '../../common/services/pagination/pagination.service';
 import { PaginationPropertyMeDto } from '../dto';
 
+
 @Injectable()
 export class PropertyRepository {
     private logger = new Logger(PropertyRepository.name)

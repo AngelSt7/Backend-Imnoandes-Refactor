@@ -7,6 +7,8 @@ import { GetProperty, PropertyOwner } from './decorators';
 import { Property, User } from 'generated/prisma';
 import { PropertyFormatted } from './interfaces';
 import { PropertyMeService } from './property-me.service';
+import { CreateImageMainPropertyMeDto } from './dto/request/create-image-main-property-me.dto';
+import { CreateImagesGalleryPropertyMeDto } from './dto/request/create-images-gallery-property-me.dto';
 
 @Auth()
 @Controller('property-me')
@@ -22,6 +24,22 @@ export class PropertyMeController {
     @Body() createPropertyMeDto: CreatePropertyMeDto
   ) {
     return await this.propertyMeService.create(createPropertyMeDto, userId);
+  }
+
+  @Post('/image-main')
+  async createImageMain(
+    @GetUser('id', ParseUUIDPipe) userId: User['id'],
+    @Body() createImageMainPropertyMeDto: CreateImageMainPropertyMeDto
+  ) {
+    return await this.propertyMeService.createImageMain(createImageMainPropertyMeDto, userId);
+  }
+
+  @Post('/images-gallery')
+  async createImagesGallery(
+    @GetUser('id', ParseUUIDPipe) userId: User['id'],
+    @Body() createImagesGalleryPropertyMeDto: CreateImagesGalleryPropertyMeDto
+  ) {
+    return await this.propertyMeService.createImagesGallery(createImagesGalleryPropertyMeDto, userId);
   }
 
   @Get()

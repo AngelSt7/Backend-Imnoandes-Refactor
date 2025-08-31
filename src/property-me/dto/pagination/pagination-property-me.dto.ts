@@ -2,6 +2,7 @@ import { Type } from 'class-transformer';
 import { IsBoolean, IsEnum, IsNumber, IsOptional, IsPositive, IsString, IsUUID } from 'class-validator';
 import { CURRENCY } from 'generated/prisma';
 import { BasePaginationDto } from "src/common/dto/base-pagination.dto";
+import { ToBoolean } from 'src/property-me/decorators/validation/to-boolean.decorator';
 
 export class PaginationPropertyMeDto extends BasePaginationDto {
 
@@ -23,11 +24,12 @@ export class PaginationPropertyMeDto extends BasePaginationDto {
 
     @IsOptional()
     @IsBoolean()
-    availability: boolean
+    @ToBoolean()
+    availability?: boolean;
 
     @IsOptional()
     @IsUUID()
-    departamentId: string
+    departmentId: string
 
     @IsOptional()
     @IsUUID()

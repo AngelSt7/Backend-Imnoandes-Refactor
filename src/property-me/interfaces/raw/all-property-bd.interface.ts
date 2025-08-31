@@ -4,6 +4,9 @@ import { BasePropertyMinimal, ResidentialDetails, ProvinceInfo, DistrictInfo } f
 
 export interface AllPropertiesBD extends BasePropertyMinimal {
   yearBuilt: Property['yearBuilt'];
+  createdAt: Property['createdAt'];
+  updatedAt: Property['updatedAt'];
+  phone: Property['phone'];
   residential: ResidentialDetails | null;
   province: ProvinceInfo;
   district: DistrictInfo;

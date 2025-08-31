@@ -1,4 +1,4 @@
-import { PROPERTY_TYPE, CURRENCY, PROPERTY_CATEGORY, Property, Province, District, Department, ImagesGallery, MainImage } from "generated/prisma";
+import { PROPERTY_TYPE, CURRENCY, PROPERTY_CATEGORY, Property, Province, District, Department, ImagesGallery, ImageMain } from "generated/prisma";
 
 export interface FormattedDetailProperty {
     id: Property['id'];
@@ -25,6 +25,6 @@ export interface FormattedDetailProperty {
     province: Province['province'];
     district: District['district'];
     departament: Department['department'];
-    mainImage: MainImage['url'] | null;
+    imageMain: ImageMain['url'] | null;
     imagesGallery: ImagesGallery['url'][];
 }
