@@ -1,20 +1,19 @@
 // property.detail.types.ts
-import { Property } from 'generated/prisma';
-import { 
-  BasePropertyWithDescription, ResidentialDetails, CommercialDetails, ServiceInfo,
-  ImageMainInfo, ImagesGalleryInfo, ProvinceInfo, DistrictInfo, DepartmentInfo,
-  ResidentialDetailsWithTerrace
+import { Image, IMAGE_TYPE, Property } from 'generated/prisma';
+import {
+  BasePropertyWithDescription, CommercialDetails, ServiceInfo, ProvinceInfo, DistrictInfo, DepartmentInfo,
+  ResidentialDetailsWithTerrace,
+  Images
 } from '../shared';
+
+
 
 export interface DetailPropertyBD extends BasePropertyWithDescription {
   yearBuilt: Property['yearBuilt'];
-  latitude: Property['latitude'];
-  longitude: Property['longitude'];
   residential: ResidentialDetailsWithTerrace | null;
   commercial: CommercialDetails | null;
   serviceToProperty: ServiceInfo[];
-  imageMain: ImageMainInfo | null;
-  imagesGallery: ImagesGalleryInfo[];
+  images: Images[] | null;
   province: ProvinceInfo;
   district: DistrictInfo;
   department: DepartmentInfo;

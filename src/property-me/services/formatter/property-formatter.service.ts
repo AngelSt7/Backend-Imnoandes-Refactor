@@ -12,8 +12,8 @@ export class PropertyFormatterService {
             price: property.price,
             currency: property.currency,
             phone: property.phone,
-            property_type: property.property_type,
-            property_category: property.property_category,
+            propertyType: property.propertyType,
+            propertyCategory: property.propertyCategory,
             availability: property.availability,
             createdAt: property.createdAt,
             updatedAt: property.updatedAt,
@@ -29,9 +29,9 @@ export class PropertyFormatterService {
         return {
             id: property.id,
             name: property.name,
-            property_type: property.property_type,
+            propertyType: property.propertyType,
             currency: property.currency,
-            property_category: property.property_category,
+            propertyCategory: property.propertyCategory,
             price: property.price,
             yearBuilt: property.yearBuilt,
             latitude: property.latitude,
@@ -43,6 +43,7 @@ export class PropertyFormatterService {
             districtId: property.districtId,
             departmentId: property.departmentId,
             provinceId: property.provinceId,
+            phone: property.phone,
             floor: property.commercial?.floor,
             hasParking: property.commercial?.hasParking,
             parkingSpaces: property.commercial?.parkingSpaces,
@@ -58,13 +59,11 @@ export class PropertyFormatterService {
         return {
             id: property.id,
             name: property.name,
-            property_type: property.property_type,
+            propertyType: property.propertyType,
             currency: property.currency,
-            property_category: property.property_category,
+            propertyCategory: property.propertyCategory,
             price: property.price,
             yearBuilt: property.yearBuilt,
-            latitude: property.latitude,
-            longitude: property.longitude,
             hasTerrace: property.residential?.hasTerrace,
             location: property.location,
             description: property.description,
@@ -80,8 +79,7 @@ export class PropertyFormatterService {
             province: property.province.province,
             district: property.district.district,
             departament: property.department.department,
-            imageMain: property.imageMain?.url || null,
-            imagesGallery: property.imagesGallery.map(img => img.url)
+            images: property.images || null,
         }
     }
 }

@@ -10,6 +10,7 @@ export class FilterService {
     private readonly searchFields: (keyof Property)[] = ['name', 'location'];
 
     getFilter(query: PaginationPropertyMeDto) {
+
         const filter: any = {};
 
         if (query.search) {
@@ -18,16 +19,12 @@ export class FilterService {
             filter.AND = this.getAndFilter(words);
         }
 
-        if (query.minPrice || query.maxPrice) {
-            filter.price = {};
-            if (query.minPrice) filter.price.gte = query.minPrice;
-            if (query.maxPrice) filter.price.lte = query.maxPrice;
-        }
-
         const exactFilters: (keyof PaginationPropertyMeDto)[] = [
             'currency',
             'departmentId',
             'availability',
+            'propertyCategory',
+            'propertyType',
         ];
 
         for (const key of exactFilters) {

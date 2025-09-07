@@ -7,6 +7,7 @@ export class ServiceController {
 
   @Get()
   async findAll() {
+    console.log("servicios")
     return await this.serviceService.findAll();
   }
 }

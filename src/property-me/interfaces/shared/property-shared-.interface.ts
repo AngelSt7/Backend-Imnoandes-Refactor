@@ -2,15 +2,15 @@ import {
   PROPERTY_TYPE, CURRENCY, PROPERTY_CATEGORY, 
   Property, Province, District, Department, 
   ResidentialProperty, CommercialProperty, Service, 
-  ImageMain, ImagesGallery 
+  IMAGE_TYPE
 } from "generated/prisma";
 
 export interface BasePropertyMinimal {
   id: Property['id'];
   name: Property['name'];
-  property_type: PROPERTY_TYPE;
+  propertyType: PROPERTY_TYPE;
   currency: CURRENCY;
-  property_category: PROPERTY_CATEGORY;
+  propertyCategory: PROPERTY_CATEGORY;
   price: Property['price'];
   location: Property['location'];
   availability: Property['availability'];
@@ -62,10 +62,7 @@ export interface DepartmentInfo {
   department: Department['department'];
 }
 
-export interface ImageMainInfo {
-  url: ImageMain['url'] | null;
-}
-
-export interface ImagesGalleryInfo {
-  url: ImagesGallery['url'];
+export interface Images {
+  url: string
+  type: IMAGE_TYPE
 }

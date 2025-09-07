@@ -1,6 +1,6 @@
 import { Type } from 'class-transformer';
 import { IsBoolean, IsEnum, IsNumber, IsOptional, IsPositive, IsString, IsUUID } from 'class-validator';
-import { CURRENCY } from 'generated/prisma';
+import { CURRENCY, PROPERTY_CATEGORY, PROPERTY_TYPE } from 'generated/prisma';
 import { BasePaginationDto } from "src/common/dto/base-pagination.dto";
 import { ToBoolean } from 'src/property-me/decorators/validation/to-boolean.decorator';
 
@@ -11,33 +11,25 @@ export class PaginationPropertyMeDto extends BasePaginationDto {
     search: string
 
     @IsOptional()
-    @IsNumber()
-    @IsPositive()
-    @Type(() => Number)
-    minPrice: number
-
-    @IsOptional()
-    @IsNumber()
-    @IsPositive()
-    @Type(() => Number)
-    maxPrice: number
-
-    @IsOptional()
     @IsBoolean()
     @ToBoolean()
-    availability?: boolean;
+    availability: boolean;
 
     @IsOptional()
     @IsUUID()
     departmentId: string
 
     @IsOptional()
-    @IsUUID()
-    provinceId: string
+    @IsEnum(PROPERTY_TYPE, {
+        message: `The property type must be one of the following: ${Object.values(PROPERTY_TYPE).join(', ')}`
+    })
+    propertyType: PROPERTY_TYPE
 
     @IsOptional()
-    @IsUUID()
-    districtId: string
+    @IsEnum(PROPERTY_CATEGORY, {
+        message: `The property type must be one of the following: ${Object.values(PROPERTY_CATEGORY).join(', ')}`
+    })
+    propertyCategory: PROPERTY_CATEGORY
 
     @IsOptional()
     @IsEnum(CURRENCY, {

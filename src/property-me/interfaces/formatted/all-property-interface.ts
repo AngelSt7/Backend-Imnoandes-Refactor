@@ -5,8 +5,8 @@ export interface FormattedAllProperty {
     name: Property['name'];
     price: Property['price'];
     currency: CURRENCY;
-    property_type: PROPERTY_TYPE;
-    property_category: PROPERTY_CATEGORY;
+    propertyType: PROPERTY_TYPE;
+    propertyCategory: PROPERTY_CATEGORY;
     phone: Property['phone'];
     availability: Property['availability'];
     yearBuilt: Property['yearBuilt'];

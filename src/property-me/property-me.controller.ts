@@ -7,8 +7,8 @@ import { GetProperty, PropertyOwner } from './decorators';
 import { Property, User } from 'generated/prisma';
 import { PropertyFormatted } from './interfaces';
 import { PropertyMeService } from './property-me.service';
-import { CreateImageMainPropertyMeDto } from './dto/request/create-image-main-property-me.dto';
-import { CreateImagesGalleryPropertyMeDto } from './dto/request/create-images-gallery-property-me.dto';
+import { CreateImagePropertyMeDto } from './dto/request/create-image-property-me.dto';
+import { CreateImagesPropertyMeDto } from './dto/request/create-images-property-me.dto';
 
 @Auth()
 @Controller('property-me')
@@ -21,25 +21,34 @@ export class PropertyMeController {
   @Post()
   async create(
     @GetUser('id', ParseUUIDPipe) userId: User['id'],
-    @Body() createPropertyMeDto: CreatePropertyMeDto
+    @Body() dto: CreatePropertyMeDto
   ) {
-    return await this.propertyMeService.create(createPropertyMeDto, userId);
+    return await this.propertyMeService.create(dto, userId);
   }
 
-  @Post('/image-main')
+  @Post('/image-main/:id')
+  @PropertyOwner()
   async createImageMain(
-    @GetUser('id', ParseUUIDPipe) userId: User['id'],
-    @Body() createImageMainPropertyMeDto: CreateImageMainPropertyMeDto
+    @Body() dto: CreateImagePropertyMeDto,
   ) {
-    return await this.propertyMeService.createImageMain(createImageMainPropertyMeDto, userId);
+    return await this.propertyMeService.createImageMain(dto);
   }
 
-  @Post('/images-gallery')
+  @Post('/images-gallery/:id')
+  @PropertyOwner()
   async createImagesGallery(
-    @GetUser('id', ParseUUIDPipe) userId: User['id'],
-    @Body() createImagesGalleryPropertyMeDto: CreateImagesGalleryPropertyMeDto
+    @Body() dto: CreateImagesPropertyMeDto,
   ) {
-    return await this.propertyMeService.createImagesGallery(createImagesGalleryPropertyMeDto, userId);
+    return await this.propertyMeService.createImagesGallery(dto);
+  }
+
+  @Get('/images/:id')
+  @Cached(CACHE_KEYS.PROPERTY_IMAGES)
+  @PropertyOwner()
+  changeStatus(
+    @GetProperty('id') id: Property['id']
+  ) {
+    return this.propertyMeService.images(id);
   }
 
   @Get()
@@ -51,7 +60,7 @@ export class PropertyMeController {
     return await this.propertyMeService.findAll(queryParams, userId);
   }
 
-  @Get('/:id/detail')
+  @Get('/:id/details')
   @Cached(CACHE_KEYS.PROPERTY_DETAIL)
   async findOneWithRelations(
     @GetUser('id', ParseUUIDPipe) userId: User['id'],
@@ -63,22 +72,22 @@ export class PropertyMeController {
   @Get(':id')
   @Cached(CACHE_KEYS.PROPERTY_ME)
   @PropertyOwner()
-  findOne(
+  async findOne(
     @GetProperty() property: PropertyFormatted
   ) {
-    return property
+    return await property
   }
 
   @Patch(':id')
   @PropertyOwner()
   update(
     @GetProperty() property: PropertyFormatted,
-    @Body() updatePropertyMeDto: UpdatePropertyMeDto
+    @Body() dto: UpdatePropertyMeDto
   ) {
-    return this.propertyMeService.update(property, updatePropertyMeDto);
+    return this.propertyMeService.update(property, dto);
   }
 
-  @Delete(':id')
+  @Patch('status/:id')
   @PropertyOwner()
   remove(
     @GetProperty() property: PropertyFormatted

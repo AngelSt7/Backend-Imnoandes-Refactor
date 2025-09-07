@@ -2,13 +2,15 @@ import { CACHE_KEYS } from 'src/cache/cache-keys';
 import { CacheUtilsService } from 'src/common/services';
 import { CreatePropertyMeDto, PaginationPropertyMeDto, UpdatePropertyMeDto } from './dto';
 import { Injectable, Logger } from '@nestjs/common';
-import { Property, User } from 'generated/prisma';
+import { IMAGE_TYPE, Property, User } from 'generated/prisma';
 import { PropertyFormatted } from './interfaces';;
-import { PropertyService, TransactionService, ServiceToPropertyUtilsService } from './services';
-import { CreateImageMainPropertyMeDto } from './dto/request/create-image-main-property-me.dto';
-import { CreateImagesGalleryPropertyMeDto } from './dto/request/create-images-gallery-property-me.dto';
-import { ImageMainService } from './services/domain/image-main.service';
-import { ImagesGalleryService } from './services/domain/images-gallery.service';
+import { PropertyService, TransactionService, ImagesPropertyService } from './services';
+import { CreateImagePropertyMeDto } from './dto/request/create-image-property-me.dto';
+import { CreateImagesPropertyMeDto } from './dto/request/create-images-property-me.dto';
+import { NormalizerService } from './services/normalizer';
+import { CollectionDiffService } from 'src/common/services/formaters/collection-diff.service';
+import { add } from 'date-fns';
+import { ImagesService } from 'src/images/images.service';
 
 @Injectable()
 export class PropertyMeService {
@@ -17,11 +19,12 @@ export class PropertyMeService {
 
   constructor(
     private readonly propertyService: PropertyService,
-    private readonly imageMainService: ImageMainService,
-    private readonly imagesGalleryService: ImagesGalleryService,
+    private readonly imagesPropertyService: ImagesPropertyService,
     private readonly cacheUtilsService: CacheUtilsService,
-    private readonly serviceToPropertyUtils: ServiceToPropertyUtilsService,
-    private readonly transactionService: TransactionService
+    private readonly collectionDiffService: CollectionDiffService,
+    private readonly transactionService: TransactionService,
+    private readonly normalizerService: NormalizerService,
+    private readonly imagesService: ImagesService
   ) { }
 
   async create(createProperty: CreatePropertyMeDto, userId: User['id']) {
@@ -32,14 +35,33 @@ export class PropertyMeService {
     }
   }
 
-  async createImageMain(createImageMainPropertyMeDto: CreateImageMainPropertyMeDto, userId: User['id']) {
-    this.propertyService.findOne(createImageMainPropertyMeDto.id, userId);
-    return await this.imageMainService.createImageMain(createImageMainPropertyMeDto);
+  async images(id: Property['id']) {
+    return await this.imagesPropertyService.images(id);
   }
 
-   async createImagesGallery(createImagesGalleryPropertyMeDto: CreateImagesGalleryPropertyMeDto, userId: User['id']) {
-    this.propertyService.findOne(createImagesGalleryPropertyMeDto.id, userId);
-    return await this.imagesGalleryService.createImagesGallery(createImagesGalleryPropertyMeDto);
+  async createImageMain(dto: CreateImagePropertyMeDto) {
+    this.cacheUtilsService.deleteKeys([`${CACHE_KEYS.PROPERTY_IMAGES}/${dto.propertyId}`]);
+    const created = await this.imagesPropertyService.createMain(dto);
+    return {
+      image: created.url
+    }
+  }
+
+  async createImagesGallery(dto: CreateImagesPropertyMeDto) {
+    const currentImages = (await this.imagesPropertyService.images(dto.propertyId)).filter(image => image.type === IMAGE_TYPE.GALLERY).map(image => image.url);
+  
+    const { adds, deletes } = this.collectionDiffService.preparedData(dto.images.map(image => image.url), currentImages);
+
+    const addsObjects = dto.images.filter(image => adds.includes(image.url));
+    await Promise.all([
+      this.imagesPropertyService.deleteImages(deletes),
+      this.imagesService.remove(deletes)
+    ])
+    this.cacheUtilsService.deleteKeys([`${CACHE_KEYS.PROPERTY_IMAGES}/${dto.propertyId}`]);
+    const created = await this.imagesPropertyService.createGallery({ ...dto, images: addsObjects });
+    return {
+      images: created.map(image => image.url)
+    }
   }
 
 
@@ -52,9 +74,10 @@ export class PropertyMeService {
   }
 
   async update(property: PropertyFormatted, updateProperty: UpdatePropertyMeDto) {
-    const { adds, deletes } = this.serviceToPropertyUtils.preparedData(updateProperty.servicesId, property.servicesId);
-    await this.transactionService.update(deletes, { ...updateProperty, servicesId: adds }, property.id);
-    this.cacheUtilsService.deleteKeys([CACHE_KEYS.PROPERTIES_ME, `${CACHE_KEYS.PROPERTY_ME}/${property.id}`]);
+    const propertyNormalized = this.normalizerService.normalizeProperty(updateProperty);
+    const { adds, deletes } = this.collectionDiffService.preparedData(propertyNormalized.servicesId, property.servicesId);
+    await this.transactionService.update(deletes, { ...propertyNormalized, servicesId: adds }, property.id);
+    this.cacheUtilsService.deleteKeys([CACHE_KEYS.PROPERTIES_ME, `${CACHE_KEYS.PROPERTY_ME}/${property.id}`, `${CACHE_KEYS.PROPERTY_DETAIL}/${property.id}`]);
     this.logger.debug('Transaction completed successfully');
     return {
       message: 'Property updated successfully',
@@ -63,7 +86,7 @@ export class PropertyMeService {
 
   async changeStatus(property: PropertyFormatted) {
     await this.propertyService.changeStatus(property.id, property.availability);
-    this.cacheUtilsService.deleteKeys([CACHE_KEYS.PROPERTIES_ME, `${CACHE_KEYS.PROPERTY_ME}/${property.id}`]);
+    this.cacheUtilsService.deleteKeys([CACHE_KEYS.PROPERTIES_ME, `${CACHE_KEYS.PROPERTY_ME}/${property.id}`, `${CACHE_KEYS.PROPERTY_DETAIL}/${property.id}`]);
     return {
       message: 'Property status changed successfully',
     }

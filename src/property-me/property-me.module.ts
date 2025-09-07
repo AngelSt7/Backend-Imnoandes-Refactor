@@ -1,16 +1,16 @@
 import { Module } from '@nestjs/common';
 import { CommonModule } from 'src/common/common.module';
 import { AuthModule } from 'src/auth';
-import { PropertyService, PropertyRepository, PropertyMeController, PropertyMeService, ServiceToPropertyService, PropertyFactoryService, FilterService, ServiceToPropertyUtilsService, PropertyFormatterService, TransactionService, ServiceToPropertyRepository  } from '.';
-import { ImageMainRepository } from './repository/image-main.repository';
-import { ImagesGalleryRepository } from './repository/images-gallery.respository';
-import { ImageMainService } from './services/domain/image-main.service';
-import { ImagesGalleryService } from './services/domain/images-gallery.service';
+import { PropertyService, PropertyRepository, PropertyMeController, PropertyMeService, ServiceToPropertyService, PropertyFactoryService, FilterService, PropertyFormatterService, TransactionService, ServiceToPropertyRepository, ImagesPropertyRepository  } from '.';
+import { ImagesPropertyService } from './services/domain/images-property.service';
+import { NormalizerService } from './services/normalizer/normalizer.service';
+import { ImagesModule } from 'src/images/images.module';
 
 @Module({
   imports: [
     CommonModule,
-    AuthModule
+    AuthModule,
+    ImagesModule
   ],
   controllers: [
     PropertyMeController
@@ -22,14 +22,12 @@ import { ImagesGalleryService } from './services/domain/images-gallery.service';
     PropertyFactoryService,
     PropertyFormatterService,
     FilterService,
-    ServiceToPropertyUtilsService,
     ServiceToPropertyService,
     TransactionService,
     ServiceToPropertyRepository,
-    ImageMainRepository,
-    ImagesGalleryRepository,
-    ImageMainService,
-    ImagesGalleryService
+    ImagesPropertyRepository,
+    ImagesPropertyService,
+    NormalizerService
   ],
   exports: [
     PropertyService

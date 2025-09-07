@@ -6,10 +6,6 @@ import { CreatePropertyMeDto, PaginationPropertyMeDto, UpdatePropertyMeDto } fro
 import { PropertyFactoryService } from '../factory';
 import { PropertyFormatterService } from '../formatter';
 import { FilterService } from '../filter/filter.service';
-import { CreateImageMainPropertyMeDto } from 'src/property-me/dto/request/create-image-main-property-me.dto';
-import { ImageMainRepository } from '../../repository/image-main.repository';
-import { CreateImagesGalleryPropertyMeDto } from 'src/property-me/dto/request/create-images-gallery-property-me.dto';
-import { ImagesGalleryRepository } from '../../repository/images-gallery.respository';
 
 @Injectable()
 export class PropertyService {
@@ -17,8 +13,6 @@ export class PropertyService {
 
     constructor(
         private readonly propertyRepository: PropertyRepository,
-        private readonly imageMainRepository: ImageMainRepository,
-        private readonly imagesGalleryRepository: ImagesGalleryRepository,
         private readonly handleErrorsService: HandleErrorsService,
         private readonly propertyFactoryService: PropertyFactoryService,
         private readonly propertyFormatterService: PropertyFormatterService,
@@ -35,7 +29,6 @@ export class PropertyService {
             this.handleErrorsService.handleError(error, this.context);
         }
     }
-
 
     async findAll(userId: User['id'], queryParams: PaginationPropertyMeDto) {
         const filters = this.filterService.getFilter(queryParams);
@@ -77,6 +70,5 @@ export class PropertyService {
     slug(name: Property['name']) {
         return name.toLocaleLowerCase().trim().replace(/\s+/g, '-')
     }
-
 
 }

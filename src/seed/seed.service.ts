@@ -31,8 +31,8 @@ export class SeedService {
         const insertOne = PROPERTY_SEED.slice(0, 25)
         const insertTwo = PROPERTY_SEED.slice(25, 50)
 
-        const idOne = "4737c061-6d19-4f0d-b7f1-7b03ffbecbc7"
-        const idTwo = "399af104-1076-4833-a232-ae2670a31ad0"
+        const idOne = "45ab0de0-8273-4963-ac3b-c7c895bcf557"
+        const idTwo = "71c1d711-f155-410a-8214-46a9f39eb36a"
 
         const services = await this.getServices();
 
@@ -70,7 +70,7 @@ export class SeedService {
             .filter(service => service.service !== 'Luz' && service.service !== 'Agua Potable')
             .map(service => service.id);
         
-        if (property.property_category === "LAND") return property
+        if (property.propertyCategory === "LAND") return property
 
         const getRandomInt = (max: number) => Math.floor(Math.random() * max);
 

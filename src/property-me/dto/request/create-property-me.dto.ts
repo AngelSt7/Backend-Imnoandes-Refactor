@@ -13,12 +13,12 @@ export class CreatePropertyMeDto {
     @IsEnum(PROPERTY_TYPE, {
         message: `The property type must be one of the following: ${Object.values(PROPERTY_TYPE).join(', ')}`
     })
-    property_type: PROPERTY_TYPE
+    propertyType: PROPERTY_TYPE
 
     @IsEnum(PROPERTY_CATEGORY, {
         message: `The property category must be one of the following: ${Object.values(PROPERTY_CATEGORY).join(', ')}`
     })
-    property_category: PROPERTY_CATEGORY
+    propertyCategory: PROPERTY_CATEGORY
 
     @IsEnum(CURRENCY, {
         message: `The currency type must be one of the following: ${Object.values(CURRENCY).join(', ')}`
@@ -30,7 +30,7 @@ export class CreatePropertyMeDto {
     price: number
 
     @IsString()
-    @Length(8, 40)
+    @Length(8, 200)
     location: string
 
     @IsString()
@@ -47,18 +47,18 @@ export class CreatePropertyMeDto {
     districtId: string
 
     @IsOptional()
-    @RequiredByCategory("property_category", [
+    @RequiredByCategory("propertyCategory", [
         PROPERTY_CATEGORY.HOUSE,
         PROPERTY_CATEGORY.APARTMENT,
     ])
-    @RangeByCategory("property_category", {
+    @RangeByCategory("propertyCategory", {
         [PROPERTY_CATEGORY.HOUSE]: { min: 1, max: 10 },
         [PROPERTY_CATEGORY.APARTMENT]: { min: 1, max: 10 },
     })
     bedrooms?: number | null
 
     @IsOptional()
-    @RangeByCategory("property_category", {
+    @RangeByCategory("propertyCategory", {
         [PROPERTY_CATEGORY.HOUSE]: { min: 1, max: 10 },
         [PROPERTY_CATEGORY.APARTMENT]: { min: 1, max: 10 },
         [PROPERTY_CATEGORY.COMMERCIAL]: { min: 1, max: 20 },
@@ -76,13 +76,13 @@ export class CreatePropertyMeDto {
     furnished?: boolean
 
     @IsOptional()
-    @RequiredByCategory("property_category", [
+    @RequiredByCategory("propertyCategory", [
         PROPERTY_CATEGORY.APARTMENT,
         PROPERTY_CATEGORY.OFFICE,
         PROPERTY_CATEGORY.COMMERCIAL,
         PROPERTY_CATEGORY.HOUSE,
     ])
-    @RangeByCategory("property_category", {
+    @RangeByCategory("propertyCategory", {
         [PROPERTY_CATEGORY.HOUSE]: { min: 1, max: 8 },
         [PROPERTY_CATEGORY.APARTMENT]: { min: 1, max: 50 },
         [PROPERTY_CATEGORY.COMMERCIAL]: { min: 1, max: 50 },
@@ -96,7 +96,7 @@ export class CreatePropertyMeDto {
     hasParking?: boolean
 
     @IsOptional()
-    @RangeByCategory("property_category", {
+    @RangeByCategory("propertyCategory", {
         [PROPERTY_CATEGORY.HOUSE]: { min: 1, max: 5 },
         [PROPERTY_CATEGORY.WAREHOUSE]: { min: 1, max: 20 },
         [PROPERTY_CATEGORY.APARTMENT]: { min: 1, max: 2 },
@@ -106,7 +106,7 @@ export class CreatePropertyMeDto {
     parkingSpaces?: number | null
 
     @IsOptional()
-    @ArrayByCategory("property_category", [PROPERTY_CATEGORY.LAND])
+    @ArrayByCategory("propertyCategory", [PROPERTY_CATEGORY.LAND])
     servicesId?: string[] | null;
 
     @IsNumber()
@@ -127,7 +127,7 @@ export class CreatePropertyMeDto {
     @IsNumber()
     @Min(1900)
     @Max(new Date().getFullYear())
-    @RequiredByCategory("property_category", [
+    @RequiredByCategory("propertyCategory", [
         PROPERTY_CATEGORY.HOUSE,
         PROPERTY_CATEGORY.APARTMENT,
         PROPERTY_CATEGORY.OFFICE,

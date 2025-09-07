@@ -1,11 +1,12 @@
-import { PROPERTY_TYPE, CURRENCY, PROPERTY_CATEGORY, Property, Province, District, Department, ImagesGallery, ImageMain } from "generated/prisma";
+import { PROPERTY_TYPE, CURRENCY, PROPERTY_CATEGORY, Property, Province, District, Department, Image, IMAGE_TYPE } from "generated/prisma";
+import { Images } from "../shared";
 
 export interface FormattedDetailProperty {
     id: Property['id'];
     name: Property['name'];
-    property_type: PROPERTY_TYPE;
+    propertyType: PROPERTY_TYPE;
     currency: CURRENCY;
-    property_category: PROPERTY_CATEGORY;
+    propertyCategory: PROPERTY_CATEGORY;
     price: Property['price'];
     location: Property['location'];
     description: Property['description'];
@@ -14,8 +15,6 @@ export interface FormattedDetailProperty {
     hasParking: boolean | undefined | null;
     parkingSpaces: number | undefined | null;
     yearBuilt: Property['yearBuilt'];
-    latitude: Property['latitude'];
-    longitude: Property['longitude'];
     hasTerrace: boolean | undefined | null;
     bedrooms: number | undefined | null;
     bathrooms: number | undefined | null;
@@ -25,6 +24,5 @@ export interface FormattedDetailProperty {
     province: Province['province'];
     district: District['district'];
     departament: Department['department'];
-    imageMain: ImageMain['url'] | null;
-    imagesGallery: ImagesGallery['url'][];
+    images: Images[] | null;
 }
