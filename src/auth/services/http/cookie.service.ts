@@ -11,7 +11,8 @@ export class CookieService {
             httpOnly: true,
             secure: envs.nodeEnv === 'PRODUCTION',
             sameSite: 'lax',
-            maxAge: this.getMaxAge(mode)
+            maxAge: this.getMaxAge(mode),
+            path: '/'
         });
     }
 
@@ -20,7 +21,8 @@ export class CookieService {
             httpOnly: false,
             secure: envs.nodeEnv === 'PRODUCTION',
             sameSite: 'lax',
-            maxAge: 1000 * 60
+            maxAge: 1000 * 60,
+            path: '/'
         });
     }
     
