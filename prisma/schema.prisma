@@ -20,6 +20,11 @@ enum PROPERTY_TYPE {
   RENT
 }
 
+enum IMAGE_TYPE {
+  MAIN
+  GALLERY
+}
+
 enum CURRENCY {
   PEN
   USD
@@ -40,25 +45,29 @@ model User {
   name         String
   lastname     String
   email        String         @unique
-  authProvider AUTH_PROVIDERS @default(LOCAL)
+  authProvider AUTH_PROVIDERS @default(LOCAL) @map("auth_provider")
   confirmed    Boolean        @default(false)
-  birthDate    DateTime?
+  birthDate    DateTime?      @map("birth_date")
   password     String?
   phone        String?        @unique
-  createdAt    DateTime       @default(now())
-  updatedAt    DateTime       @updatedAt
+  createdAt    DateTime       @default(now()) @map("created_at")
+  updatedAt    DateTime       @updatedAt @map("updated_at")
 
   token    Token?
   property Property[]
+
+  @@map("users")
 }
 
 model Token {
   id        String   @id @default(uuid())
-  userId    String   @unique
+  userId    String   @unique @map("user_id")
   token     Int      @unique
-  expiresAt DateTime
+  expiresAt DateTime @map("expires_at")
 
   user User @relation(fields: [userId], references: [id])
+
+  @@map("tokens")
 }
 
 model Department {
@@ -67,106 +76,110 @@ model Department {
 
   province Province[]
   district District[]
-  Property Property[]
+  property Property[]
+
+  @@map("departments")
 }
 
 model Province {
   id           String @id @default(uuid())
   province     String @unique
   slug         String @unique
-  departmentId String
+  departmentId String @map("department_id")
 
   department Department @relation(fields: [departmentId], references: [id])
   district   District[]
 
   property Property[]
+
+  @@map("provinces")
 }
 
 model District {
   id           String @id @default(uuid())
   district     String
   slug         String
-  provinceId   String
-  departmentId String
+  provinceId   String @map("province_id")
+  departmentId String @map("department_id")
 
   province   Province   @relation(fields: [provinceId], references: [id])
   department Department @relation(fields: [departmentId], references: [id])
   property   Property[]
+
+  @@map("districts")
 }
 
 model Service {
-  id                String              @id @default(uuid())
-  service           String
-  slug              String
-  // serviceToPropert
+  id      String @id @default(uuid())
+  service String
+  slug    String
+
   serviceToProperty ServiceToProperty[]
+
+  @@map("services")
 }
 
 model ServiceToProperty {
   id         String @id @default(uuid())
-  propertyId String
-  serviceId  String
+  propertyId String @map("property_id")
+  serviceId  String @map("service_id")
 
   service  Service  @relation(fields: [serviceId], references: [id])
   property Property @relation(fields: [propertyId], references: [id])
+
+  @@map("services_to_properties")
 }
 
-model ImagesGallery {
+model Image {
   id         String @id @default(uuid())
-  propertyId String
+  propertyId String @map("property_id")
+  publicId   String @unique
   url        String
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  type      IMAGE_TYPE
   property Property @relation(fields: [propertyId], references: [id])
-}
 
-model ImageMain {
-  id        String   @id
-  url       String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  property  Property @relation(fields: [id], references: [id])
+  @@map("images")
 }
 
 model Property {
-  id                String            @id @default(uuid())
-  name              String            @unique
-  slug              String
-  property_type     PROPERTY_TYPE
-  currency          CURRENCY
-  property_category PROPERTY_CATEGORY
-  price             Float
-  location          String
-  description       String
-  availability      Boolean           @default(true)
-  userId            String
-  districtId        String
-  departmentId      String
-  provinceId        String
-  phone             String
-  yearBuilt         Int?
-  latitude          Float
-  longitude         Float
-  extraInfo         String?
+  id               String            @id @default(uuid())
+  name             String            @unique
+  slug             String
+  propertyType     PROPERTY_TYPE     @map("property_type")
+  currency         CURRENCY
+  propertyCategory PROPERTY_CATEGORY @map("property_category")
+  price            Float
+  location         String
+  description      String
+  availability     Boolean           @default(true)
+  userId           String            @map("user_id")
+  districtId       String            @map("district_id")
+  departmentId     String            @map("department_id")
+  provinceId       String            @map("province_id")
+  phone            String
+  yearBuilt        Int?              @map("year_built")
+  latitude         Float
+  longitude        Float
+  extraInfo        String?           @map("extra_info")
 
-  // Relaciones
-  residential ResidentialProperty?
-  commercial  CommercialProperty?
-  mainImage   ImageMain?
+  residential     ResidentialProperty?
+  commercial      CommercialProperty?
+  images          Image[]
 
   user       User       @relation(fields: [userId], references: [id])
   district   District   @relation(fields: [districtId], references: [id])
   department Department @relation(fields: [departmentId], references: [id])
   province   Province   @relation(fields: [provinceId], references: [id])
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
 
   serviceToProperty ServiceToProperty[]
-  imagesGallery     ImagesGallery[]
+
+  @@map("properties")
 }
 
 model ResidentialProperty {
@@ -175,16 +188,20 @@ model ResidentialProperty {
   bathrooms  Int?
   area       Float
   furnished  Boolean @default(false)
-  hasTerrace Boolean @default(false)
+  hasTerrace Boolean @default(false) @map("has_terrace")
 
   property Property @relation(fields: [id], references: [id])
+
+  @@map("residential_properties")
 }
 
 model CommercialProperty {
   id            String  @id
   floor         Int     @default(1)
-  hasParking    Boolean @default(false)
-  parkingSpaces Int?
+  hasParking    Boolean @default(false) @map("has_parking")
+  parkingSpaces Int?    @map("parking_spaces")
 
   property Property @relation(fields: [id], references: [id])
+
+  @@map("commercial_properties")
 }

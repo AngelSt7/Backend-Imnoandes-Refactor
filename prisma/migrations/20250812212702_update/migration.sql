@@ -5,7 +5,7 @@
   - You are about to drop the column `departamentId` on the `Province` table. All the data in the column will be lost.
   - You are about to drop the `Departament` table. If the table is not empty, all the data it contains will be lost.
   - Added the required column `departmentId` to the `District` table without a default value. This is not possible if the table is not empty.
-  - Added the required column `property_category` to the `Property` table without a default value. This is not possible if the table is not empty.
+  - Added the required column `propertyCategory` to the `Property` table without a default value. This is not possible if the table is not empty.
   - Added the required column `departmentId` to the `Province` table without a default value. This is not possible if the table is not empty.
 
 */
@@ -26,7 +26,7 @@ ALTER TABLE "public"."District" DROP COLUMN "departamentId",
 ADD COLUMN     "departmentId" TEXT NOT NULL;
 
 -- AlterTable
-ALTER TABLE "public"."Property" ADD COLUMN     "property_category" "public"."PROPERTY_CATEGORY" NOT NULL;
+ALTER TABLE "public"."Property" ADD COLUMN     "propertyCategory" "public"."PROPERTY_CATEGORY" NOT NULL;
 
 -- AlterTable
 ALTER TABLE "public"."Province" DROP COLUMN "departamentId",
