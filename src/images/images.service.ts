@@ -12,7 +12,7 @@ export class ImagesService {
   ) { }
 
   async create(files: Express.Multer.File[], type: UploadType) {
-        this.Logger.debug("Estamos en el service");
+    this.Logger.debug("Estamos en el service");
 
 
     await this.validationsService.validateFiles(files, type);
@@ -29,7 +29,7 @@ export class ImagesService {
 
       return {
         message: 'Images uploaded successfully',
-        urls: data.map(image => image.url)
+        urls: data
       };
 
     } catch (error) {
@@ -38,14 +38,16 @@ export class ImagesService {
     }
   }
 
-  async remove(publicId: string) {
+  async remove(publicIds: string[]) {
     try {
-      await this.cloudinaryService.removeImage(publicId);
+      await this.cloudinaryService.removeImages(publicIds);
+      this.Logger.debug('Images removed successfully');
       return {
-        message: 'Image removed successfully',
+        message: 'Images removed successfully',
+        removed: publicIds,
       };
     } catch (error) {
-      throw new BadRequestException('Error uploading image: ' + error.message);
+      throw new BadRequestException('Error removing images: ' + error.message);
     }
   }
 

@@ -7,5 +7,6 @@ import { ValidationsService } from './services/validations/validations.service';
 @Module({
   controllers: [ImagesController],
   providers: [ImagesService, CloudinaryService, ValidationsService, ],
+  exports: [ImagesService, CloudinaryService]
 })
 export class ImagesModule {}

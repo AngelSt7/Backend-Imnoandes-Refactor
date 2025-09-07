@@ -25,7 +25,7 @@ export class CloudinaryService {
   async uploadImage(buffer: Buffer) {
     return new Promise((resolve, reject) => {
       this.logger.log("esn el upload image de cloudinary");
-      
+
       const uploadStream = cloudinary.uploader.upload_stream(
         {
           folder: this.folder,
@@ -50,13 +50,18 @@ export class CloudinaryService {
     });
   }
 
-  async removeImage(publicId: string) {
-    return new Promise((resolve, reject) => {
-      cloudinary.uploader.destroy(publicId, (error, result) => {
-        if (error) return reject(error);
-        resolve(result);
-      });
-    });
+  async removeImages(publicIds: string[]) {
+    return Promise.all(
+      publicIds.map(
+        (publicId) =>
+          new Promise((resolve, reject) => {
+            cloudinary.uploader.destroy(publicId, (error, result) => {
+              if (error) return reject(error);
+              resolve({ publicId, result });
+            });
+          }),
+      ),
+    );
   }
 
 }

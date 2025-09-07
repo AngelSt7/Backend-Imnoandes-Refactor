@@ -23,7 +23,7 @@ export class ImagesController {
 
 
   @Delete(':publicId')
-  remove(@Param('publicId') publicId: string) {
+  remove(@Param('publicId') publicId: string[]) {
     return this.imagesService.remove(publicId);
   }
 }
