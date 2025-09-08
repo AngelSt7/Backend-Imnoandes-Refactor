@@ -2,7 +2,7 @@ import { Type } from "class-transformer";
 import { IsBoolean, IsEnum, IsNumber, IsOptional, IsPositive, IsString, IsUUID, Length, Matches, Max, Min } from "class-validator";
 import { CURRENCY, PROPERTY_CATEGORY, PROPERTY_TYPE } from "generated/prisma";
 import { RangeByCategory, RequiredByCategory } from "src/property-me/decorators";
-import { ArrayByCategory } from "src/property-me/decorators/validation/array-by-category.decorator";
+import { ArrayByCategory } from "@decorators/validation/array-by-category.decorator";
 
 export class CreatePropertyMeDto {
 
