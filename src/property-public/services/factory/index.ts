@@ -1,1 +1,0 @@
-export { PropertyFactoryService } from './property-factory.service';

@@ -1,27 +1,37 @@
 
 import { Injectable } from '@nestjs/common';
-import { CarrouselPropertyBD } from 'src/property-public/interfaces/raw/carrousel-property-bd.interface';
-import { PROPERTY_CATEGORY, PROPERTY_TYPE } from 'generated/prisma';
-import { OnePropertyDB } from 'src/property-public/interfaces/raw/one-property-bd.interface';
-
-const propertyTypeMap: Record<PROPERTY_TYPE, string> = {
-    SALE: "venta",
-    RENT: "alquiler",
-};
-
-const propertyCategoryMap: Record<PROPERTY_CATEGORY, string> = {
-    HOUSE: "casa",
-    APARTMENT: "departamento",
-    LAND: "terreno",
-    COMMERCIAL: "comercial",
-    OFFICE: "oficina",
-    WAREHOUSE: "almacen",
-};
+import { propertyCategoryMap, propertyTypeMap } from 'src/property-public/constants/property-public-maps';
+import { CarrouselPropertyBD, OnePropertyDB, SearchPropertyBD } from 'src/property-public/interfaces';
 
 @Injectable()
 export class PropertyFormatterService {
 
-
+    formatSearch(properties: SearchPropertyBD[]) {
+        return properties.map(property => ({
+            id: property.id,
+            slug: property.slug,
+            price: property.price,
+            currency: property.currency,
+            propertyType: property.propertyType,
+            propertyCategory: property.propertyCategory,
+            location: property.location,
+            description: property.description,
+            hasParking: property.commercial?.hasParking,
+            parkingSpaces: property.commercial?.parkingSpaces,
+            createdAt: property.createdAt,
+            bedrooms: property.residential?.bedrooms,
+            bathrooms: property.residential?.bathrooms,
+            services: property.serviceToProperty.map(stp => stp.service.service),
+            area: property.residential?.area,
+            images: property.images?.map(i => ({
+                url: i.url,
+                type: i.type
+            })),
+            department: property.department?.department,
+            district: property.district?.district?.toLowerCase(),
+            url: this.formatUrl(property.propertyType, property.propertyCategory, property.district?.slug, property.slug, property.id)
+        }))
+    }
 
     formatOne(property: OnePropertyDB | null) {
         if (!property) return null
@@ -52,12 +62,12 @@ export class PropertyFormatterService {
             department: property.department?.department,
             province: property.province?.province,
             district: property.district?.district,
-            serviceToProperty: property.serviceToProperty.map(stp => stp.service.service),
+            services: property.serviceToProperty.map(stp => stp.service.service),
             images: property.images.map(i => ({
                 url: i.url,
                 type: i.type
             })),
-            url: `/inmueble/clasificado/${propertyTypeMap[property.propertyType]}-de-${propertyCategoryMap[property.propertyCategory]}-en-${property.district?.slug}--${property.department?.department.toLowerCase()}-${property.slug}-${property.id.split('-')[0]}`
+            url: this.formatUrl(property.propertyType, property.propertyCategory, property.district?.slug, property.slug, property.id)
         };
     }
 
@@ -75,12 +85,21 @@ export class PropertyFormatterService {
             bedrooms: property.residential?.bedrooms,
             bathrooms: property.residential?.bathrooms,
             area: property.residential?.area,
-            image: property.images?.[0]?.url,
+            image: property.images?.[0]?.url ?? null,
             department: property.department?.department,
-            district: property.district?.slug,
-            url: `/inmueble/clasificado/${propertyTypeMap[property.propertyType]}-de-${propertyCategoryMap[property.propertyCategory]}-en-${property.district?.slug}--${property.department?.department.toLowerCase()}-${property.slug}-${property.id.split('-')[0]}`
-
+            district: property.district?.district,
+            url: this.formatUrl(property.propertyType, property.propertyCategory, property.district?.slug, property.slug, property.id)
         }))
+    }
+
+    private formatUrl(type, category, districtSlug, propertySlug, propertyId) {
+        const base = 'inmueble/clasificado/';
+        const propetyType = propertyTypeMap[type]
+        const propertyCategory = propertyCategoryMap[category]
+        const district = districtSlug
+        const property = propertySlug
+        const shortId = propertyId.split('-')[0]
+        return `${base}/${propetyType}-de-${propertyCategory}-en-${district}-${property}-${shortId}`
     }
 
 

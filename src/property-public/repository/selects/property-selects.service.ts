@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import { IMAGE_TYPE, Prisma } from 'generated/prisma';
+import { IMAGE_TYPE } from 'generated/prisma';
 
 @Injectable()
-export class PropertyFactoryService {
+export class PropertySelectsService {
 
     preparedFindOne() {
         return {
@@ -15,6 +15,7 @@ export class PropertyFactoryService {
             price: true,
             currency: true,
             availability: true,
+            hasParking: true,
             propertyType: true,
             propertyCategory: true,
             commercial: {
@@ -61,10 +62,54 @@ export class PropertyFactoryService {
                     bathrooms: true,
                     area: true,
                     furnished: true,
-                    hasTerrace: true
-
+                    hasTerrace: true,
                 }
             },
+            images: {
+                select: {
+                    url: true,
+                    type: true
+                }
+            }
+        }
+    }
+
+    preparedSearch() {
+        return {
+            id: true,
+            slug: true,
+            price: true,
+            currency: true,
+            propertyType: true,
+            propertyCategory: true,
+            location: true,
+            createdAt: true,
+            description: true,
+            commercial: {
+                select: {
+                    floor: true,
+                    hasParking: true,
+                    parkingSpaces: true
+                }
+            },
+            residential: {
+                select: {
+                    bedrooms: true,
+                    bathrooms: true,
+                    area: true
+                }
+            },
+            serviceToProperty: {
+                select: {
+                    service: {
+                        select: {
+                            service: true
+                        }
+                    }
+                }
+            },
+            department: { select: { department: true, } },
+            district: { select: { slug: true, district: true } },
             images: {
                 select: {
                     url: true,
@@ -93,7 +138,7 @@ export class PropertyFactoryService {
                 }
             },
             department: { select: { department: true, } },
-            district: { select: { slug: true, } },
+            district: { select: { slug: true, district: true } },
             images: {
                 where: {
                     type: IMAGE_TYPE.MAIN

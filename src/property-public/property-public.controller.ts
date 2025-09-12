@@ -1,10 +1,8 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
+import { Controller, Get, Param, Query } from '@nestjs/common';
 import { PropertyPublicService } from './property-public.service';
-import { CreatePropertyPublicDto } from './dto/create-property-public.dto';
-import { UpdatePropertyPublicDto } from './dto/update-property-public.dto';
 import { QueryPropertyPublicDto } from './dto';
 import { ParseShortUuidPipe } from 'src/common/pipes/parse-short-uuid.pipe';
-import { PaginationPropertyPublicDto } from './dto/query/pagination-property-public.dto';
+import { PaginationPropertyPublicDto } from './dto/pagination/pagination-property-public.dto';
 
 @Controller('property-public')
 export class PropertyPublicController {

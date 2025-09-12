@@ -5,10 +5,9 @@ import { CommonModule } from 'src/common/common.module';
 import { PropertyService } from './services/domain/property.service';
 import { PropertyRepository } from './repository/property.repository';
 import { CarrouselFilterService } from './services/filters/carrousel-filter.service';
-import { PropertyFactoryService } from './services/factory';
 import { PropertyFormatterService } from './services/formatter';
 import { SearchFilterService } from './services/filters/search-filter.service';
-
+import { PropertySelectsService } from './repository';
 
 @Module({
   imports: [
@@ -22,7 +21,7 @@ import { SearchFilterService } from './services/filters/search-filter.service';
     PropertyService,
     PropertyRepository,
     CarrouselFilterService,
-    PropertyFactoryService,
+    PropertySelectsService,
     PropertyFormatterService,
     SearchFilterService
   ],

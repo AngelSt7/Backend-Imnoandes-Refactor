@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { QueryPropertyPublicDto } from './dto';
 import { PropertyService } from './services/domain/property.service';
-import { PaginationPropertyPublicDto } from './dto/query/pagination-property-public.dto';
+import { PaginationPropertyPublicDto } from './dto/pagination/pagination-property-public.dto';
 
 @Injectable()
 export class PropertyPublicService {

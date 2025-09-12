@@ -95,6 +95,7 @@ export class SeedService {
 
 
     async deleteTables() {
+        await this.prisma.serviceToProperty.deleteMany()
         await this.prisma.service.deleteMany()
         await this.prisma.district.deleteMany()
         await this.prisma.province.deleteMany()

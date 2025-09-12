@@ -56,6 +56,7 @@ export interface ProvinceInfo {
 
 export interface DistrictInfo {
   district: District['district'];
+  slug?: District['slug'];
 }
 
 export interface DepartmentInfo {

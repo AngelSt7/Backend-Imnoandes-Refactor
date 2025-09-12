@@ -1,2 +1,4 @@
 import { PropertyRepository } from "./property.repository";
-export { PropertyRepository }
+import { PropertySelectsService } from "./selects/property-selects.service";
+
+export { PropertyRepository, PropertySelectsService };

@@ -1,11 +1,17 @@
-import { IsOptional, IsEnum, IsNumber, IsArray, ArrayNotEmpty, Min, Max, IsDateString, IsString, ValidateIf } from 'class-validator';
-import { Type } from 'class-transformer';
-import { CURRENCY, PROPERTY_CATEGORY, PROPERTY_TYPE } from 'generated/prisma';
-import { BasePaginationDto } from 'src/common/dto/base-pagination.dto';
+import { IsOptional, IsEnum, IsNumber, Min, IsString } from 'class-validator';
+import { Transform, Type } from 'class-transformer';
+import { CURRENCY, Property, PROPERTY_CATEGORY, PROPERTY_TYPE } from 'generated/prisma';
 import { IsGreaterOrEqual } from '@decorators/validation/is-greater-or-equal.decorator';
 
 
-export class PaginationPropertyPublicDto extends BasePaginationDto {
+export class PaginationPropertyPublicDto {
+
+    @IsOptional()
+    @Type(() => Number)
+    @IsNumber()
+    @Min(0)
+    page: number;
+
     @IsOptional()
     @IsEnum(CURRENCY, {
         message: `The currency type must be one of the following: ${Object.values(CURRENCY).join(', ')}`
@@ -19,10 +25,21 @@ export class PaginationPropertyPublicDto extends BasePaginationDto {
     propertyType: PROPERTY_TYPE
 
     @IsOptional()
+    @Transform(({ value }) =>
+        typeof value === 'string' ? value.split(',').map(val => val.trim()) : value
+    )
     @IsEnum(PROPERTY_CATEGORY, {
+        each: true,
         message: `The property category must be one of the following: ${Object.values(PROPERTY_CATEGORY).join(', ')}`
     })
-    propertyCategory: PROPERTY_CATEGORY
+    propertyCategory: PROPERTY_CATEGORY[]
+
+    @IsOptional()
+    @Transform(({ value }) =>
+        typeof value === 'string' ? value.split(',').map(val => val.trim()) : value
+    )
+    @IsString({ each: true })
+    location: Property['slug'][]
 
     @IsOptional()
     @Type(() => Number)
@@ -48,6 +65,13 @@ export class PaginationPropertyPublicDto extends BasePaginationDto {
     @IsNumber()
     @Min(0)
     minBedrooms?: number;
+
+        @IsOptional()
+    @Type(() => Number)
+    @IsNumber()
+    @Min(0)
+    @IsGreaterOrEqual('minBedrooms', { message: 'minBedrooms should be greater than or equal to minBedrooms' })
+    maxBedrooms?: number;
 
     @IsOptional()
     @Type(() => Number)
