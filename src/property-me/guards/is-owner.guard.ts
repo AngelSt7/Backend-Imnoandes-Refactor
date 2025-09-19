@@ -1,12 +1,14 @@
 import { BadRequestException, CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
 import { isUUID } from 'class-validator';
 import { Property, User } from 'generated/prisma';
-import { PropertyFormatted } from 'src/property-me/interfaces';
-import { PropertyService } from 'src/property-me/services';
+import { PropertyFormatterService, PropertyService } from 'src/property-me/services';
+
+export type FormatOne = ReturnType<PropertyFormatterService['formatOne']>
 
 @Injectable()
 export class IsOwnerGuard implements CanActivate {
 
+  
   constructor(
     private readonly propertyService: PropertyService
   ) { }
@@ -18,7 +20,7 @@ export class IsOwnerGuard implements CanActivate {
 
     if(!isUUID(propertyId)) throw new BadRequestException('Validation failed (uuid is expected)');
 
-    const property : PropertyFormatted = await this.propertyService.findOne(propertyId, user.id);
+    const property : FormatOne = await this.propertyService.findOne(propertyId, user.id);
     request.property = property;
 
     return true;

@@ -8,7 +8,7 @@ export interface FormattedDetailProperty {
     currency: CURRENCY;
     propertyCategory: PROPERTY_CATEGORY;
     price: Property['price'];
-    location: Property['location'];
+    address: Property['address'];
     description: Property['description'];
     availability: Property['availability'];
     floor: number | undefined | null;

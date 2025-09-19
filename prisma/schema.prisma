@@ -39,6 +39,12 @@ enum PROPERTY_CATEGORY {
   WAREHOUSE
 }
 
+enum LOCATION {
+  DEPARTMENT
+  PROVINCE
+  DISTRICT
+}
+
 // Modelos
 model User {
   id           String         @id @default(uuid())
@@ -71,12 +77,13 @@ model Token {
 }
 
 model Department {
-  id         String @id @default(uuid())
+  id         String  @id @default(uuid())
   department String
+  slug       String?
 
   province Province[]
   district District[]
-  property Property[]
+  location Location[]
 
   @@map("departments")
 }
@@ -90,7 +97,7 @@ model Province {
   department Department @relation(fields: [departmentId], references: [id])
   district   District[]
 
-  property Property[]
+  location Location[]
 
   @@map("provinces")
 }
@@ -104,7 +111,7 @@ model District {
 
   province   Province   @relation(fields: [provinceId], references: [id])
   department Department @relation(fields: [departmentId], references: [id])
-  property   Property[]
+  location   Location[]
 
   @@map("districts")
 }
@@ -136,10 +143,10 @@ model Image {
   publicId   String @unique
   url        String
 
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
+  createdAt DateTime   @default(now()) @map("created_at")
+  updatedAt DateTime   @updatedAt @map("updated_at")
   type      IMAGE_TYPE
-  property Property @relation(fields: [propertyId], references: [id])
+  property  Property   @relation(fields: [propertyId], references: [id])
 
   @@map("images")
 }
@@ -152,27 +159,22 @@ model Property {
   currency         CURRENCY
   propertyCategory PROPERTY_CATEGORY @map("property_category")
   price            Float
-  location         String
+  address          String
   description      String
   availability     Boolean           @default(true)
   userId           String            @map("user_id")
-  districtId       String            @map("district_id")
-  departmentId     String            @map("department_id")
-  provinceId       String            @map("province_id")
   phone            String
   yearBuilt        Int?              @map("year_built")
   latitude         Float
   longitude        Float
   extraInfo        String?           @map("extra_info")
+  locationId       String
 
-  residential     ResidentialProperty?
-  commercial      CommercialProperty?
-  images          Image[]
-
-  user       User       @relation(fields: [userId], references: [id])
-  district   District   @relation(fields: [districtId], references: [id])
-  department Department @relation(fields: [departmentId], references: [id])
-  province   Province   @relation(fields: [provinceId], references: [id])
+  residential ResidentialProperty?
+  commercial  CommercialProperty?
+  images      Image[]
+  location    Location             @relation(fields: [locationId], references: [id])
+  user        User                 @relation(fields: [userId], references: [id])
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
@@ -180,6 +182,23 @@ model Property {
   serviceToProperty ServiceToProperty[]
 
   @@map("properties")
+}
+
+model Location {
+  id           String   @id @default(uuid())
+  type         LOCATION
+  departmentId String?  @map("department_id")
+  provinceId   String?  @map("province_id")
+  districtId   String?  @map("district_id")
+
+  slug String
+
+  department Department? @relation(fields: [departmentId], references: [id])
+  district   District?   @relation(fields: [districtId], references: [id])
+  province   Province?   @relation(fields: [provinceId], references: [id])
+  property   Property[]
+
+  @@map("location")
 }
 
 model ResidentialProperty {

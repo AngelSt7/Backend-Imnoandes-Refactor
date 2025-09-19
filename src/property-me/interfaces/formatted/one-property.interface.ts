@@ -1,13 +1,13 @@
 import { PROPERTY_TYPE, CURRENCY, PROPERTY_CATEGORY, Property } from "generated/prisma";
 
 export interface PropertyFormatted {
-    id: string;
+    id: string | null;
     name: string;
     propertyType: PROPERTY_TYPE;
     currency: CURRENCY;
     propertyCategory: PROPERTY_CATEGORY;
     price: number;
-    location: string;
+    address: string;
     phone: Property['phone'];
     description: string;
     availability: boolean;

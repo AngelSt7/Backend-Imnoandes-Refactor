@@ -1,27 +1,29 @@
 import { CreatePropertyMeDto, UpdatePropertyMeDto } from 'src/property-me/dto';
 import { Injectable } from '@nestjs/common';
-import { Prisma, Property, User } from 'generated/prisma';
+import { Location, Prisma, Property, User } from 'generated/prisma';
 
 @Injectable()
 export class PropertyFactoryService {
 
-    preparedCreate(newProperty: CreatePropertyMeDto, slug: Property['slug'], userId: User['id']): Prisma.PropertyCreateInput {
+    preparedCreate(
+        newProperty: CreatePropertyMeDto,
+        locationId: Location['id'],
+        slug: Property['slug'],
+        userId: User['id']): Prisma.PropertyCreateInput {
         return {
             name: newProperty.name,
             slug: slug,
             propertyType: newProperty.propertyType,
             currency: newProperty.currency,
             price: newProperty.price,
-            location: newProperty.location,
+            address: newProperty.address,
             description: newProperty.description,
             propertyCategory: newProperty.propertyCategory,
             latitude: newProperty.latitude,
             longitude: newProperty.longitude,
             yearBuilt: newProperty.yearBuilt,
             user: { connect: { id: userId } },
-            district: { connect: { id: newProperty.districtId } },
-            department: { connect: { id: newProperty.departmentId } },
-            province: { connect: { id: newProperty.provinceId } },
+            location: { connect: { id: locationId } },
             extraInfo: newProperty.extraInfo,
             phone: newProperty.phone,
             residential: {
@@ -49,22 +51,20 @@ export class PropertyFactoryService {
         }
     }
 
-    preparedUpdate(updateProperty: UpdatePropertyMeDto, slug: Property['slug']): Prisma.PropertyUpdateInput {
+    preparedUpdate(updateProperty: UpdatePropertyMeDto, locationId: Location['id'], slug: Property['slug']): Prisma.PropertyUpdateInput {
         return {
             name: updateProperty.name,
             slug,
             propertyType: updateProperty.propertyType,
             currency: updateProperty.currency,
             price: updateProperty.price,
-            location: updateProperty.location,
+            address: updateProperty.address,
             description: updateProperty.description,
             yearBuilt: updateProperty.yearBuilt,
             latitude: updateProperty.latitude,
             longitude: updateProperty.longitude,
             propertyCategory: updateProperty.propertyCategory,
-            district: { connect: { id: updateProperty.districtId } },
-            department: { connect: { id: updateProperty.departmentId } },
-            province: { connect: { id: updateProperty.provinceId } },
+            location: { connect: { id: locationId } },
             phone: updateProperty.phone,
             residential: {
                 update: {
@@ -90,7 +90,7 @@ export class PropertyFactoryService {
         }
     }
 
-    preparedFindAll(): Prisma.PropertySelect {
+    preparedFindAll() {
         return {
             id: true,
             name: true,
@@ -101,7 +101,7 @@ export class PropertyFactoryService {
             availability: true,
             yearBuilt: true,
             phone: true,
-            location: true,
+            address: true,
             createdAt: true,
             updatedAt: true,
             residential: {
@@ -110,8 +110,12 @@ export class PropertyFactoryService {
                     bathrooms: true, area: true
                 }
             },
-            province: { select: { province: true, } },
-            district: { select: { district: true, } }
+            location: {
+                select: {
+                    province: { select: { province: true } },
+                    district: { select: { district: true } }
+                },
+            }
         }
     }
 
@@ -124,16 +128,20 @@ export class PropertyFactoryService {
             propertyType: true,
             propertyCategory: true,
             availability: true,
-            location: true,
+            address: true,
             description: true,
-            districtId: true,
             yearBuilt: true,
-            departmentId: true,
             latitude: true,
             longitude: true,
             phone: true,
-            provinceId: true,
-            commercial: { select: { floor: true,  hasParking: true ,parkingSpaces: true } },
+            location: {
+                select: {
+                    department: { select: { id: true } },
+                    province: { select: { id: true } },
+                    district: { select: { id: true } }
+                }
+            },
+            commercial: { select: { floor: true, hasParking: true, parkingSpaces: true } },
             residential: { select: { bedrooms: true, bathrooms: true, area: true, furnished: true, hasTerrace: true } },
             serviceToProperty: { select: { service: { select: { service: true, id: true } } } }
         }
@@ -148,15 +156,19 @@ export class PropertyFactoryService {
             propertyType: true,
             propertyCategory: true,
             availability: true,
-            location: true,
+            address: true,
             yearBuilt: true,
             description: true,
-            commercial: { select: { floor: true,  hasParking: true ,parkingSpaces: true } },
+            commercial: { select: { floor: true, hasParking: true, parkingSpaces: true } },
             residential: { select: { bedrooms: true, bathrooms: true, area: true, furnished: true, hasTerrace: true } },
             serviceToProperty: { select: { service: { select: { service: true, id: true } } } },
-            province: { select: { province: true, } },
-            district: { select: { district: true, } },
-            department: { select: { department: true, } },
+            location: {
+                select: {
+                    department: { select: { department: true } },
+                    province: { select: { province: true } },
+                    district: { select: { district: true } }
+                }
+            },
             images: { select: { url: true, type: true } },
         }
     }

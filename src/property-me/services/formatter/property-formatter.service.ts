@@ -1,11 +1,14 @@
-import { AllPropertiesBD, FormattedAllProperty, FormattedDetailProperty, PropertyFormatted, OnePropertyDB } from 'src/property-me/interfaces';
 import { Injectable } from '@nestjs/common';
-import { DetailPropertyBD } from 'src/property-me/interfaces';
+import { PropertyRepository } from 'src/property-me/repository';
+
+export type FormatAllData = Awaited<ReturnType<PropertyRepository['findAll']>>['data'];
+export type FormatOneData = Awaited<ReturnType<PropertyRepository['findOne']>>;
+export type FormatOneWithRelationsData = Awaited<ReturnType<PropertyRepository['findOneWithRelations']>>;
 
 @Injectable()
 export class PropertyFormatterService {
 
-    formatAll(properties: AllPropertiesBD[]) : FormattedAllProperty[]{
+    formatAll(properties: FormatAllData) {
         return properties.map(property => ({
             id: property.id,
             name: property.name,
@@ -21,28 +24,28 @@ export class PropertyFormatterService {
             yearBuilt: property.yearBuilt,
             bathrooms: property.residential?.bathrooms,
             bedrooms: property.residential?.bedrooms,
-            location: `${property.district.district}, ${property.province.province}`
+            address: `${property.location.district?.district}, ${property.location.province?.province}`
         }))
     }
 
-    formatOne(property: OnePropertyDB) : PropertyFormatted {
+    formatOne(property: NonNullable<FormatOneData>) {
         return {
             id: property.id,
-            name: property.name,
-            propertyType: property.propertyType,
-            currency: property.currency,
-            propertyCategory: property.propertyCategory,
-            price: property.price,
-            yearBuilt: property.yearBuilt,
-            latitude: property.latitude,
-            longitude: property.longitude,
-            hasTerrace: property.residential?.hasTerrace,
-            location: property.location,
-            description: property.description,
-            availability: property.availability,
-            districtId: property.districtId,
-            departmentId: property.departmentId,
-            provinceId: property.provinceId,
+            name: property?.name,
+            propertyType: property?.propertyType,
+            currency: property?.currency,
+            propertyCategory: property?.propertyCategory,
+            price: property?.price,
+            yearBuilt: property?.yearBuilt,
+            latitude: property?.latitude,
+            longitude: property?.longitude,
+            hasTerrace: property?.residential?.hasTerrace,
+            address: property?.address,
+            description: property?.description,
+            availability: property?.availability,
+            districtId: property.location.district?.id,
+            departmentId: property.location.department?.id,
+            provinceId: property.location.province?.id,
             phone: property.phone,
             floor: property.commercial?.floor,
             hasParking: property.commercial?.hasParking,
@@ -55,7 +58,7 @@ export class PropertyFormatterService {
         }
     }
 
-    formatDetail( property: DetailPropertyBD ) : FormattedDetailProperty {
+    formatDetail(property: NonNullable<FormatOneWithRelationsData>) {
         return {
             id: property.id,
             name: property.name,
@@ -65,7 +68,7 @@ export class PropertyFormatterService {
             price: property.price,
             yearBuilt: property.yearBuilt,
             hasTerrace: property.residential?.hasTerrace,
-            location: property.location,
+            address: property.address,
             description: property.description,
             availability: property.availability,
             floor: property.commercial?.floor,
@@ -75,10 +78,10 @@ export class PropertyFormatterService {
             bathrooms: property.residential?.bathrooms,
             area: property.residential?.area,
             furnished: property.residential?.furnished,
-            services: property.serviceToProperty.map(stp => ({ name: stp.service.service})).map(stp => stp.name),
-            province: property.province.province,
-            district: property.district.district,
-            departament: property.department.department,
+            services: property.serviceToProperty.map(stp => ({ name: stp.service.service })).map(stp => stp.name),
+            province: property.location.department?.department,
+            district: property.location.district?.district,
+            departament: property.location.province?.province,
             images: property.images || null,
         }
     }

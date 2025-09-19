@@ -1,16 +1,18 @@
 import { Module } from '@nestjs/common';
 import { CommonModule } from 'src/common/common.module';
 import { AuthModule } from 'src/auth';
-import { PropertyService, PropertyRepository, PropertyMeController, PropertyMeService, ServiceToPropertyService, PropertyFactoryService, FilterService, PropertyFormatterService, TransactionService, ServiceToPropertyRepository, ImagesPropertyRepository  } from '.';
+import { PropertyService, PropertyRepository, PropertyMeController, PropertyMeService, ServiceToPropertyService, PropertyFactoryService, FilterService, PropertyFormatterService, TransactionService, ServiceToPropertyRepository, ImagesPropertyRepository } from '.';
 import { ImagesPropertyService } from './services/domain/images-property.service';
 import { NormalizerService } from './services/normalizer/normalizer.service';
 import { ImagesModule } from 'src/images/images.module';
+import { LocationModule } from 'src/location/location.module';
 
 @Module({
   imports: [
     CommonModule,
     AuthModule,
-    ImagesModule
+    ImagesModule,
+    LocationModule
   ],
   controllers: [
     PropertyMeController

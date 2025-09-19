@@ -7,7 +7,7 @@ import { PaginationPropertyMeDto } from 'src/property-me/dto';
 @Injectable()
 export class FilterService {
     private readonly mode = 'insensitive';
-    private readonly searchFields: (keyof Property)[] = ['name', 'location'];
+    private readonly searchFields: (keyof Property)[] = ['name', 'address'];
 
     getFilter(query: PaginationPropertyMeDto) {
 

@@ -12,7 +12,7 @@ export interface BasePropertyMinimal {
   currency: CURRENCY;
   propertyCategory: PROPERTY_CATEGORY;
   price: Property['price'];
-  location: Property['location'];
+  address: Property['address'];
   availability: Property['availability'];
 }
 
@@ -20,7 +20,7 @@ export interface BasePropertyWithDescription extends BasePropertyMinimal {
   description: Property['description'];
 }
 
-export interface BasePropertyWithLocationIds extends BasePropertyWithDescription {
+export interface BasePropertyWithaddressIds extends BasePropertyWithDescription {
   districtId: District['id'];
   departmentId: Department['id'];
   provinceId: Province['id'];

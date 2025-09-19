@@ -12,8 +12,6 @@ export class ImagesService {
   ) { }
 
   async create(files: Express.Multer.File[], type: UploadType) {
-    this.Logger.debug("Estamos en el service");
-
 
     await this.validationsService.validateFiles(files, type);
 
@@ -41,7 +39,6 @@ export class ImagesService {
   async remove(publicIds: string[]) {
     try {
       await this.cloudinaryService.removeImages(publicIds);
-      this.Logger.debug('Images removed successfully');
       return {
         message: 'Images removed successfully',
         removed: publicIds,

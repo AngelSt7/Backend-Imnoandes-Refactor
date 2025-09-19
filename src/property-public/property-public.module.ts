@@ -8,10 +8,12 @@ import { CarrouselFilterService } from './services/filters/carrousel-filter.serv
 import { PropertyFormatterService } from './services/formatter';
 import { SearchFilterService } from './services/filters/search-filter.service';
 import { PropertySelectsService } from './repository';
+import { LocationModule } from 'src/location/location.module';
 
 @Module({
   imports: [
-    CommonModule
+    CommonModule,
+    LocationModule
   ],
   controllers: [
     PropertyPublicController

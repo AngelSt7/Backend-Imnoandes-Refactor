@@ -14,8 +14,6 @@ export class ValidationsService {
             throw new BadRequestException(`Maximum ${config.maxCount} files allowed for ${type}`);
         }
 
-        this.logger.debug(`Validating ${files.length} file(s) for type "${type}"`);
-
         for (const file of files) {
             await this.validateFile(file, config);
         }
@@ -24,19 +22,13 @@ export class ValidationsService {
     private async validateFile(file: Express.Multer.File, config: typeof configByType[UploadType]) {
         const maxSizeBytes = config.maxSizeMB * 1024 * 1024;
 
-        this.logger.debug(`Validating file: ${file.originalname}, size: ${(file.size / 1024 / 1024).toFixed(2)}MB`);
-
         if (file.size > maxSizeBytes) {
             throw new BadRequestException(`File ${file.originalname} exceeds ${config.maxSizeMB}MB limit`);
         }
 
         try {
             const metadata = await sharp(file.buffer).metadata();
-            const { width, height, format } = metadata;
-
-            this.logger.debug(
-                `Metadata for ${file.originalname}: format=${format}, width=${width}, height=${height}`
-            );
+            const { width, height } = metadata;
 
             if (!width || !height) {
                 throw new BadRequestException(`Unable to read dimensions from ${file.originalname}`);

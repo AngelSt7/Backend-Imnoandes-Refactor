@@ -1,5 +1,0 @@
-export * from "./commercial-info.interface"
-export * from "./location-info.interface"
-export * from "./residential-info.interface"
-export * from "./service-to-property.interface"
-export * from "./property-image.interface"

@@ -3,6 +3,11 @@ import { Prisma, Property, User } from 'generated/prisma';
 import { PrismaService } from 'src/common/services/prisma/prisma.service';
 import { PaginationService } from '../../common/services/pagination/pagination.service';
 import { PaginationPropertyMeDto } from '../dto';
+import { PropertyFactoryService } from '../services';
+
+export type PreparedFindAll = ReturnType<PropertyFactoryService['preparedFindAll']>;
+export type PreparedFindOne = ReturnType<PropertyFactoryService['preparedFindOne']>;
+export type PreparedFindWhitRelations = ReturnType<PropertyFactoryService['preparedFindWhitRelations']>;
 
 
 @Injectable()
@@ -24,7 +29,7 @@ export class PropertyRepository {
         userId: User['id'], 
         filters: Prisma.PropertyWhereInput,
         params: PaginationPropertyMeDto,
-        select: Prisma.PropertySelect,
+        select: PreparedFindAll,
         prismaClient: PrismaService | Prisma.TransactionClient = this.prisma
     ) {
         const { skip, take } = this.paginationService.getPagination(params.page, params.limit);
@@ -39,10 +44,10 @@ export class PropertyRepository {
         }
     }
 
-    async findOne<T extends Prisma.PropertySelect>(
+    async findOne(
         id: Property['id'],
         userId: User['id'],
-        select: T,
+        select: PreparedFindOne,
         prismaClient: PrismaService | Prisma.TransactionClient = this.prisma
     ) {
     return await prismaClient.property.findUnique({
@@ -52,10 +57,10 @@ export class PropertyRepository {
     }
 
 
-    async findOneWithRelations<T extends Prisma.PropertySelect>(
+    async findOneWithRelations(
         id: Property['id'],
         userId: User['id'],
-        select: T,
+        select: PreparedFindWhitRelations,
         prismaClient: PrismaService | Prisma.TransactionClient = this.prisma
     ) {
         return prismaClient.property.findUnique({

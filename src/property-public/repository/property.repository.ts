@@ -49,12 +49,13 @@ export class PropertyRepository {
     async findCarrousel(
         filters: Prisma.PropertyWhereInput,
         select: PreparedFindCarrouselSelect,
+        quantity: number | undefined,
         prismaClient: PrismaService | Prisma.TransactionClient = this.prisma
     ) {
         return await prismaClient.property.findMany({
             where: filters,
             select: select,
-            take: 3
+            take: quantity || 3
         })
     }
 }

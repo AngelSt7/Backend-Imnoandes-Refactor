@@ -6,8 +6,6 @@ const allowedOrigins = (process.env.CORS || '')
 
 const isDev = envs.nodeEnv === 'DEVELOPMENT';
 
-console.log(allowedOrigins);
-console.log(isDev ? "Dev" : "Prod");
 export const CorsOptions = {
   
   origin: (origin: string | undefined, callback: Function) => {

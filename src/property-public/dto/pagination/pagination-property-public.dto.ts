@@ -1,6 +1,6 @@
 import { IsOptional, IsEnum, IsNumber, Min, IsString } from 'class-validator';
 import { Transform, Type } from 'class-transformer';
-import { CURRENCY, Property, PROPERTY_CATEGORY, PROPERTY_TYPE } from 'generated/prisma';
+import { CURRENCY, Location, Property, PROPERTY_CATEGORY, PROPERTY_TYPE } from 'generated/prisma';
 import { IsGreaterOrEqual } from '@decorators/validation/is-greater-or-equal.decorator';
 
 
@@ -34,12 +34,20 @@ export class PaginationPropertyPublicDto {
     })
     propertyCategory: PROPERTY_CATEGORY[]
 
+
     @IsOptional()
     @Transform(({ value }) =>
         typeof value === 'string' ? value.split(',').map(val => val.trim()) : value
     )
     @IsString({ each: true })
-    location: Property['slug'][]
+    locationId: Location['slug'][]
+
+    @IsOptional()
+    @Transform(({ value }) =>
+        typeof value === 'string' ? value.split(',').map(val => val.trim()) : value
+    )
+    @IsString({ each: true })
+    address: Property['slug'][]
 
     @IsOptional()
     @Type(() => Number)
@@ -66,7 +74,7 @@ export class PaginationPropertyPublicDto {
     @Min(0)
     minBedrooms?: number;
 
-        @IsOptional()
+    @IsOptional()
     @Type(() => Number)
     @IsNumber()
     @Min(0)

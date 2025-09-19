@@ -12,18 +12,6 @@ export class CarrouselFilterService {
     getFilter(query: QueryPropertyPublicDto) {
         const filter: any = {};
 
-        // if (query.search) {
-        //     const words = query.search.trim().split(/[\s-]+/);
-
-        //     filter.AND = this.getAndFilter(words);
-        // }
-
-        // if (query.minPrice || query.maxPrice) {
-        //     filter.price = {};
-        //     if (query.minPrice) filter.price.gte = query.minPrice;
-        //     if (query.maxPrice) filter.price.lte = query.maxPrice;
-        // }
-
         const exactFilters: (keyof QueryPropertyPublicDto)[] = [
             'propertyType',
         ];
@@ -37,8 +25,6 @@ export class CarrouselFilterService {
         return filter;
     }
 
-    //Filter by AND
-    //example: filter.AND = this.getAndFilter(words);
     private getAndFilter(words: string[]) {
         return words.map(word => ({
             OR: this.searchFields.map(field => ({
@@ -47,8 +33,6 @@ export class CarrouselFilterService {
         }));
     }
 
-    //Filter by OR
-    //example: filter.ORD = this.getOrFilter(words);
     private getOrFilter(words: string[]) {
         return words.flatMap(word =>
             this.searchFields.map(field => ({

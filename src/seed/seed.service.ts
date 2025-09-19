@@ -2,11 +2,16 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/common/services/prisma/prisma.service';
 import { SERVICES_SEED } from './data/services-data.seed';
 import { DEPARTMENT_SEED } from './data/departament-data.seed';
-import { Department, Property, Province } from 'generated/prisma';
+import { Department, Location, LOCATION, Property, Province } from 'generated/prisma';
 import { PROVINCE_SEED } from './data/province-data.seed';
 import { DISTRICT_SEED } from './data/district-data.seed';
-import { PROPERTY_SEED, PropertySeed } from './data/property-data.seed';
+import { PROPERTY_SEED, PropertySeed, PropertySeedExtended } from './data/property-data.seed';
 import { CreatePropertyMeDto, PropertyService } from 'src/property-me';
+
+interface LocationSlugs {
+    slug: string;
+    id: string
+}[]
 
 @Injectable()
 export class SeedService {
@@ -36,13 +41,17 @@ export class SeedService {
 
         const services = await this.getServices();
 
-        const insertOnePromises = insertOne.map(inset => (
-            this.propertyService.create(this.preparedProperties(services, inset), idOne)
-        ))
+        const locations = await this.getLocations();
 
-        const insertTwoPromises = insertTwo.map(inset => (
-            this.propertyService.create(this.preparedProperties(services, inset), idTwo)
-        ))
+        const insertOnePromises = insertOne.map(inset => {
+            const locationId = locations.find(l => l.slug === inset.slugPreview)?.id
+            return this.propertyService.create(this.preparedProperties(services, inset), locationId!, idOne)
+        })
+
+        const insertTwoPromises = insertTwo.map(inset => {
+            const locationId = locations.find(l => l.slug === inset.slugPreview)?.id
+            return this.propertyService.create(this.preparedProperties(services, inset), locationId!, idTwo)
+        })
 
         await Promise.all([
             ...insertOnePromises,
@@ -59,7 +68,7 @@ export class SeedService {
 
     preparedProperties(
         services: { service: string; id: string; }[],
-        property: PropertySeed
+        property: PropertySeedExtended,
     ): CreatePropertyMeDto {
 
         const luz = services.find(service => service.service === 'Luz')?.id;
@@ -69,7 +78,7 @@ export class SeedService {
         const exclude = services
             .filter(service => service.service !== 'Luz' && service.service !== 'Agua Potable')
             .map(service => service.id);
-        
+
         if (property.propertyCategory === "LAND") return property
 
         const getRandomInt = (max: number) => Math.floor(Math.random() * max);
@@ -87,8 +96,9 @@ export class SeedService {
             }
         }
 
+        const { slugPreview, ...rest } = property
         return {
-            ...property,
+            ...rest,
             servicesId: [...fixed, ...randomServices] as string[]
         };
     }
@@ -124,6 +134,9 @@ export class SeedService {
         const districts = await this.preparedDistricts(provincesData, departments);
 
         await this.prisma.district.createMany({ data: districts });
+
+        const locations = await this.prueba();
+        await this.prisma.location.createMany({ data: locations });
         return
     }
 
@@ -156,6 +169,35 @@ export class SeedService {
         return provinces
     }
 
+    async prueba() {
+        const [department, province, district] = await Promise.all([
+            this.prisma.department.findMany({ select: { slug: true, id: true } }),
+            this.prisma.province.findMany({ select: { slug: true, id: true, departmentId: true } }),
+            this.prisma.district.findMany({ select: { slug: true, id: true, provinceId: true, departmentId: true } }),
+        ])
+
+        const formatDepartment = department.map(dep => ({
+            slug: String(dep.slug),
+            departmentId: dep.id,
+            type: LOCATION['DEPARTMENT']
+        }))
+        const formatProvince = province.map(dep => ({
+            departmentId: dep.departmentId,
+            provinceId: dep.id,
+            slug: dep.slug,
+            type: LOCATION['PROVINCE']
+        }))
+        const formatDistrict = district.map(dep => ({
+            departmentId: dep.departmentId,
+            provinceId: dep.provinceId,
+            districtId: dep.id,
+            slug: dep.slug,
+            type: LOCATION['DISTRICT']
+        }))
+
+        return [...formatDepartment, ...formatProvince, ...formatDistrict]
+    }
+
     async getProvinces() {
         return await this.prisma.province.findMany();
     }
@@ -166,5 +208,9 @@ export class SeedService {
 
     async getServices() {
         return await this.prisma.service.findMany({ select: { id: true, service: true } });
+    }
+
+    async getLocations() {
+        return await this.prisma.location.findMany({ select: { slug: true, id: true } });
     }
 }

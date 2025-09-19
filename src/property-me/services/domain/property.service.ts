@@ -1,6 +1,6 @@
 import { HandleErrorsService } from '../../../common/services';
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { Prisma, Property, User } from 'generated/prisma';
+import { Location, Prisma, Property, User } from 'generated/prisma';
 import { PropertyRepository } from 'src/property-me/repository';
 import { CreatePropertyMeDto, PaginationPropertyMeDto, UpdatePropertyMeDto } from 'src/property-me/dto';
 import { PropertyFactoryService } from '../factory';
@@ -20,10 +20,10 @@ export class PropertyService {
     ) { }
 
 
-    async create(dto: CreatePropertyMeDto, userId: User['id']) {
+    async create(dto: CreatePropertyMeDto, locationId: Location['id'], userId: User['id']) {
         try {
             const slug = this.slug(dto.name);
-            const property = this.propertyFactoryService.preparedCreate(dto, slug, userId);
+            const property = this.propertyFactoryService.preparedCreate(dto, locationId, slug, userId);
             return await this.propertyRepository.create(property)
         } catch (error) {
             this.handleErrorsService.handleError(error, this.context);
@@ -44,7 +44,7 @@ export class PropertyService {
     async findOne(id: Property['id'], userId: User['id']) {
         const preparedSelect = this.propertyFactoryService.preparedFindOne();
         const property = await this.propertyRepository.findOne(id, userId, preparedSelect);
-        if (!property) throw new NotFoundException('Property not found');
+        if (!property || property === null) throw new NotFoundException('Property not found');
         const propertyFormatted = this.propertyFormatterService.formatOne(property);
         return propertyFormatted
     }
@@ -57,9 +57,9 @@ export class PropertyService {
         return propertyFormatted
     }
 
-    async update(id: Property['id'], updatePropertyMeDto: UpdatePropertyMeDto, prismaClient: Prisma.TransactionClient) {
+    async update(id: Property['id'], updatePropertyMeDto: UpdatePropertyMeDto, locationId: Location['id'], prismaClient: Prisma.TransactionClient) {
         const slug = this.slug(updatePropertyMeDto.name);
-        const property = await this.propertyFactoryService.preparedUpdate(updatePropertyMeDto, slug);
+        const property = await this.propertyFactoryService.preparedUpdate(updatePropertyMeDto, locationId, slug);
         return await this.propertyRepository.update(id, property, prismaClient);
     }
 

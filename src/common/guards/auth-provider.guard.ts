@@ -21,7 +21,6 @@ export class AuthProviderGuard implements CanActivate {
     ]);
 
     if (!validProvider) {
-      this.logger.debug('Passing AuthProviderGuard')
       return true;
     }
     if (validProvider.length === 0) return true;

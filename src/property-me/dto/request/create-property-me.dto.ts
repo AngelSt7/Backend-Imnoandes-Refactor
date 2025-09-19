@@ -31,7 +31,7 @@ export class CreatePropertyMeDto {
 
     @IsString()
     @Length(8, 200)
-    location: string
+    address: string
 
     @IsString()
     @Length(8, 300)

@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { IMAGE_TYPE } from 'generated/prisma';
+import { IMAGE_TYPE, Prisma } from 'generated/prisma';
 
 @Injectable()
 export class PropertySelectsService {
@@ -9,13 +9,12 @@ export class PropertySelectsService {
             id: true,
             slug: true,
             name: true,
-            location: true,
+            address: true,
             latitude: true,
             longitude: true,
             price: true,
             currency: true,
             availability: true,
-            hasParking: true,
             propertyType: true,
             propertyCategory: true,
             commercial: {
@@ -25,23 +24,15 @@ export class PropertySelectsService {
                     parkingSpaces: true
                 }
             },
-            createdAt: true,
-            department: {
-                select: {
-                    department: true,
-                }
-            },
-            description: true,
-            district: {
-                select: {
-                    district: true,
-                    slug: true
-                }
-            },
             extraInfo: true,
-            province: {
+            createdAt: true,
+            description: true,
+            location: {
                 select: {
-                    province: true
+                    slug: true,
+                    department: { select: { department: true } },
+                    province: { select: { province: true } },
+                    district: { select: { district: true } },
                 }
             },
             phone: true,
@@ -82,7 +73,7 @@ export class PropertySelectsService {
             currency: true,
             propertyType: true,
             propertyCategory: true,
-            location: true,
+            address: true,
             createdAt: true,
             description: true,
             commercial: {
@@ -108,8 +99,21 @@ export class PropertySelectsService {
                     }
                 }
             },
-            department: { select: { department: true, } },
-            district: { select: { slug: true, district: true } },
+            location: {
+                select: {
+                    slug: true,
+                    department: {
+                        select: {
+                            department: true
+                        }
+                    },
+                    district: {
+                        select: {
+                            district: true
+                        }
+                    }
+                }
+            },
             images: {
                 select: {
                     url: true,
@@ -128,7 +132,7 @@ export class PropertySelectsService {
             currency: true,
             propertyType: true,
             propertyCategory: true,
-            location: true,
+            address: true,
             createdAt: true,
             residential: {
                 select: {
@@ -137,8 +141,13 @@ export class PropertySelectsService {
                     area: true
                 }
             },
-            department: { select: { department: true, } },
-            district: { select: { slug: true, district: true } },
+            location: {
+                select: {
+                    slug: true,
+                    department: { select: { department: true } },
+                    district: { select: { district: true } }
+                }
+            },
             images: {
                 where: {
                     type: IMAGE_TYPE.MAIN

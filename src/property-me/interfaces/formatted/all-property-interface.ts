@@ -15,5 +15,5 @@ export interface FormattedAllProperty {
     area: ResidentialProperty['area'] | undefined;
     bathrooms: ResidentialProperty['bathrooms'] | undefined;
     bedrooms: ResidentialProperty['bathrooms'] | undefined;
-    location: Property['location'];
+    address: Property['address'];
 }
