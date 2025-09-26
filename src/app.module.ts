@@ -1,13 +1,10 @@
-import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
-import { AuthModule } from './auth/auth.module';
-import { CommonModule } from './common/common.module';
-import { ImagesModule } from './images/images.module';
-import { PropertyMeModule } from './property-me/property-me.module';
-import { PropertyPublicModule } from './property-public/property-public.module';
-import { SeedModule } from './seed/seed.module';
-import { ServiceModule } from './service/service.module';
-import { LocationModule } from './location/location.module';
+import { Module } from "@nestjs/common";
+import { ConfigModule } from "@nestjs/config";
+import { AuthModule, EmailModule, ImagesModule, LocationModule, PropertyMeModule, PropertyPublicModule, ServiceModule, UserModule } from "./modules";
+import { CommonModule } from "./common";
+import { SeedModule } from "./seed";
+import { FavoritesModule } from './modules/favorites/favorites.module';
+
 
 @Module({
   imports: [
@@ -20,6 +17,9 @@ import { LocationModule } from './location/location.module';
     SeedModule,
     ServiceModule,
     LocationModule,
+    EmailModule,
+    UserModule,
+    FavoritesModule,
   ]
 })
 export class AppModule {}

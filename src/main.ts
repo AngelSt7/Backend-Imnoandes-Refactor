@@ -1,11 +1,10 @@
-import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { Logger, ValidationPipe } from '@nestjs/common';
+import { CorsOptions, envs } from './config/index';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import { CorsOptions } from './config/cors/cors';
-import { ParseTrimStringPipe } from './common/pipes/parse-trim-string.pipe';
+import { Logger, ValidationPipe } from '@nestjs/common';
+import { NestFactory } from '@nestjs/core';
+import { ParseTrimStringPipe } from './common/pipes';
 import * as cookieParser from 'cookie-parser';
-import { envs } from './config';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);

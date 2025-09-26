@@ -1,0 +1,1 @@
+export { PropertyMeModule } from './property-me.module';

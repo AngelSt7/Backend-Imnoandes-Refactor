@@ -1,0 +1,1 @@
+export { PropertyFormatted } from "./one-property.interface"

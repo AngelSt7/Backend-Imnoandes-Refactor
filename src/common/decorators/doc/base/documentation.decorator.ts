@@ -1,7 +1,7 @@
 import { applyDecorators, Type } from '@nestjs/common';
 import { ApiBearerAuth, ApiExtraModels, ApiOperation, ApiResponse, getSchemaPath } from '@nestjs/swagger';
-import { ValidResponses } from 'src/auth/interfaces';
-import { ResponseEntry } from 'src/common/interfaces';
+import { ResponseEntry } from '@/common/interfaces';
+import { VALID_RESPONSES } from '@/constants';
 
 interface DocumentationOptions {
   type?: Type<unknown>;
@@ -20,7 +20,7 @@ export const Documentation = ({
 }: DocumentationOptions): MethodDecorator => {
   const decorators: (MethodDecorator | ClassDecorator)[] = [];
 
-  responses.push({ response: ValidResponses.serverError, description: 'Server error' });
+  responses.push({ response: VALID_RESPONSES.serverError, description: 'Server error' });
 
   if (summary) decorators.push(ApiOperation({ summary }));
   if (type) decorators.push(ApiExtraModels(type));
@@ -32,7 +32,7 @@ export const Documentation = ({
       description,
     };
 
-    if (type && [ValidResponses.create, ValidResponses.read, ValidResponses.update].includes(response)) {
+    if (type && [VALID_RESPONSES.create, VALID_RESPONSES.read, VALID_RESPONSES.update].includes(response)) {
       common.schema = isArray
         ? {
             type: 'array',

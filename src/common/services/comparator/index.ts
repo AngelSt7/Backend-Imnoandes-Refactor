@@ -1,0 +1,1 @@
+export { CompareObjectService } from "./compare-object.service";

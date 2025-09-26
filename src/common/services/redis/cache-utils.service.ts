@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { CACHE_KEYS } from 'src/cache/cache-keys';
+import { CACHE_KEYS } from '@/cache/cache-keys';
 import { RedisService } from './redis.service';
 
 @Injectable()

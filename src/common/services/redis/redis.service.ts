@@ -1,7 +1,7 @@
 
 import { Injectable } from '@nestjs/common';
 import Redis from 'ioredis';
-import { envs } from 'src/config';
+import { envs } from '@/config';
 
 const enum REDIS_HOST {
   LOCAL = 'localhost',

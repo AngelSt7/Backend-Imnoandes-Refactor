@@ -1,3 +1,1 @@
-import { PaginationService } from './pagination.service';
-
-export { PaginationService }
+export { PaginationService } from './pagination.service';

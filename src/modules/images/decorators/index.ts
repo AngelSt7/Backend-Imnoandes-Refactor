@@ -1,0 +1,1 @@
+export { GetUploadType } from "./upload-type.decorator";

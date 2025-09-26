@@ -1,7 +1,6 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { CacheUtilsService, HandleErrorsService, MailService, PaginationService, PrismaService, RedisService } from './services';
-import { CollectionDiffService } from './services/formaters/collection-diff.service';
+import { CacheUtilsService, CollectionDiffService, CompareObjectService, HandleErrorsService, MailService, PaginationService, PrismaService, RedisService } from './services';
 
 const COMMON_SERVICES = [
   HandleErrorsService,
@@ -10,7 +9,8 @@ const COMMON_SERVICES = [
   CacheUtilsService,
   PrismaService,
   PaginationService,
-  CollectionDiffService
+  CollectionDiffService,
+  CompareObjectService
 ];
 
 @Module({

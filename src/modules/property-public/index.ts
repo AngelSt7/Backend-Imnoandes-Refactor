@@ -1,0 +1,1 @@
+export { PropertyPublicModule } from "./property-public.module";

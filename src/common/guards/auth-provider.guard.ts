@@ -1,8 +1,8 @@
-import { META_PROVIDERS } from '@decorators/role-protected.decorator';
 import { CanActivate, ExecutionContext, ForbiddenException, Injectable, InternalServerErrorException, Logger } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { AUTH_PROVIDERS, User } from 'generated/prisma';
 import { Observable } from 'rxjs';
+import { META_PROVIDERS } from '../decorators/security/role-protected.decorator';
 
 @Injectable()
 export class AuthProviderGuard implements CanActivate {

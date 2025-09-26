@@ -1,0 +1,1 @@
+export { QueryPropertyPublicDto } from "./query-property-public.dto";

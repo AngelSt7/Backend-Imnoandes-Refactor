@@ -1,0 +1,1 @@
+export { IdsLocation } from './interface';
