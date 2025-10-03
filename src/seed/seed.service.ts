@@ -4,47 +4,102 @@ import { SERVICES_SEED } from './data/services-data.seed';
 import { DEPARTMENT_SEED } from './data/departament-data.seed';
 import { PROVINCE_SEED } from './data/province-data.seed';
 import { DISTRICT_SEED } from './data/district-data.seed';
-import { PROPERTY_SEED, PropertySeedExtended } from './data/property-data.seed';
-import { Department, Province, LOCATION, Property } from 'generated/prisma';
+import { PROPERTY_SEED, PropertySeed } from './data/property-data.seed';
+import { Department, Province, LOCATION, Property, AUTH_PROVIDERS } from 'generated/prisma';
 import { PropertyService } from '@/modules/property-me/services';
 import { CreatePropertyMeDto } from '@/modules/property-me/dto';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class SeedService {
     constructor(
         private readonly prisma: PrismaService,
-        private readonly propertyService: PropertyService
-    ) {}
+        private readonly propertyService: PropertyService,
+    ) { }
 
-    // -----------------------------
-    // ENTRY POINTS
-    // -----------------------------
     async runSeed() {
-        await this.deleteTables();
-        await this.insertServices();
+        await this.resetDatabase();
+        await this.seedUsers();
+        await this.seedBaseData();
+        await this.seedProperties();
         return 'SEED EXECUTED SUCCESSFULLY';
     }
 
-    async runSeedProperty() {
-        await this.clearProperties();
+    private async resetDatabase() {
+        await Promise.all([
+            this.prisma.token.deleteMany(),
+            this.prisma.serviceToProperty.deleteMany(),
+            this.prisma.service.deleteMany(),
+        ])
+        await this.prisma.district.deleteMany();
+        await this.prisma.province.deleteMany();
+        await this.prisma.department.deleteMany();
+        await Promise.all([
+            this.prisma.favorite.deleteMany(),
+            this.prisma.commercialProperty.deleteMany(),
+            this.prisma.residentialProperty.deleteMany(),
+            this.prisma.serviceToProperty.deleteMany(),
+            this.prisma.image.deleteMany(),
+        ])
+        await this.prisma.property.deleteMany()
+        await this.prisma.location.deleteMany(),
+            await this.prisma.user.deleteMany()
+    }
 
+    private async seedUsers() {
+        const [passwordUser1, passwordUser2] = await Promise.all([
+            bcrypt.hash("Lapiz123*@", 10),
+            bcrypt.hash("Lapiz123*@", 10)
+        ])
+        const users = [
+            { name: "Angel", lastname: "Santa Cruz", email: "santacruza2000@gmail.com", authProvider: AUTH_PROVIDERS.LOCAL, confirmed: true, birthDate: new Date("2004-08-23"), phone: "960856003", password: passwordUser1 },
+            { name: "Mildredth", lastname: "Rojas Villarroel", email: "xrojasvillarroel@gmail.com", authProvider: AUTH_PROVIDERS.LOCAL, confirmed: true, birthDate: new Date("2001-07-14"), phone: "952124293", password: passwordUser2 },
+        ]
+        return await this.prisma.user.createMany({ data: users });
+    }
+
+    private async seedBaseData() {
+        // Servicios
+        await this.prisma.service.createMany({ data: SERVICES_SEED });
+
+        // Departamentos
+        await this.prisma.department.createMany({ data: DEPARTMENT_SEED });
+        const departments = await this.findDepartments();
+
+        // Provincias
+        const provinces = this.mapProvinces(departments);
+        await this.prisma.province.createMany({ data: provinces });
+
+        // Distritos
+        const provincesData = await this.findProvinces();
+        const districts = await this.preparedDistricts(provincesData, departments);
+        await this.prisma.district.createMany({ data: districts });
+
+        // Ubicaciones
+        const locations = await this.mapLocations();
+        await this.prisma.location.createMany({ data: locations });
+    }
+
+    async seedProperties() {
         const insertOne = PROPERTY_SEED.slice(0, 25);
         const insertTwo = PROPERTY_SEED.slice(25, 50);
 
-        const idOne = "45ab0de0-8273-4963-ac3b-c7c895bcf557";
-        const idTwo = "71c1d711-f155-410a-8214-46a9f39eb36a";
+        const users = await this.getUsers();
 
-        const services = await this.getServices();
-        const locations = await this.getLocations();
+        const idOne = users[0].id;
+        const idTwo = users[1].id;
+
+        const services = await this.findServices();
+        const locations = await this.findLocations();
 
         const insertOnePromises = insertOne.map(prop => {
-            const locationId = locations.find(l => l.slug === prop.slugPreview)?.id;
-            return this.propertyService.create(this.preparedProperties(services, prop), locationId!, idOne);
+            const locationId = locations.find(l => l.slug === prop.slugLocation)?.id;
+            return this.propertyService.create(this.mapPropertyWithServices(services, prop), locationId!, idOne);
         });
 
         const insertTwoPromises = insertTwo.map(prop => {
-            const locationId = locations.find(l => l.slug === prop.slugPreview)?.id;
-            return this.propertyService.create(this.preparedProperties(services, prop), locationId!, idTwo);
+            const locationId = locations.find(l => l.slug === prop.slugLocation)?.id;
+            return this.propertyService.create(this.mapPropertyWithServices(services, prop), locationId!, idTwo);
         });
 
         await Promise.all([...insertOnePromises, ...insertTwoPromises]);
@@ -52,55 +107,9 @@ export class SeedService {
         return 'SEED TO PROPERTY EXECUTED SUCCESSFULLY';
     }
 
-    // -----------------------------
-    // TABLE CLEANUP
-    // -----------------------------
-    private async deleteTables() {
-        await this.prisma.serviceToProperty.deleteMany();
-        await this.prisma.service.deleteMany();
-        await this.prisma.district.deleteMany();
-        await this.prisma.province.deleteMany();
-        await this.prisma.department.deleteMany();
-    }
-
-    private async clearProperties() {
-        await this.prisma.commercialProperty.deleteMany();
-        await this.prisma.residentialProperty.deleteMany();
-        await this.prisma.serviceToProperty.deleteMany();
-        await this.prisma.property.deleteMany();
-    }
-
-    // -----------------------------
-    // DATA INSERTION
-    // -----------------------------
-    private async insertServices() {
-        // Servicios
-        await this.prisma.service.createMany({ data: SERVICES_SEED });
-
-        // Departamentos
-        await this.prisma.department.createMany({ data: DEPARTMENT_SEED });
-        const departments = await this.getDepartments();
-
-        // Provincias
-        const provinces = this.preparedProvinces(departments);
-        await this.prisma.province.createMany({ data: provinces });
-
-        // Distritos
-        const provincesData = await this.getProvinces();
-        const districts = await this.preparedDistricts(provincesData, departments);
-        await this.prisma.district.createMany({ data: districts });
-
-        // Ubicaciones
-        const locations = await this.prepareLocations();
-        await this.prisma.location.createMany({ data: locations });
-    }
-
-    // -----------------------------
-    // PROPERTY PREPARATION
-    // -----------------------------
-    private preparedProperties(
+    private mapPropertyWithServices(
         services: { service: string; id: string }[],
-        property: PropertySeedExtended
+        property: PropertySeed
     ): CreatePropertyMeDto {
         const luz = services.find(s => s.service === 'Luz')?.id;
         const agua = services.find(s => s.service === 'Agua Potable')?.id;
@@ -126,7 +135,7 @@ export class SeedService {
             }
         }
 
-        const { slugPreview, ...rest } = property;
+        const { slugLocation, ...rest } = property;
         return { ...rest, servicesId: [...fixed, ...randomServices] as string[] };
     }
 
@@ -134,14 +143,11 @@ export class SeedService {
         return name.toLocaleLowerCase().trim().replace(/\s+/g, '-');
     }
 
-    // -----------------------------
-    // DEPARTMENTS / PROVINCES / DISTRICTS
-    // -----------------------------
     private normalizeText(text: string) {
         return text.normalize("NFD").replace(/[\u0300-\u036f]/g, '').toLowerCase();
     }
 
-    private preparedProvinces(dep: Department[]) {
+    private mapProvinces(dep: Department[]) {
         return PROVINCE_SEED.map(p => ({
             province: p.province,
             departmentId: dep.find(d => d.department.toLocaleLowerCase() === p.department)?.id || '',
@@ -158,10 +164,7 @@ export class SeedService {
         }));
     }
 
-    // -----------------------------
-    // LOCATIONS
-    // -----------------------------
-    private async prepareLocations() {
+    private async mapLocations() {
         const [departments, provinces, districts] = await Promise.all([
             this.prisma.department.findMany({ select: { slug: true, id: true } }),
             this.prisma.province.findMany({ select: { slug: true, id: true, departmentId: true } }),
@@ -190,22 +193,34 @@ export class SeedService {
         return [...formatDepartment, ...formatProvince, ...formatDistrict];
     }
 
-    // -----------------------------
-    // HELPERS TO FETCH FROM DB
-    // -----------------------------
-    private async getProvinces() {
+    private async findProvinces() {
         return this.prisma.province.findMany();
     }
 
-    private async getDepartments() {
+    private async findDepartments() {
         return this.prisma.department.findMany();
     }
 
-    private async getServices() {
+    private async findServices() {
         return this.prisma.service.findMany({ select: { id: true, service: true } });
     }
 
-    private async getLocations() {
-        return this.prisma.location.findMany({ select: { slug: true, id: true } });
+    async findLocations() {
+        return await this.prisma.location.findMany({
+            select: { slug: true, id: true },
+            where: { slug: { in: [
+                        "miraflores-lima-lima",
+                        "chorrillos-lima-lima",
+                        "la-molina-lima-lima",
+                        "santiago-de-surco-lima-lima",
+                        "magdalena-del-mar-lima-lima"
+                    ] }
+            }
+        });
     }
+
+    async getUsers() {
+        return await this.prisma.user.findMany({ select: { id: true } });
+    }
+
 }

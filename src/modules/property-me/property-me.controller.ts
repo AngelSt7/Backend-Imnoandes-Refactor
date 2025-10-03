@@ -7,6 +7,7 @@ import { Property, User } from 'generated/prisma';
 import { PropertyFormatted } from './interfaces';
 import { PropertyMeService } from './property-me.service';
 import { Cached } from '@/common/decorators';
+import { TTL } from '@/cache/ttls';
 
 
 @Auth()
@@ -42,7 +43,7 @@ export class PropertyMeController {
   }
 
   @Get('/images/:id')
-  @Cached(CACHE_KEYS.PROPERTY_IMAGES)
+  @Cached(CACHE_KEYS.PROPERTY_IMAGES, TTL.ONE_HOUR)
   @PropertyOwner()
   changeStatus(
     @GetProperty('id') id: Property['id']
@@ -51,7 +52,6 @@ export class PropertyMeController {
   }
 
   @Get()
-  @Cached(CACHE_KEYS.PROPERTIES_ME)
   async findAll(
     @GetUser('id', ParseUUIDPipe) userId: User['id'],
     @Query() queryParams: PaginationPropertyMeDto
@@ -60,7 +60,7 @@ export class PropertyMeController {
   }
 
   @Get('/:id/details')
-  @Cached(CACHE_KEYS.PROPERTY_DETAIL)
+  @Cached(CACHE_KEYS.PROPERTY_DETAIL, TTL.ONE_HOUR)
   async findOneWithRelations(
     @GetUser('id', ParseUUIDPipe) userId: User['id'],
     @Param('id', ParseUUIDPipe) id: Property['id']
@@ -69,7 +69,7 @@ export class PropertyMeController {
   }
 
   @Get(':id')
-  @Cached(CACHE_KEYS.PROPERTY_ME)
+  @Cached(CACHE_KEYS.PROPERTY_ME, TTL.ONE_HOUR)
   @PropertyOwner()
   async findOne(
     @GetProperty() property: PropertyFormatted
@@ -81,16 +81,18 @@ export class PropertyMeController {
   @PropertyOwner()
   update(
     @GetProperty() property: PropertyFormatted,
-    @Body() dto: UpdatePropertyMeDto
+    @Body() dto: UpdatePropertyMeDto,
+    @GetUser('id', ParseUUIDPipe) userId: User['id'],
   ) {
-    return this.propertyMeService.update(property, dto);
+    return this.propertyMeService.update(property, dto, userId);
   }
 
   @Patch('status/:id')
   @PropertyOwner()
   remove(
-    @GetProperty() property: PropertyFormatted
+    @GetProperty() property: PropertyFormatted,
+    @GetUser('id', ParseUUIDPipe) userId: User['id'],
   ) {
-    return this.propertyMeService.changeStatus(property);
+    return this.propertyMeService.changeStatus(property, userId);
   }
 }

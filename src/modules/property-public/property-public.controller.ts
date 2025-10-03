@@ -1,20 +1,20 @@
-import { Controller, Get, Logger, Param, Query, Req, Res } from '@nestjs/common';
+import { Controller, Get, Param, Query } from '@nestjs/common';
 import { PropertyPublicService } from './property-public.service';
 import { QueryPropertyPublicDto } from './dto';
 import { PaginationPropertyPublicDto } from './dto/pagination/pagination-property-public.dto';
-import { LocationService } from '@/modules/location/location.service';
+import { Cached } from '@/common/decorators';
+import { CACHE_KEYS } from '@/cache/cache-keys';
+import { TTL } from '@/cache/ttls';
 
 @Controller('property-public')
 export class PropertyPublicController {
 
-  private logger = new Logger(PropertyPublicController.name)
   constructor(
     private readonly propertyPublicService: PropertyPublicService,
-    private readonly locationService: LocationService
   ) { }
 
-
   @Get('carrousel')
+  @Cached(CACHE_KEYS.PROPERTY_PUBLIC, TTL.FIVE_MINUTES)
   async findCarrusel(
     @Query() query: QueryPropertyPublicDto
   ) {
@@ -22,14 +22,15 @@ export class PropertyPublicController {
   }
 
   @Get('/search')
+  @Cached(CACHE_KEYS.PROPERTY_PUBLIC, TTL.FIVE_MINUTES)
   async search(
     @Query() query: PaginationPropertyPublicDto,
   ) {
     return this.propertyPublicService.search(query);
   }
 
-
   @Get(':shortId')
+  @Cached(CACHE_KEYS.PROPERTY_PUBLIC, TTL.ONE_HOUR)
   async findOne(@Param('shortId') shortId: string) {
     return await this.propertyPublicService.findOne(shortId);
   }

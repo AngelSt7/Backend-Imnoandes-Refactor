@@ -4,7 +4,6 @@ import { PaginationService, PrismaService } from '@/common/services';
 import { PaginationPropertyPublicDto } from '@/modules/property-public/dto';
 import { PreparedFindCarrouselSelect, PreparedFindOneSelect, PreparedSearchSelect } from './selects/property-selects.types';
 
-
 @Injectable()
 export class PropertyRepository {
     constructor(
@@ -19,11 +18,11 @@ export class PropertyRepository {
         prismaClient: PrismaService | Prisma.TransactionClient = this.prisma
     ) {
         const limit = 15
-        const { skip, take } = this.paginationService.getPagination(queryPage, limit);
+        const { skip, take } = this.paginationService.getPagination(queryPage || 1, limit);
 
         const [data, count] = await Promise.all([
-            prismaClient.property.findMany({ where: filters, select, skip, take }),
-            prismaClient.property.count({ where: filters })
+            prismaClient.property.findMany({ where: { ...filters, availability: true }, select, skip, take }),
+            prismaClient.property.count({ where: { ...filters, availability: true } })
         ])
 
         const meta = this.paginationService.buildMeta(count, skip, take);
@@ -40,7 +39,7 @@ export class PropertyRepository {
         prismaClient: PrismaService | Prisma.TransactionClient = this.prisma
     ) {
         return await prismaClient.property.findFirst({
-            where: { id: { startsWith: id, }, },
+            where: { id: { startsWith: id, } },
             select: select
         });
     }
@@ -53,7 +52,7 @@ export class PropertyRepository {
         prismaClient: PrismaService | Prisma.TransactionClient = this.prisma
     ) {
         return await prismaClient.property.findMany({
-            where: filters,
+            where: {...filters, availability: true },
             select: select,
             take: quantity || 3
         })

@@ -17,7 +17,7 @@ export class CookieService {
     }
 
     setErrorCookie(response: Response) {
-        response.cookie(MODE.ERROR, 'Account not matched with provider', {
+        response.cookie(MODE.ERROR, 'La cuenta con la que intentas ingresar ya esta registrada con proveedor local', {
             httpOnly: false,
             secure: envs.nodeEnv === 'PRODUCTION',
             sameSite: 'lax',
@@ -26,8 +26,8 @@ export class CookieService {
         });
     }
 
-    clearAuthCookie(mode: MODE, res: Response) {
-        res.clearCookie(mode);
+    clearAuthCookie(res: Response) {
+        res.clearCookie("SESSION", { path: '/' });
     }
 
     getMaxAge(mode: MODE) {

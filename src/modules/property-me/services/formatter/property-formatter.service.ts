@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PropertiesFormatted, PropertyDetail, PropertyFormatted } from './property-formatter.types';
+import { propertyCategoryMap, propertyTypeMap } from '@/modules/property-public/constants';
 
 @Injectable()
 export class PropertyFormatterService {
@@ -20,7 +21,8 @@ export class PropertyFormatterService {
             yearBuilt: property.yearBuilt,
             bathrooms: property.residential?.bathrooms,
             bedrooms: property.residential?.bedrooms,
-            address: `${property.location.district?.district}, ${property.location.province?.province}`
+            address: `${property.location.district?.district}, ${property.location.province?.province}`,
+            url: this.formatUrl(property.propertyType, property.propertyCategory, property.location.slug, property.slug, property.id)
         }))
     }
 
@@ -50,6 +52,7 @@ export class PropertyFormatterService {
             bathrooms: property.residential?.bathrooms,
             area: property.residential?.area,
             furnished: property.residential?.furnished,
+            extraInfo: property.extraInfo,
             servicesId: property.serviceToProperty.map(stp => ({ id: stp.service.id })).map(stp => stp.id)
         }
     }
@@ -81,4 +84,14 @@ export class PropertyFormatterService {
             images: property.images || null,
         }
     }
+
+
+    private formatUrl(type, category, slugLocation, slugProperty, propertyId) {
+        const base = '/es/inmueble/clasificado';
+        const propetyType = propertyTypeMap[type]
+        const propertyCategory = propertyCategoryMap[category]
+        const shortId = propertyId.split('-')[0]
+        return `${base}/${propetyType}-de-${propertyCategory}-en-${slugLocation}-${slugProperty}-${shortId}`
+    }
+
 }

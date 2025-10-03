@@ -5,61 +5,66 @@ import { AUTH_PROVIDERS, User } from 'generated/prisma';
 export class MessageService {
 
     private readonly messages = {
-        login: 'Login successful, welcome',
-        logout: 'Logout successful',
-        created: 'User created successfully, check your email to confirm your account',
-        accountConfirmed: 'Account confirmed successfully, you can now login',
-        request: 'The token to confirm your account was sent to your email',
-        forgot: 'The token to reset your account was sent to your email',
-        recover: 'Password changed successfully',
-        check: 'A token has been sent to your email to confirm your access.',
-        success: 'Please enter your password to confirm your access.',
-        tokenValidated: 'Token validated successfully, contineue to change your password.',
-        accountCompleted: 'Account completed successfully, welcome'
+        login: 'Inicio de sesión exitoso, bienvenido',
+        logout: 'Cierre de sesión exitoso',
+        created: 'Usuario creado con éxito, revisa tu correo electrónico para confirmar tu cuenta',
+        accountConfirmed: 'Cuenta confirmada con éxito, ahora puedes iniciar sesión',
+        request: 'El token para confirmar tu cuenta fue enviado a tu correo electrónico',
+        forgot: 'El token para restablecer tu cuenta fue enviado a tu correo electrónico',
+        recover: 'Contraseña cambiada con éxito',
+        check: 'Se ha enviado un token a tu correo electrónico para confirmar tu acceso.',
+        success: 'Por favor ingresa tu contraseña para confirmar tu acceso.',
+        tokenValidated: 'Token validado con éxito, continúa para cambiar tu contraseña.',
+        accountCompleted: 'Cuenta completada con éxito, bienvenido'
     }
-    
-    welcome(name: User['name']){
+
+
+    welcome(name: User['name']) {
         return `${this.messages.login} ${name}`
     }
 
-    created(){
+    created() {
         return this.messages.created
     }
 
-    accountConfirmed(){
+    accountConfirmed() {
         return this.messages.accountConfirmed
     }
 
-    request(){
+    request() {
         return this.messages.request
     }
 
-    forgot(){
+    forgot() {
         return this.messages.forgot
     }
 
-    recover(){
+    recover() {
         return this.messages.recover
     }
 
-    success(){
+    success() {
         return this.messages.success
     }
 
-    tokenValidated(){
+    tokenValidated() {
         return this.messages.tokenValidated
     }
 
-    accountCompleted(){
+    accountCompleted() {
         return this.messages.accountCompleted
     }
 
-    checkEmail(provider: User['authProvider']){
+    checkEmail(provider: User['authProvider']) {
         return provider === AUTH_PROVIDERS.GOOGLE ? this.messages.check : this.messages.success
     }
 
-    profileIncomplete(){
-        return 'User profile not completed, please finish account setup'
+    profileIncomplete() {
+        return 'Completa tu perfil para continuar con tu app'
+    }
+
+    logout() {
+        return this.messages.logout
     }
 }
 

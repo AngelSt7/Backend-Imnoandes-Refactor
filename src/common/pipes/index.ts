@@ -1,4 +1,4 @@
-export * from "./parse-mongo-id.pipe"
+
 export * from "./parse-otp.pipe"
 export * from "./parse-uuid.pipe"
 export * from "./parse-trim-string.pipe"

@@ -2,10 +2,12 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { Response } from 'express';
 import { CreateUserDto, LoginUserDto, RequestTokenDto, ForgotPasswordDto, RecoverPasswordDto, CheckEmailUserDto } from './dto';
 import { AUTH_PROVIDERS, Token, User } from 'generated/prisma';
-import { BcryptService, CookieService, JwtService, TokenService, UserService, MessageService, RedirectService } from './services';
-import { MODE } from './interfaces';
+import { BcryptService, CookieService, JwtService, TokenService, UserService, MessageService, RedirectService, DateService } from './services';
+import { JwtUser, MODE } from './interfaces';
 import { CompleteAccountDto } from '@/modules/auth/dto';
 import { MailService } from '@/common/services';
+import { CacheUtilsService } from '../../common/services/redis/cache-utils.service';
+import { CACHE_KEYS } from '@/cache/cache-keys';
 
 @Injectable()
 export class AuthService {
@@ -18,7 +20,9 @@ export class AuthService {
     private readonly tokenService: TokenService,
     private readonly cookieService: CookieService,
     private readonly redirectService: RedirectService,
-    private readonly messageService: MessageService
+    private readonly messageService: MessageService,
+    private readonly dateService: DateService,
+    private readonly cacheUtilsService: CacheUtilsService
   ) { }
 
   // 1. REGISTRO Y CREACIÓN DE CUENTA
@@ -33,7 +37,7 @@ export class AuthService {
 
   async confirmAccount(x_token: Token['id'], otp: Token['token']) {
     const tokenDB = await this.tokenService.valid(otp);
-    if (x_token !== tokenDB.id) throw new BadRequestException('Token not valid');
+    if (x_token !== tokenDB.id) throw new BadRequestException('Token no válido');
     await Promise.all([
       this.userService.confirm(tokenDB.userId),
       this.tokenService.delete(tokenDB.userId)
@@ -45,7 +49,7 @@ export class AuthService {
 
   async validateToken(x_token: Token['id'], otp: Token['token']) {
     const tokenDB = await this.tokenService.valid(otp);
-    if (x_token !== tokenDB.id) throw new BadRequestException('Token not valid');
+    if (x_token !== tokenDB.id) throw new BadRequestException('Token no válido');
     return {
       message: this.messageService.tokenValidated(),
       id: tokenDB.id
@@ -59,7 +63,7 @@ export class AuthService {
 
   async requestToken(requestTokenDto: RequestTokenDto) {
     const user = await this.userService.find(requestTokenDto.email);
-    if (user.confirmed) throw new BadRequestException('This resource is only for unconfirmed users');
+    if (user.confirmed) throw new BadRequestException('Este recurso es solo para usuarios no confirmados');
     const token = await this.tokenService.upsert(user.id);
     this.mailService.sendAccountConfirmationEmail(requestTokenDto.email, token, user.name);
     return {
@@ -70,10 +74,9 @@ export class AuthService {
   // 2. AUTENTICACIÓN Y LOGIN
   async checkEmail(checkEmailUserDto: CheckEmailUserDto, response: Response) {
     const user = await this.userService.exist(checkEmailUserDto.email);
-    if (!user) throw new BadRequestException('User not found, create an account');
-    if (!user.confirmed) throw new BadRequestException('User not confirmed, confirm your account');
+    if (!user) throw new BadRequestException('El usuario no existe');
+    if (!user.confirmed) throw new BadRequestException('Usuario no confirmado, solicite un token para confirmar su cuenta');
 
-    // Caso: perfil incompleto -> emitir JWT temporal + cookie temporal + URL de redirección
     if (user.phone === null || user.birthDate === null) {
       const JWT = this.jwtService.getJwtTemp({ id: user.id });
       const mode = this.redirectService.mode(user);
@@ -95,7 +98,6 @@ export class AuthService {
       this.mailService.sendAccessConfirmationEmail(user.email, token, user.name);
     }
 
-    // Caso normal
     return {
       status: 'OK',
       provider: user.authProvider,
@@ -106,18 +108,24 @@ export class AuthService {
     };
   }
 
+  async logout(response: Response, userId: User['id']) {
+    await Promise.all([
+      this.cacheUtilsService.deleteKeys([`${CACHE_KEYS.USER}/${userId}`]),
+      this.cookieService.clearAuthCookie(response)
+    ])
+    return { message: this.messageService.logout() };
+  }
 
   async login(loginUserDto: LoginUserDto, response: Response) {
     const user = await this.userService.find(loginUserDto.email);
-    if (!user.confirmed) throw new BadRequestException('User not confirmed, confirm your account');
+    if (!user.confirmed) throw new BadRequestException('Usuario no confirmado, solicite un token para confirmar su cuenta');
 
     const match = await this.bcryptService.compare(loginUserDto.password, user.password!);
-    if (!match) throw new BadRequestException('Password incorrect');
+    if (!match) throw new BadRequestException('Credenciales de acceso incorrectas');
 
     const JWT = this.jwtService.getJwt({ id: user.id });
     const message = this.messageService.welcome(user.name);
     this.cookieService.setAuthCookie(JWT, response);
-
     return { message };
   }
 
@@ -147,7 +155,6 @@ export class AuthService {
     } else {
       JWT = this.jwtService.getJwt({ id: user.id });
     }
-
     const mode = this.redirectService.mode(user);
     this.cookieService.setAuthCookie(JWT, response, mode.access);
     const redirectUrl = this.redirectService.url(mode.mode, JWT);
@@ -157,8 +164,8 @@ export class AuthService {
   // 4. RECUPERACIÓN DE CONTRASEÑA
   async forgotPassword(forgotPasswordDto: ForgotPasswordDto) {
     const user = await this.userService.find(forgotPasswordDto.email);
-    if (user.authProvider !== AUTH_PROVIDERS.LOCAL) throw new BadRequestException('You must use a local account to recover your password');
-    if (!user.confirmed) throw new BadRequestException('This resource is only for confirmed users');
+    if (user.authProvider !== AUTH_PROVIDERS.LOCAL) throw new BadRequestException('Solo cuentas locales pueden recuperar su contraseña');
+    if (!user.confirmed) throw new BadRequestException('Este recurso es solo para usuarios confirmados');
     const token = await this.tokenService.upsert(user.id);
     this.mailService.sendPasswordResetEmail(forgotPasswordDto.email, token, user.name);
     return {
@@ -169,7 +176,7 @@ export class AuthService {
   async recoverPassword(recoverPasswordDto: RecoverPasswordDto, x_token: Token['token']) {
     const { userId } = await this.tokenService.valid(x_token);
     const user = await this.userService.find(userId);
-    if (!user.confirmed) throw new BadRequestException('This resource is only for confirmed users');
+    if (!user.confirmed) throw new BadRequestException('Este recurso es solo para usuarios confirmados');
     const passwordHash = await this.bcryptService.hash(recoverPasswordDto.password);
 
     await Promise.all([
@@ -187,9 +194,16 @@ export class AuthService {
     await this.userService.completeAccount(completeAccountDto, user.id);
     const token = this.jwtService.getJwt({ id: user.id });
     this.cookieService.setAuthCookie(token, response);
-    // this.cookieService.clearAuthCookie(MODE.TEMP, response);
     return {
       message: this.messageService.accountCompleted()
     }
   }
+
+  async refreshToken(user: JwtUser, response: Response): Promise<void> {
+    const needsRefresh = this.dateService.verifyExpiresAt(user.exp!);
+    if (!needsRefresh) return;
+    const newToken = this.jwtService.getJwt({ id: user.id! });
+    this.cookieService.setAuthCookie(newToken, response);
+  }
+
 }

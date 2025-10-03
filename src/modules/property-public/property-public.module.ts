@@ -24,5 +24,6 @@ import { PropertyService, CarrouselFilterService, PropertyFormatterService, Sear
     PropertyFormatterService,
     SearchFilterService
   ],
+  exports: [PropertySelectsService, PropertyFormatterService]
 })
 export class PropertyPublicModule { }

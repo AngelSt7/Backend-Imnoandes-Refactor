@@ -7,17 +7,18 @@ export class JwtService {
 
     constructor(
         private readonly jwtService: JwtServiceInject
-    ) {}
+    ) { }
 
-    public getJwt(payload : JwtPayloadInterface) : string {
+    public getJwt(payload: JwtPayloadInterface): string {
         return this.jwtService.sign(payload);
     }
 
-    public decodeJwt(token : string) : JwtPayloadInterface {
+    public decodeJwt(token: string): JwtPayloadInterface {
         return this.jwtService.verify(token);
     }
 
     public getJwtTemp(payload: JwtPayloadInterface): string {
-        return this.jwtService.sign(payload, { expiresIn: '15m' });
+        return this.jwtService.sign(payload, { expiresIn: '7d' });
     }
+
 }

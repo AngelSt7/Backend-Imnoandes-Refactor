@@ -4,7 +4,7 @@ import { IMAGE_TYPE } from 'generated/prisma';
 @Injectable()
 export class PropertySelectsService {
 
-    preparedFindOne() {
+    preparedFindOne()  {
         return {
             id: true,
             slug: true,

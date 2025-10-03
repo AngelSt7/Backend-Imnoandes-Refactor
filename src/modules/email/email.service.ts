@@ -13,14 +13,14 @@ export class EmailService {
   async contactOwner(dto: ContactEmailDto) {
     this.mailService.contactOwner(dto);
     return {
-      message: 'Email sent successfully',
+      message: 'Email enviado con exito, el propietario se pondra en contacto con usted',
     }
   }
 
   requestInfo(dto: RequestInfoEmailDto) {
     this.mailService.requestInfo(dto);
     return {
-      message: 'Email sent successfully, we will contact you soon',
+      message: 'Email enviado con exito, nuestro equipo se pondra en contacto con usted',
     }
   }
 

@@ -2,7 +2,8 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { QueryPropertyPublicDto, PaginationPropertyPublicDto } from '@/modules/property-public/dto';
 import { IdsLocation } from '@/modules/property-public/interfaces'
 import { PropertyRepository, PropertySelectsService } from '@/modules/property-public/repository';
-import { CarrouselFilterService, SearchFilterService, PropertyFormatterService } from '@/modules/property-public/services';
+import { CarrouselFilterService, SearchFilterService } from '@/modules/property-public/services';
+import { PropertyFormatterService } from "../formatter";
 
 @Injectable()
 export class PropertyService {
@@ -17,11 +18,11 @@ export class PropertyService {
     async findOne(id: string) {
         const select = this.propertySelectsService.preparedFindOne();
         const property = await this.propertyRepository.findOne(id, select);
-        if(!property) throw new NotFoundException('Property not found');
+        if (!property) throw new NotFoundException('Propiedad no encontrada');
         return this.propertyFormatter.formatOne(property);
     }
 
-    async search(query : PaginationPropertyPublicDto, idLocations: IdsLocation | undefined) {
+    async search(query: PaginationPropertyPublicDto, idLocations: IdsLocation | undefined) {
         const select = this.propertySelectsService.preparedSearch()
         const filters = this.searchFilterService.getFilter(query, idLocations);
         const response = await this.propertyRepository.search(filters, select, query.page);

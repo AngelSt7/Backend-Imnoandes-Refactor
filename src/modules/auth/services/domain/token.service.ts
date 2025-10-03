@@ -2,7 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { isUUID } from 'class-validator';
 import { Token, User } from 'generated/prisma';
 import { TokenRepository } from '@/modules/auth/repository';
-import { DateService } from '@/modules/auth/services';
+import { DateService } from '../utils';
 
 @Injectable()
 export class TokenService {
@@ -16,11 +16,11 @@ export class TokenService {
             ? await this.tokenRepository.findById(input as Token['id'])
             : await this.tokenRepository.findOne(input as Token['token']);
 
-        if (!tokenDB)  throw new NotFoundException('Token not found, request a new one');
+        if (!tokenDB)  throw new NotFoundException('El token no existe');
 
         if (tokenDB.expiresAt < new Date()) {
             await this.delete(tokenDB.userId);
-            throw new NotFoundException('Token expired, request a new one');
+            throw new NotFoundException('Token expirado, solicite uno nuevo');
         }
 
         return {

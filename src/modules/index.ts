@@ -1,5 +1,5 @@
 export { AuthModule } from "./auth";
-export { EmailModule } from "./email"
+export { FavoriteModule } from "./favorite";
 export { ImagesModule } from "./images";
 export { LocationModule } from "./location";
 export { PropertyMeModule } from "./property-me";

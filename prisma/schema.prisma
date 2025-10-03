@@ -61,6 +61,7 @@ model User {
 
   token    Token?
   property Property[]
+  favorite Favorite[]
 
   @@map("users")
 }
@@ -151,6 +152,17 @@ model Image {
   @@map("images")
 }
 
+model Favorite {
+  id         String @id @default(uuid())
+  userId     String @map("user_id")
+  propertyId String @map("property_id")
+
+  user     User     @relation(fields: [userId], references: [id])
+  property Property @relation(fields: [propertyId], references: [id])
+
+  @@map("favorites")
+}
+
 model Property {
   id               String            @id @default(uuid())
   name             String            @unique
@@ -180,6 +192,7 @@ model Property {
   updatedAt DateTime @updatedAt @map("updated_at")
 
   serviceToProperty ServiceToProperty[]
+  favorite          Favorite[]
 
   @@map("properties")
 }

@@ -14,7 +14,7 @@ export class LocationService {
 
     async getIdsLocations(dto: QuerySlugLocationDto) {
         const data = await this.locationRepository.getIdsLocations(dto);
-        if (!data) throw new NotFoundException('Location not found');
+        if (!data) throw new NotFoundException('Localizaciones no encontradas');
 
         const departmentsIds = [...new Set(data.map(d => d.departmentId ?? '').filter(Boolean))];
         const provinceIds    = [...new Set(data.map(d => d.provinceId ?? '').filter(Boolean))];
@@ -29,7 +29,7 @@ export class LocationService {
 
     async findDistricts(provinceId: Province['id']) {
         const distritcs = await this.locationRepository.findDistricts(provinceId);
-        if (!distritcs) throw new NotFoundException('Distritcs not found');
+        if (!distritcs) throw new NotFoundException('Distritos no encontrados');
         return distritcs;
     }
 
@@ -48,7 +48,7 @@ export class LocationService {
             }
         })
 
-        if(locations.length !== dto.slugs.length) throw new NotFoundException('Locations not found');
+        if(locations.length !== dto.slugs.length) throw new NotFoundException('Localizaciones no encontradas');
 
         return formatted
     }
@@ -56,13 +56,13 @@ export class LocationService {
 
     async findProvinces(departmentId: Department['id']) {
         const provinces = await this.locationRepository.findProvinces(departmentId);
-        if (!provinces) throw new NotFoundException('Provinces not found');
+        if (!provinces) throw new NotFoundException('Provincias no encontradas');
         return provinces
     }
 
     async findLocation(departmentId: Location['departmentId'], provinceId: Location['provinceId'], districtId: Location['districtId']) {
         const location = await this.locationRepository.findLocation(departmentId, provinceId, districtId);
-        if (!location) throw new NotFoundException('Location not found');
+        if (!location) throw new NotFoundException('Localizaciones no encontradas');
         return location;
     }
 

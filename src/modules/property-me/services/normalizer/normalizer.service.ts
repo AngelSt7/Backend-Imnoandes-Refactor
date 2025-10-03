@@ -25,7 +25,8 @@ export class NormalizerService {
                     hasParking: false,
                     parkingSpaces: null,
                     floor: 1,
-                    yearBuilt: null
+                    yearBuilt: null,
+                    extraInfo: null
                 }
         }
     }

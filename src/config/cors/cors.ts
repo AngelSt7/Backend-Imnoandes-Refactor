@@ -4,12 +4,11 @@ const allowedOrigins = (process.env.CORS || '')
   .split(',')
   .map(origin => origin.trim());
 
-const isDev = envs.nodeEnv === 'DEVELOPMENT';
-
 export const CorsOptions = {
   
   origin: (origin: string | undefined, callback: Function) => {
-  const isDev = envs.nodeEnv === 'DEVELOPMENT';
+  // const isDev = envs.nodeEnv === 'DEVELOPMENT';
+  const isDev = envs.nodeEnv === 'PRODUCTION';
   if(!origin){
 
     return callback(null, true);

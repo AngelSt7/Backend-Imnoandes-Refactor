@@ -1,9 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { User } from 'generated/prisma';
 import { MODE } from '@/modules/auth/interfaces';
+import { envs } from '@/config';
 
 @Injectable()
 export class RedirectService {
+
+    private readonly frontendUrl = envs.frontendUrl
 
     mode(user: User) {
         return (!user.birthDate || !user.phone) ? { access: true, mode: MODE.TEMP } : { access: false, mode: MODE.SESSION };
@@ -12,11 +15,11 @@ export class RedirectService {
     url(mode: MODE, jwt?: string) {
         switch (mode) {
             case MODE.TEMP:
-                return `/auth/complete-profile?token=${jwt}`
+                return `${this.frontendUrl}/auth/completar-perfil?token=${jwt}`
             case MODE.SESSION:
-                return '/dashboard/venta-de-departamentos?page=1'
+                return `${this.frontendUrl}/es`
             case MODE.ERROR:
-                return '/auth/login'
+                return `${this.frontendUrl}/auth/iniciar-sesion`
         }
     }
 

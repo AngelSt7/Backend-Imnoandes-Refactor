@@ -1,10 +1,11 @@
-import { IsString, IsUrl, IsUUID } from "class-validator"
+import { IsOptional, IsString, IsUrl, IsUUID } from "class-validator"
 import { Image, Property } from "generated/prisma"
 
 export class CreateImagePropertyMeDto {
 
+    @IsOptional()
     @IsUUID()
-    id: Image['id']
+    id?: Image['id']
 
     @IsUUID()
     propertyId: Property['id']

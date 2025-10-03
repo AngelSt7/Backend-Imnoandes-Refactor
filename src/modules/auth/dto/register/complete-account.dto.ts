@@ -15,6 +15,7 @@ export class CompleteAccountDto {
     lastname: string;
 
     @IsOptional()
+    @Type(() => String)
     @IsString()
     @Length(9, 9, { message: 'El número telefónico debe tener exactamente 9 dígitos' })
     @Matches(/^\d+$/, { message: 'El número telefónico solo debe contener dígitos' })

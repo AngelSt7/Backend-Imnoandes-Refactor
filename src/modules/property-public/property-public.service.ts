@@ -5,7 +5,6 @@ import { PaginationPropertyPublicDto } from './dto/pagination/pagination-propert
 import { LocationService } from '@/modules/location/location.service';
 import { IdsLocation } from './interfaces';
 
-
 @Injectable()
 export class PropertyPublicService {
 
@@ -31,7 +30,6 @@ export class PropertyPublicService {
 
     return await this.propertyService.search({ ...query }, idLocations);
   }
-
 
   async findOne(id: string) {
     return await this.propertyService.findOne(id);

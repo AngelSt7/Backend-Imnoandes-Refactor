@@ -25,7 +25,6 @@ export class SearchFilterService {
     if (query.published !== undefined && query.published !== null) {
       const fromDate = new Date();
       if (query.published === 0) {
-        // Solo hoy, desde las 00:00
         fromDate.setHours(0, 0, 0, 0);
       } else {
         fromDate.setDate(fromDate.getDate() - query.published);
@@ -39,7 +38,7 @@ export class SearchFilterService {
     // key: [min, max, relación opcional]
     const numericFilters: Record<string, [number?, number?, string?]> = {
       price: [query.minPrice, query.maxPrice],
-      area: [query.minArea, query.maxArea],
+      area: [query.minArea, query.maxArea, 'residential'],
       bathrooms: [query.minBathrooms, undefined, 'residential'],
       bedrooms: [query.minBedrooms, query.maxBedrooms, 'residential'],
       parkingSpaces: [query.minParkingSpaces, undefined, 'commercial'],

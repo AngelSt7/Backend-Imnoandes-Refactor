@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { CompleteAccountDto, CreateUserDto } from '@/modules/auth/dto';
 import { BcryptService } from '@/modules/auth/services';
-import { DateService } from '@/modules/auth/services';
+import { DateService } from '../utils';
 import { User } from 'generated/prisma';
 import { HandleErrorsService } from '@/common/services';
 import { UserRepository } from '@/modules/auth/repository';
@@ -44,7 +44,7 @@ export class UserService {
 
     async find(term: User['id'] | User['email']) {
         const user = await this.userRepository.find(term);
-        if (!user) throw new NotFoundException('User not found');
+        if (!user) throw new NotFoundException('Usuario no encontrado');
         return user
     }
 

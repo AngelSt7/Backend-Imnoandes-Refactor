@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { Prisma } from 'generated/prisma';
 
 @Injectable()
 export class PropertySelectsService { 
@@ -16,6 +17,7 @@ export class PropertySelectsService {
             phone: true,
             address: true,
             createdAt: true,
+            slug: true,
             updatedAt: true,
             residential: {
                 select: {
@@ -26,13 +28,14 @@ export class PropertySelectsService {
             location: {
                 select: {
                     province: { select: { province: true } },
-                    district: { select: { district: true } }
-                },
+                    district: { select: { district: true } },
+                    slug: true
+                }
             }
         }
     }
 
-    preparedFindOne() {
+    preparedFindOne(){
         return {
             id: true,
             name: true,
@@ -47,6 +50,7 @@ export class PropertySelectsService {
             latitude: true,
             longitude: true,
             phone: true,
+            extraInfo: true,
             location: {
                 select: {
                     department: { select: { id: true } },

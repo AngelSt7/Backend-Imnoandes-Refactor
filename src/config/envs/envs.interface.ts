@@ -6,15 +6,19 @@ export interface EnvVars {
     CORS: string
     GOOGLE_CLIENT_ID: string
     GOOGLE_CLIENT_SECRET: string
+    FRONTEND_URL: string
     GOOGLE_CALLBACK_URL: string
     JWT_SECRET: string
     JWT_SOURCE: 'BEARER' | 'COOKIE'
     DATABASE_URL: string
     NODE_ENV: 'DEVELOPMENT' | 'PRODUCTION' | 'TESTING';
     PORT: number;
-    REDIS_PORT: number
     SMTP_HOST: string;
     SMTP_PASS: string
     SMTP_PORT: number
     SMTP_USER: string
+    HOST_REDIS: string,
+    PORT_REDIS: number,
+    USERNAME_REDIS: string,
+    PASSWORD_REDIS: string
 }   

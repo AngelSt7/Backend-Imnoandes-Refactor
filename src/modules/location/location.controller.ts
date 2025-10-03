@@ -4,16 +4,15 @@ import { QuerySearchLocationDto } from './dto/query-search-location.dto';
 import { Department, Province } from 'generated/prisma';
 import { CACHE_KEYS } from '@/cache/cache-keys';
 import { QuerySlugLocationDto } from './dto/query-slug-location.dto';
-import { Response } from 'express';
 import { Cached } from '@/common/decorators';
+import { TTL } from '@/cache/ttls';
 
 @Controller('location')
 export class LocationController {
-  private logger = new Logger(LocationController.name)
   constructor(private readonly locationService: LocationService) { }
 
   @Get('/search')
-  @Cached(CACHE_KEYS.LOCATION)
+  @Cached(CACHE_KEYS.LOCATION, TTL.ONE_WEEK)
   async findAll(
     @Query() query: QuerySearchLocationDto,
   ) {
@@ -21,7 +20,7 @@ export class LocationController {
   }
 
   @Get('/provinces/:departmentId')
-  @Cached(CACHE_KEYS.LOCATION)
+  @Cached(CACHE_KEYS.LOCATION, TTL.ONE_WEEK)
   async findProvinces(
     @Param('departmentId', ParseUUIDPipe) departmentId: Department['id']
   ) {
@@ -29,25 +28,18 @@ export class LocationController {
   }
 
   @Get('/districts/:provinceId')
-  @Cached(CACHE_KEYS.LOCATION)
+  @Cached(CACHE_KEYS.LOCATION, TTL.ONE_WEEK)
   async findDistricts(
     @Param('provinceId', ParseUUIDPipe) provinceId: Province['id']
   ) {
     return this.locationService.findDistricts(provinceId);
   }
 
-  @Get('')
-  // @Cached(CACHE_KEYS.LOCATION)
+  @Get()
+  @Cached(CACHE_KEYS.LOCATION, TTL.ONE_WEEK)
   async findOne(
     @Query() slug: QuerySlugLocationDto,
-    @Res({ passthrough: true }) response: Response
   ) {
-    // try {
-      return await this.locationService.findLocations(slug);
-    // } catch (error) {
-    //   return response.redirect(
-    //     `http://localhost:3000/es/search/venta-de-departamentos-en-lima`
-    //   )
-    // }
+    return await this.locationService.findLocations(slug);
   }
 }

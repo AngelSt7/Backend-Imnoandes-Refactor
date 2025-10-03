@@ -17,11 +17,15 @@ const envsSchema = joi.object<EnvVars>({
     DATABASE_URL: joi.string().required(),
     NODE_ENV: joi.string().valid('DEVELOPMENT', 'PRODUCTION', 'TESTING').required(),
     PORT: joi.number().required(),
-    REDIS_PORT: joi.number().required(),
+    FRONTEND_URL: joi.string().required(),
     SMTP_HOST: joi.string().required(),
     SMTP_PASS: joi.string().required(),
     SMTP_PORT: joi.number().required(),
     SMTP_USER: joi.string().required(),
+    HOST_REDIS: joi.string().required(),
+    PORT_REDIS: joi.number().required(),
+    USERNAME_REDIS: joi.string().required(),
+    PASSWORD_REDIS: joi.string().required(),
 })
     .unknown(true);
 
@@ -50,9 +54,14 @@ export const envs = {
     databaseUrl: envVars.DATABASE_URL,
     nodeEnv: envVars.NODE_ENV,
     port: envVars.PORT,
-    redisPort: envVars.REDIS_PORT,
     smtpHost: envVars.SMTP_HOST,
     smtpPass: envVars.SMTP_PASS,
     smtpPort: envVars.SMTP_PORT,
-    smtpUser: envVars.SMTP_USER
+    smtpUser: envVars.SMTP_USER,
+    frontendUrl: envVars.FRONTEND_URL,
+    hostRedis: envVars.HOST_REDIS,
+    portRedis: envVars.PORT_REDIS,
+    usernameRedis: envVars.USERNAME_REDIS,
+    passwordRedis: envVars.PASSWORD_REDIS
+
 }

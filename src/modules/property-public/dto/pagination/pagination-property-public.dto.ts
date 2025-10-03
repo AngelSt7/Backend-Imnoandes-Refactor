@@ -5,7 +5,6 @@ import { IsGreaterOrEqual } from '@/common/decorators';
 
 export class PaginationPropertyPublicDto {
 
-    @IsOptional()
     @Type(() => Number)
     @IsNumber()
     @Min(0)

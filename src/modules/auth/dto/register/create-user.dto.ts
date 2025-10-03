@@ -1,5 +1,5 @@
 import { Type } from 'class-transformer';
-import { IsEmail, IsOptional, IsString, Length, Matches, MinLength, IsDateString, IsInt, Min, Max, IsDate } from 'class-validator';
+import { IsEmail, IsOptional, IsString, Length, Matches, MinLength, IsDate } from 'class-validator';
 
 export class CreateUserDto {
     @IsString()
@@ -18,7 +18,7 @@ export class CreateUserDto {
     @Length(8, 30)
     @Matches(
         /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#._-])[A-Za-z\d@$!%*?&#._-]+$/,
-        { message: 'La contraseña debe incluir mayúsculas, minúsculas, números y caracteres especiales' }
+        { message: 'The password must include at least one lowercase letter, one uppercase letter, one number, and one special character' }
     )
     password: string;
 
@@ -28,8 +28,9 @@ export class CreateUserDto {
     birthDate?: Date;
 
     @IsOptional()
+    @Type(() => String)
     @IsString()
-    @Length(9, 9, { message: 'El número telefónico debe tener exactamente 9 dígitos' })
-    @Matches(/^\d+$/, { message: 'El número telefónico solo debe contener dígitos' })
+    @Length(9, 9, { message: 'The phone number must have exactly 9 digits' })
+    @Matches(/^\d+$/, { message: 'The phone number must have exactly 9 digits' })
     phone?: string;
 }

@@ -10,8 +10,4 @@ export class SeedController {
     return this.seedService.runSeed();
   }
 
-  @Get('/property')
-  executeSeedProperty() {
-    return this.seedService.runSeedProperty();
-  }
 }

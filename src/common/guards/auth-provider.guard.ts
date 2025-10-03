@@ -28,7 +28,7 @@ export class AuthProviderGuard implements CanActivate {
     const req = context.switchToHttp().getRequest();
     const user: User = req.user
 
-    if (!user) throw new InternalServerErrorException('User not found (request)')
+    if (!user) throw new InternalServerErrorException('Usuario no encontrado (user)');
 
     for (const provider of [user.authProvider]) {
       if (validProvider.includes(provider as AUTH_PROVIDERS)) {
@@ -36,6 +36,6 @@ export class AuthProviderGuard implements CanActivate {
       }
     }
 
-    throw new ForbiddenException(`This function requires one of the following providers: ${validProvider}`);
+    throw new ForbiddenException(`Los providers validos son: ${validProvider}`);
   }
 }

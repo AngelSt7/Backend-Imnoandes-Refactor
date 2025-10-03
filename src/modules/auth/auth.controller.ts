@@ -7,7 +7,7 @@ import { Header } from '@/common/decorators';
 import { ParseOtpPipe } from '@/common/pipes';
 import { RedisService } from '@/common/services';
 import { Response } from 'express';
-import { Token } from 'generated/prisma';
+import { Token, User } from 'generated/prisma';
 import { VALID_PROVIDERS } from '@/constants';
 import { validate } from 'uuid';
 import { JwtUser } from './interfaces';
@@ -116,12 +116,35 @@ export class AuthController {
   @Auth()
   @Get()
   async validate(
-    @GetUser() user: JwtUser
+    @GetUser() user: JwtUser,
+    @Res({ passthrough: true }) response: Response,
   ) {
-    const cacheKey = `${CACHE_KEYS.USER}/${user.id}`
+    const cacheKey = `${CACHE_KEYS.USER}/${user.id}`;
     const cached = await this.redisService.get(cacheKey);
-    if (cached) return JSON.parse(cached);
+    if (cached) {
+      const parsed = JSON.parse(cached);
+      await this.authService.refreshToken(parsed, response);
+      return parsed;
+    }
     await this.redisService.set(cacheKey, JSON.stringify(user), 'EX', 3600);
+    await this.authService.refreshToken(user, response);
     return user;
   }
+
+  @Auth()
+  @Get('/info-account')
+  async infoAccount(@GetUser() user: JwtUser) {
+    return user;
+  }
+
+
+  @Get('logout')
+  async logout(
+    @Res({ passthrough: true })
+    response: Response,
+    userId: User['id'],
+  ) {
+    return this.authService.logout(response, userId);
+  }
+
 }

@@ -6,7 +6,6 @@ import { PreparedFindAll, PreparedFindOne, PreparedFindWhitRelations } from './s
 
 @Injectable()
 export class PropertyRepository {
-    private logger = new Logger(PropertyRepository.name)
     constructor(
         private readonly prisma: PrismaService,
         private readonly paginationService: PaginationService

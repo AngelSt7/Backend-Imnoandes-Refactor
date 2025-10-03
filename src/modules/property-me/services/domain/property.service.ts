@@ -3,7 +3,9 @@ import { Location, Prisma, Property, User } from 'generated/prisma';
 import { PropertyRepository, PropertySelectsService } from '@/modules/property-me/repository';
 import { HandleErrorsService } from '@/common/services';
 import { CreatePropertyMeDto, PaginationPropertyMeDto, UpdatePropertyMeDto } from '@/modules/property-me/dto';
-import { PropertyFactoryService, FilterService, PropertyFormatterService } from '@/modules/property-me/services';
+import { PropertyFactoryService } from '../factory';
+import { PropertyFormatterService } from '../formatter';
+import { FilterService } from '../filter';
 
 @Injectable()
 export class PropertyService {
@@ -43,7 +45,7 @@ export class PropertyService {
     async findOne(id: Property['id'], userId: User['id']) {
         const preparedSelect = this.propertySelectsService.preparedFindOne();
         const property = await this.propertyRepository.findOne(id, userId, preparedSelect);
-        if (!property || property === null) throw new NotFoundException('Property not found');
+        if (!property || property === null) throw new NotFoundException('Propiedad no encontrada');
         const propertyFormatted = this.propertyFormatterService.formatOne(property);
         return propertyFormatted
     }
@@ -51,7 +53,7 @@ export class PropertyService {
     async findOneWithRelations(id: Property['id'], userId: User['id']) {
         const preparedSelect = this.propertySelectsService.preparedFindWhitRelations();
         const property = await this.propertyRepository.findOneWithRelations(id, userId, preparedSelect);
-        if (!property) throw new NotFoundException('Property not found');
+        if (!property) throw new NotFoundException('Propiedad no encontrada');
         const propertyFormatted = this.propertyFormatterService.formatDetail(property);
         return propertyFormatted
     }

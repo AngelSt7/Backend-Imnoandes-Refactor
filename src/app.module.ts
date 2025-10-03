@@ -1,9 +1,9 @@
 import { Module } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
-import { AuthModule, EmailModule, ImagesModule, LocationModule, PropertyMeModule, PropertyPublicModule, ServiceModule, UserModule } from "./modules";
+import { AuthModule, FavoriteModule, ImagesModule, LocationModule, PropertyMeModule, PropertyPublicModule, ServiceModule, UserModule } from "./modules";
 import { CommonModule } from "./common";
 import { SeedModule } from "./seed";
-import { FavoritesModule } from './modules/favorites/favorites.module';
+import { EmailModule } from "./modules/email";
 
 
 @Module({
@@ -19,7 +19,7 @@ import { FavoritesModule } from './modules/favorites/favorites.module';
     LocationModule,
     EmailModule,
     UserModule,
-    FavoritesModule,
+    FavoriteModule,
   ]
 })
-export class AppModule {}
+export class AppModule { }
