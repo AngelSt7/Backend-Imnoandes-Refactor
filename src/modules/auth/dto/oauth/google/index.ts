@@ -1,0 +1,1 @@
+export { oAuthGoogleDto } from "./oauth-google.dto";

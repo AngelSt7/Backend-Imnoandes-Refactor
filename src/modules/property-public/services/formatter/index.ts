@@ -1,0 +1,1 @@
+export { PropertyFormatterService } from './property-formatter.service';

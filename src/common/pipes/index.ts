@@ -1,0 +1,6 @@
+
+export * from "./parse-otp.pipe"
+export * from "./parse-uuid.pipe"
+export * from "./parse-trim-string.pipe"
+export * from "./parse-short-uuid.pipe"
+export * from "./parte-token.pipe"

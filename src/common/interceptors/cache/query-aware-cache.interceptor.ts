@@ -1,12 +1,11 @@
-import { tap } from 'rxjs/operators';
-import { Observable, of } from 'rxjs';
+import { CACHE_KEYS } from '@/cache/cache-keys';
 import { Injectable, NestInterceptor, ExecutionContext, CallHandler } from '@nestjs/common';
+import { Observable, of } from 'rxjs';
+import { RedisService, CacheUtilsService } from '@/common/services';
 import { Reflector } from '@nestjs/core';
 import { Request } from 'express';
-import { CACHE_KEY_META, CACHE_TTL_META } from 'src/common/decorators/cache/cached.decorator';
-import { CacheUtilsService } from 'src/common/services/cache-utils.service';
-import { RedisService } from 'src/common/services/redis.service';
-import { CACHE_KEYS } from 'src/cache/cache-keys';
+import { tap } from 'rxjs/operators';
+import { CACHE_KEY_META, CACHE_TTL_META } from '@/common/decorators';
 
 @Injectable()
 export class QueryAwareCacheInterceptor implements NestInterceptor {
@@ -30,7 +29,9 @@ export class QueryAwareCacheInterceptor implements NestInterceptor {
     const finalKey = this.cacheUtilsService.generateCacheKey(baseKey, query, resource);
 
     const cached = await this.redisService.get(finalKey);
-    if (cached)  return of(JSON.parse(cached));
+
+    if(cached) console.log('🚀 Redis ready to use!');
+    if (cached) return of(JSON.parse(cached));
     
     return next.handle().pipe(
       tap(async (data) => {

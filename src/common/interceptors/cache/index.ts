@@ -1,0 +1,1 @@
+export { QueryAwareCacheInterceptor } from "./query-aware-cache.interceptor";

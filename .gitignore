@@ -2,7 +2,7 @@
 /dist
 /node_modules
 /build
-/mongo
+/postgres
 /redis
 
 # Logs
@@ -56,3 +56,5 @@ pids
 
 # Diagnostic reports (https://nodejs.org/api/report.html)
 report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
+
+/generated/prisma

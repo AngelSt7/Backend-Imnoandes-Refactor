@@ -1,6 +1,6 @@
 import { applyDecorators, SetMetadata, UseInterceptors } from '@nestjs/common';
-import { CACHE_KEYS } from 'src/cache/cache-keys';
-import { QueryAwareCacheInterceptor } from 'src/common/interceptors/cache/query-aware-cache.interceptor';
+import { CACHE_KEYS } from '@/cache/cache-keys';
+import { QueryAwareCacheInterceptor } from '@/common/interceptors/cache';
 
 export const CACHE_KEY_META = 'cache_base_key';
 export const CACHE_TTL_META = 'cache_ttl';
