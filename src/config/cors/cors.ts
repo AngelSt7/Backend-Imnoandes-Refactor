@@ -5,25 +5,25 @@ const allowedOrigins = (process.env.CORS || '')
   .map(origin => origin.trim());
 
 export const CorsOptions = {
-  
+
   origin: (origin: string | undefined, callback: Function) => {
-  // const isDev = envs.nodeEnv === 'DEVELOPMENT';
-  const isDev = envs.nodeEnv === 'PRODUCTION';
-  if(!origin){
+    const isDev = envs.nodeEnv === 'DEVELOPMENT';
 
-    return callback(null, true);
-  }
+    if (!origin) {
+      if (isDev) return callback(null, true);
+      return callback(new Error('CORS blocked: missing origin'));
+    }
 
-  if (isDev) {
-    return callback(null, true);
-  }
+    if (isDev) {
+      return callback(null, true);
+    }
 
-  if (origin && allowedOrigins.includes(origin)) {
-    return callback(null, true);
-  }
+    if (origin && allowedOrigins.includes(origin)) {
+      return callback(null, true);
+    }
 
-  return callback(new Error('Not allowed by CORS'));
-},
+    return callback(new Error('Not allowed by CORS'));
+  },
 
   methods: 'GET,POST,PUT,DELETE,PATCH',
   credentials: true,
