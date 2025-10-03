@@ -11,7 +11,7 @@
 
     "prisma:generate": "npx prisma generate",
     "prisma:migrate": "npx prisma migrate",
-    "clear:redis": "ts-node -e \"import('./src/common/utils/redis-clear').then(m => m.clear())\"",
+    "clear:redis": "ts-node -r tsconfig-paths/register -e \"import('./src/common/utils/redis-clear').then(m => m.clear())\"",
     "export:districts": "ts-node ./scripts/export-districts.ts",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
