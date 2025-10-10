@@ -26,6 +26,8 @@ const envsSchema = joi.object<EnvVars>({
     PORT_REDIS: joi.number().required(),
     USERNAME_REDIS: joi.string().required(),
     PASSWORD_REDIS: joi.string().required(),
+    RESEND_API_KEY: joi.string().required(),
+    RESEND_FROM: joi.string().required(),
 })
     .unknown(true);
 
@@ -62,6 +64,7 @@ export const envs = {
     hostRedis: envVars.HOST_REDIS,
     portRedis: envVars.PORT_REDIS,
     usernameRedis: envVars.USERNAME_REDIS,
-    passwordRedis: envVars.PASSWORD_REDIS
-
+    passwordRedis: envVars.PASSWORD_REDIS,
+    resendApiKey: envVars.RESEND_API_KEY,
+    resendFrom: envVars.RESEND_FROM
 }

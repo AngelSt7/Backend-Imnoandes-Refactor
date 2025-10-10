@@ -18,7 +18,7 @@ export class JwtService {
     }
 
     public getJwtTemp(payload: JwtPayloadInterface): string {
-        return this.jwtService.sign(payload, { expiresIn: '7d' });
+        return this.jwtService.sign(payload, { expiresIn: '5m' });
     }
 
 }
