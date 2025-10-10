@@ -20,5 +20,7 @@ export interface EnvVars {
     HOST_REDIS: string,
     PORT_REDIS: number,
     USERNAME_REDIS: string,
-    PASSWORD_REDIS: string
+    PASSWORD_REDIS: string,
+    RESEND_API_KEY: string,
+    RESEND_FROM: string
 }   
