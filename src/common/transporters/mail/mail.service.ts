@@ -1,7 +1,6 @@
 import { ContactEmailDto, RequestInfoEmailDto } from '@/modules/email/dto';
 import { Inject, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import * as nodemailer from 'nodemailer';
 import { Resend } from 'resend';
 
 interface Token {
@@ -14,6 +13,7 @@ export class MailService {
 
   constructor(
     @Inject('RESEND_CLIENT') private readonly resend: Resend,
+    private readonly configServiceA: ConfigService,
     private readonly configService: ConfigService
   ) { }
 
