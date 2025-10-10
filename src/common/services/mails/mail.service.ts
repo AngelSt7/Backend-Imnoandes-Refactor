@@ -1,5 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
+import { Injectable } from '@nestjs/common';
 import { Resend } from 'resend';
 import { envs } from '@/config';
 
@@ -10,12 +9,9 @@ interface Token {
 
 @Injectable()
 export class MailService {
-  private readonly frontendUrl = envs.frontendUrl;
 
-  constructor(
-    @Inject('RESEND_CLIENT') private readonly resend: Resend,
-    private readonly configService: ConfigService
-  ) { }
+  private readonly resend = new Resend(envs.resendApiKey);
+  private readonly frontendUrl = envs.frontendUrl;
 
   async sendAccountConfirmationEmail(to: string, token: Token, name: string) {
     const url = `${this.frontendUrl}/auth/confirmar-cuenta/${token.id}`;
